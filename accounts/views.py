@@ -10,10 +10,24 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = [
             "username",
+            "first_name",
+            "last_name",
             "email",
             "password1",
             "password2",
         ]
+
+    def clean_first_name(self):
+        """Make first name to be required"""
+        first_name = self.cleaned_data.get("first_name")
+        if not first_name:
+            raise ValidationError("This field is required.", code="no_first_name")
+
+    def clean_last_name(self):
+        """Make last name to be required"""
+        last_name = self.cleaned_data.get("last_name")
+        if not last_name:
+            raise ValidationError("This field is required.", code="no_last_name")
 
     def clean_email(self):
         """Reject emails that already exists and reject if email is not specified."""
