@@ -16,9 +16,11 @@ class CustomUserCreationForm(UserCreationForm):
         ]
 
     def clean_email(self):
-        """Reject emails that already exists"""
+        """Reject emails that already exists and reject if email is not specified."""
         email = self.cleaned_data.get("email")
-        if email and self._meta.model.objects.filter(email__iexact=email).exists():
+        if not email:
+            raise ValidationError("Email field is required.", code="no_email")
+        elif email and self._meta.model.objects.filter(email__iexact=email).exists():
             self._update_errors(
                 ValidationError(
                     {
