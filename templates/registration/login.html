@@ -12,13 +12,15 @@
             <div class="card max-w-xl bg-base-100 shadow-xl mx-3">
                 <div class="card-body">
                     <h2 class="card-title">Login</h2>
-                    <form action="{% url 'login' %}" method="POST">
+                    <form action="{% url 'accounts:login' %}" method="POST">
                         {% csrf_token %}
                         <div class="form-control w-full">
                             <label class="label">
                                 <span class="label-text">{{ form.username.label }}</span>
                             </label>
-                            <input type="text" name="{{form.username.html_name}}" class="input input-bordered w-full" />
+                            <input type="text"
+                                   name="{{ form.username.html_name }}"
+                                   class="input input-bordered w-full" />
                             {% if form.username.errors %}
                                 <label class="label">
                                     {% for error in form.username.errors %}<span class="label-text-alt text-error">{{ error }}</span>{% endfor %}
@@ -29,7 +31,9 @@
                             <label class="label">
                                 <span class="label-text">{{ form.password.label }}</span>
                             </label>
-                            <input type="password" name="{{form.password.html_name}}" class="input input-bordered w-full" />
+                            <input type="password"
+                                   name="{{ form.password.html_name }}"
+                                   class="input input-bordered w-full" />
                             {% if form.password.errors %}
                                 <label class="label">
                                     {% for error in form.password.errors %}<span class="label-text-alt text-error">{{ error }}</span>{% endfor %}
@@ -38,7 +42,7 @@
                         </div>
                         <button type="submit" class="btn mt-3">Login</button>
                     </form>
-                    <a href="{% url 'register' %}" class="link">New here?</a>
+                    <a href="{% url 'accounts:register' %}" class="link">New here?</a>
                     <a href="" class="link">Forget password</a>
                 </div>
             </div>
