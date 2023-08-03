@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Register</title>
+        <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    </head>
+    <body>
+        <div class="max-w-3xl mx-auto flex flex-col justify-center min-h-screen">
+            <div class="card max-w-xl bg-base-100 shadow-xl mx-3">
+                <div class="card-body">
+                    <h2 class="card-title">Register</h2>
+                    <form action="{% url 'register' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text">{{ form.username.label }}</span>
+                            </label>
+                            <input type="text" name="{{form.username.html_name}}" class="input input-bordered w-full" />
+                            {% if form.username.errors %}
+                                <label class="label">
+                                    {% for error in form.username.errors %}<span class="label-text-alt text-error">{{ error }}</span>{% endfor %}
+                                </label>
+                            {% endif %}
+                        </div>
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text">{{ form.email.label }}</span>
+                            </label>
+                            <input type="email" name={{form.email.html_name}} class="input input-bordered w-full" />
+                            {% if form.email.errors %}
+                                <label class="label">
+                                    {% for error in form.email.errors %}<span class="label-text-alt text-error">{{ error }}</span>{% endfor %}
+                                </label>
+                            {% endif %}
+                        </div>
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text">{{ form.password1.label }}</span>
+                            </label>
+                            <input type="password" name={{form.password1.html_name}} class="input input-bordered w-full" />
+                            {% if form.password1.errors %}
+                                <label class="label">
+                                    {% for error in form.password1.errors %}<span class="label-text-alt text-error">{{ error }}</span>{% endfor %}
+                                </label>
+                            {% endif %}
+                        </div>
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text">{{ form.password2.label }}</span>
+                            </label>
+                            <input type="password" name={{form.password2.html_name}} class="input input-bordered w-full" />
+                            {% if form.password2.errors %}
+                                <label class="label">
+                                    {% for error in form.password2.errors %}<span class="label-text-alt text-error">{{ error }}</span>{% endfor %}
+                                </label>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn mt-3">Register</button>
+                    </form>
+                    <a href="{% url 'login' %}" class="link">Already have an account?</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
