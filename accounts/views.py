@@ -22,12 +22,14 @@ class CustomUserCreationForm(UserCreationForm):
         first_name = self.cleaned_data.get("first_name")
         if not first_name:
             raise ValidationError("This field is required.", code="no_first_name")
+        return first_name
 
     def clean_last_name(self):
         """Make last name to be required"""
         last_name = self.cleaned_data.get("last_name")
         if not last_name:
             raise ValidationError("This field is required.", code="no_last_name")
+        return last_name
 
     def clean_email(self):
         """Reject emails that already exists and reject if email is not specified."""
@@ -71,8 +73,15 @@ def login_view(request):
             login(request, user)
             return redirect("thread:feed")
         else:
-            form = AuthenticationForm()
-            return render(request, "registration/login.html", {"form": form})
+            form = AuthenticationForm(request.POST)
+            return render(
+                request,
+                "registration/login.html",
+                {
+                    "form": form,
+                    "error": "Please enter a correct username and password.",
+                },
+            )
     elif request.method == "GET":
         form = AuthenticationForm()
         return render(request, "registration/login.html", {"form": form})
@@ -80,4 +89,4 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect("login")
+    return redirect("accounts:login")
