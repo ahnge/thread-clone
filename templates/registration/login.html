@@ -12,6 +12,7 @@
             <div class="card max-w-xl bg-base-100 shadow-xl mx-3">
                 <div class="card-body">
                     <h2 class="card-title">Login</h2>
+                    {% if error %}<p class="text-error text-xs">Your username and password didn't match. Please try again.</p>{% endif %}
                     <form action="{% url 'accounts:login' %}" method="POST">
                         {% csrf_token %}
                         <div class="form-control w-full">
@@ -20,25 +21,17 @@
                             </label>
                             <input type="text"
                                    name="{{ form.username.html_name }}"
+                                   required
                                    class="input input-bordered w-full" />
-                            {% if form.username.errors %}
-                                <label class="label">
-                                    {% for error in form.username.errors %}<span class="label-text-alt text-error">{{ error }}</span>{% endfor %}
-                                </label>
-                            {% endif %}
                         </div>
                         <div class="form-control w-full">
                             <label class="label">
                                 <span class="label-text">{{ form.password.label }}</span>
                             </label>
                             <input type="password"
+                                   required
                                    name="{{ form.password.html_name }}"
                                    class="input input-bordered w-full" />
-                            {% if form.password.errors %}
-                                <label class="label">
-                                    {% for error in form.password.errors %}<span class="label-text-alt text-error">{{ error }}</span>{% endfor %}
-                                </label>
-                            {% endif %}
                         </div>
                         <button type="submit" class="btn mt-3">Login</button>
                     </form>
