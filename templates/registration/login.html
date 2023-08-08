@@ -35,8 +35,19 @@
                         </div>
                         <button type="submit" class="btn mt-3">Login</button>
                     </form>
+                    <div class="flex flex-col items-start">
                     <a href="{% url 'accounts:register' %}" class="link">New here?</a>
-                    <a href="" class="link">Forget password</a>
+                    <button class="link" onclick="forget_pass.showModal()">Forget password?</button>
+                    </div>
+                    <dialog id="forget_pass" class="modal">
+                        <form method="dialog" class="modal-box">
+                            <h3 class="font-bold text-lg">Hello!</h3>
+                            <p class="py-4">Keep calm and try to remember your password.</p>
+                        </form>
+                        <form method="dialog" class="modal-backdrop">
+                            <button>close</button>
+                        </form>
+                    </dialog>
                 </div>
             </div>
         </div>
