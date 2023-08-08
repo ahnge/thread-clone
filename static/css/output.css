@@ -737,6 +737,10 @@ html {
     --tw-text-opacity: 1;
     color: hsl(var(--bc) / var(--tw-text-opacity));
   }
+
+  .tab:hover {
+    --tw-text-opacity: 1;
+  }
 }
 
 .btn {
@@ -902,6 +906,13 @@ html {
     --tw-bg-opacity: 1;
     background-color: hsl(var(--pf) / var(--tw-bg-opacity));
   }
+
+  .tab[disabled],
+    .tab[disabled]:hover {
+    cursor: not-allowed;
+    color: hsl(var(--bc) / var(--tw-text-opacity));
+    --tw-text-opacity: 0.2;
+  }
 }
 
 .form-control {
@@ -1019,6 +1030,31 @@ html {
 
 :root:has(:is(.modal-open, .modal:target, .modal-toggle:checked + .modal, .modal[open])) {
   overflow: hidden;
+}
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 2rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  line-height: 2;
+  --tab-padding: 1rem;
+  --tw-text-opacity: 0.5;
+  --tab-color: hsl(var(--bc) / var(--tw-text-opacity, 1));
+  --tab-bg: hsl(var(--b1) / var(--tw-bg-opacity, 1));
+  --tab-border-color: hsl(var(--b3) / var(--tw-bg-opacity, 1));
+  color: var(--tab-color);
+  padding-left: var(--tab-padding, 1rem);
+  padding-right: var(--tab-padding, 1rem);
 }
 
 .btm-nav > * .label {
@@ -1227,6 +1263,12 @@ html {
   outline-offset: 2px;
 }
 
+.mockup-phone .display {
+  overflow: hidden;
+  border-radius: 40px;
+  margin-top: -25px;
+}
+
 .mockup-browser .mockup-browser-toolbar .input {
   position: relative;
   margin-left: auto;
@@ -1336,6 +1378,38 @@ html {
   100% {
     transform: translateY(0);
   }
+}
+
+.tab.tab-active:not(.tab-disabled):not([disabled]) {
+  border-color: hsl(var(--bc) / var(--tw-border-opacity));
+  --tw-border-opacity: 1;
+  --tw-text-opacity: 1;
+}
+
+.tab:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.tab:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -3px;
+}
+
+.tab:focus-visible.tab-lifted {
+  border-bottom-right-radius: var(--tab-radius, 0.5rem);
+  border-bottom-left-radius: var(--tab-radius, 0.5rem);
+}
+
+.tab-disabled,
+  .tab[disabled] {
+  cursor: not-allowed;
+  color: hsl(var(--bc) / var(--tw-text-opacity));
+  --tw-text-opacity: 0.2;
+}
+
+.tabs-boxed .tab {
+  border-radius: var(--rounded-btn, 0.5rem);
 }
 
 @keyframes toast-pop {
@@ -1517,6 +1591,10 @@ html {
   margin-top: 0.75rem;
 }
 
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
 .flex {
   display: flex;
 }
@@ -1596,6 +1674,11 @@ html {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 .font-bold {
