@@ -6,9 +6,8 @@ from django.contrib.contenttypes.models import ContentType
 
 class Thread(models.Model):
     threader = models.ForeignKey(User, on_delete=models.CASCADE)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE, null=True)
-    object_id = models.PositiveIntegerField(null=True)
-    content_object = GenericForeignKey("content_type", "object_id")
+    content = models.TextField(default="")
+    image = models.ImageField(blank=True, null=True, upload_to="thread_images/")
     likes_count = models.PositiveIntegerField(default=0)
     rethread_count = models.PositiveIntegerField(default=0)
 
@@ -19,21 +18,7 @@ class Thread(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"Thread by {self.user.username} at {self.created_at}"
-
-
-class TextThread(models.Model):
-    content = models.TextField()
-
-    def __str__(self):
-        return self.content[:50]
-
-
-class ImageThread(models.Model):
-    image = models.ImageField(upload_to="thread_images/")
-
-    def __str__(self):
-        return f"Image: {self.image.name}"
+        return f"Thread by {self.threader.username} at {self.created_at}"
 
 
 class Like(models.Model):
@@ -42,6 +27,12 @@ class Like(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        # Ensures a user can only like a thread once
+        constraints = [
+            models.UniqueConstraint(fields=["user", "thread"], name="unique_like")
+        ]
 
     def __str__(self):
         return f"{self.user.username} liked {self.thread.content_object}"
