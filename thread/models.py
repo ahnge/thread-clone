@@ -7,7 +7,6 @@ from django.contrib.contenttypes.models import ContentType
 class Thread(models.Model):
     threader = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField(default="")
-    image = models.ImageField(blank=True, null=True, upload_to="thread_images/")
     likes_count = models.PositiveIntegerField(default=0)
     rethread_count = models.PositiveIntegerField(default=0)
 
@@ -19,6 +18,11 @@ class Thread(models.Model):
 
     def __str__(self):
         return f"Thread by {self.threader.username} at {self.created_at}"
+
+
+class ImageThread(models.Model):
+    thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="thread_images/")
 
 
 class Like(models.Model):
