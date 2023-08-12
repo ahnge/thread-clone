@@ -21,7 +21,9 @@ class Thread(models.Model):
 
 
 class ImageThread(models.Model):
-    thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
+    thread = models.ForeignKey(
+        Thread, on_delete=models.CASCADE, related_name="image_thread"
+    )
     image = models.ImageField(upload_to="thread_images/")
 
 
