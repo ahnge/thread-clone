@@ -4,4 +4,7 @@ from . import views
 
 app_name = "thread"
 
-urlpatterns = [path("", views.feed, name="feed")]
+urlpatterns = [
+    path("", views.home, name="home"),
+    path("feed/", views.feed, name="feed"),
+]
