@@ -26,6 +26,9 @@ class ImageThread(models.Model):
     )
     image = models.ImageField(upload_to="thread_images/")
 
+    def __str__(self):
+        return f"Thread image by {self.thread.threader.username}"
+
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
