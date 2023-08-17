@@ -1,0 +1,36 @@
+{% load extra %}
+<div class="pt-7 px-4">
+    <div class="flex justify-between w-full">
+        <div>
+            <div class="font-bold text-xl">{{ user.first_name }} {{ user.last_name }}</div>
+            <div class="pt-1 text-sm">{{ user.username }}</div>
+        </div>
+        <div>
+            {% if user.myuser.profile_picture %}
+                <div class="avatar">
+                    <div class="w-16 sm:w-20 rounded-full">
+                        <img src="{{ user.myuser.profile_picture.url }}" alt="profile" />
+                    </div>
+                </div>
+            {% else %}
+                <div class="avatar placeholder">
+                    <div class="bg-neutral-focus text-neutral-content rounded-full w-16 sm:w-20">
+                        <span class="text-sm uppercase sm:text-base">{{ user.username|ecut }}</span>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    {% if user.myuser.bio %}<div class="pt-2">{{ user.myuser.bio }}</div>{% endif %}
+    <!-- Followers -->
+    <div class="text-sm text-neutral-content">
+        <!-- TODO Mutual profile avatars-->
+        <span>{{ user.followers.count }} follower{{ user.followers.count|pluralize }}</span>
+        {% if user.myuser.link %}<a href="https://{{user.myuser.link}}" target="_blank" class="pl-1">. {{ user.myuser.link }}</a>{% endif %}
+    </div>
+    <!-- Btns -->
+    <div class="flex space-x-3 mt-3">
+        <button class="px-6 py-1 cursor-pointer font-semibold text-base border-neutral-content border rounded-md">Edit profile</button>
+        <button class="px-6 py-1 cursor-pointer font-semibold text-base border-neutral-content border rounded-md">Share profile</button>
+    </div>
+</div>

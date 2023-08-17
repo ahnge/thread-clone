@@ -1,3 +1,5 @@
-<div>
-    {{profile.username}}
+<div class="w-full pt-8">
+    {% include "accounts/partials/_profile_icon_bar.html" with user=u %}
+    {% include "accounts/partials/_profile_name.html" with user=u %}
+    {% include "accounts/partials/_profile_threads.html" with user=u %}
 </div>

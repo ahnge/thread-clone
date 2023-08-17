@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.core.exceptions import ValidationError
+
+from thread.models import Follow
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -94,6 +96,8 @@ def logout_view(request):
 
 
 @login_required
-def profile_view(request):
-    user = request.user
-    return render(request, "accounts/profile.html", {"profile": user})
+def profile_view(request, username):
+    user = get_object_or_404(User, username=username)
+    if request.META.get("HTTP_HX_REQUEST"):
+        return render(request, "accounts/profile.html", {"u": user})
+    return render(request, "accounts/f_profile.html", {"u": user})
