@@ -5,7 +5,7 @@ from django.contrib.contenttypes.models import ContentType
 
 
 class Thread(models.Model):
-    threader = models.ForeignKey(User, on_delete=models.CASCADE)
+    threader = models.ForeignKey(User, on_delete=models.CASCADE, related_name="thread")
     content = models.TextField(default="")
     likes_count = models.PositiveIntegerField(default=0)
     rethread_count = models.PositiveIntegerField(default=0)
