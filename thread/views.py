@@ -11,6 +11,8 @@ def home(request):
 
 @login_required
 def feed(request):
-    threads = Thread.objects.all()
-    context = {"threads": threads}
-    return render(request, "thread/feed.html", context)
+    if request.META.get("HTTP_HX_REQUEST"):
+        threads = Thread.objects.all()
+        context = {"threads": threads}
+        return render(request, "thread/feed.html", context)
+    return render(request, "base.html")

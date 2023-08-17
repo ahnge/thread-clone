@@ -30,6 +30,7 @@
             <div class="min-h-screen w-full"
                  hx-get="/feed/"
                  hx-trigger="load"
+                 hx-push-url="true"
                  id="container">
                 <div class="h-screen w-full flex flex-col justify-center items-center">
                     <svg width="24"
@@ -48,6 +49,7 @@
                     <div class="text-gray-400 hover:text-black cursor-pointer"
                          hx-get="/feed/"
                          hx-indicator="#indicator"
+                         hx-push-url="true"
                          hx-target="#container">
                         <svg xmlns="http://www.w3.org/2000/svg"
                              fill="none"
@@ -91,6 +93,7 @@
                     <div class="text-gray-400 hover:text-black cursor-pointer"
                          hx-get="/accounts/profile/"
                          hx-indicator="#indicator"
+                         hx-push-url="true"
                          hx-target="#container">
                         <svg xmlns="http://www.w3.org/2000/svg"
                              fill="none"
