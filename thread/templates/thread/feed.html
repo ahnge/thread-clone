@@ -14,6 +14,8 @@
         {% for thread in threads %}
             {% include "thread/partials/_thread.html" with thread=thread %}
             <div class="divider"></div>
+            {% empty %}
+            <div class="h-96 flex justify-center items-center">There is no feed yet.</div>
         {% endfor %}
     </div>
 </div>

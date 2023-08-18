@@ -1,13 +1,41 @@
+{% load static %}
 <div class="w-full mt-3">
     <!-- Tabs -->
-    <div class="w-full flex justify-between px-3">
-        <div class="py-2 flex-1 w-full flex justify-center border-b-2 border-black">
+    <div class="w-full flex justify-between px-3 relative z-30">
+        <div class="ptab cursor-pointer py-2 flex-1 w-full flex justify-center border-b-2 border-black"
+             hx-get="{% url 'accounts:profile_threads' u.username %}"
+             hx-indicator="#profile-indicator"
+             hx-target="#profile-container">
             <a class="text-center">Threads</a>
         </div>
-        <div class="py-2 flex-1 w-full flex justify-center">
+        <div class="ptab cursor-pointer py-2 flex-1 w-full flex justify-center"
+             hx-get="{% url 'accounts:profile_replies' u.username %}"
+             hx-indicator="#profile-indicator"
+             hx-target="#profile-container">
             <a class="text-center">Replies</a>
         </div>
     </div>
-    <div class="w-full h-[2px] bg-neutral-content relative -top-[2px] -z-10"></div>
+    <div class="w-full h-[2px] bg-neutral-content relative -top-[2px] z-20"></div>
+    <!-- HTMX indicator -->
+    <div id="profile-indicator"
+         class="htmx-indicator z-10 bg-white flex flex-col fixed inset-0 justify-center items-center">
+        <svg width="24"
+             height="24"
+             viewBox="0 0 24 24"
+             xmlns="http://www.w3.org/2000/svg">
+            <style>.spinner_7WDj{transform-origin:center;animation:spinner_PBVY .75s linear infinite}@keyframes spinner_PBVY{100%{transform:rotate(360deg)}}</style>
+            <path d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25" />
+            <circle class="spinner_7WDj" cx="12" cy="2.5" r="1.5" />
+        </svg>
+    </div>
     <!-- Content -->
+    <div class="flex flex-col justify-start w-full mt-3"
+         id="profile-container">
+        {% for thread in u.thread.all %}
+            {% include "thread/partials/_thread.html" with thread=thread %}
+            <div class="divider"></div>
+        {% empty %}
+            <div class="flex h-96 justify-center items-center">There is no feed yet</div>
+        {% endfor %}
+    </div>
 </div>

@@ -101,3 +101,19 @@ def profile_view(request, username):
     if request.META.get("HTTP_HX_REQUEST"):
         return render(request, "accounts/profile.html", {"u": user})
     return render(request, "accounts/f_profile.html", {"u": user})
+
+
+@login_required
+def profile_threads(request, username):
+    user = get_object_or_404(User, username=username)
+    if request.META.get("HTTP_HX_REQUEST"):
+        return render(request, "accounts/profile_threads.html", {"u": user})
+    return redirect("accounts:profile", user)
+
+
+@login_required
+def profile_replies(request, username):
+    user = get_object_or_404(User, username=username)
+    if request.META.get("HTTP_HX_REQUEST"):
+        return render(request, "accounts/profile_replies.html", {"u": user})
+    return redirect("accounts:profile", user)
