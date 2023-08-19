@@ -114,6 +114,7 @@ def profile_threads(request, username):
 @login_required
 def profile_replies(request, username):
     user = get_object_or_404(User, username=username)
+    print(user.comment.all())
     if request.META.get("HTTP_HX_REQUEST"):
         return render(request, "accounts/profile_replies.html", {"u": user})
     return redirect("accounts:profile", user)

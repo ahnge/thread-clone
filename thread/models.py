@@ -8,7 +8,7 @@ class Thread(models.Model):
     threader = models.ForeignKey(User, on_delete=models.CASCADE, related_name="thread")
     content = models.TextField(default="")
     likes_count = models.PositiveIntegerField(default=0)
-    rethread_count = models.PositiveIntegerField(default=0)
+    comment_count = models.PositiveIntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -62,12 +62,30 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comment")
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
     text = models.TextField()
+    likes_count = models.PositiveIntegerField(default=0)
+    comment_count = models.PositiveIntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Comment by {self.user.user.username} on {self.tweet}"
+        return f"Comment by {self.user.username} on {self.thread.threader.username}'s post."
+
+
+class Recomment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="recomment")
+    comment = models.ForeignKey(
+        Comment, on_delete=models.CASCADE, related_name="recomment"
+    )
+    text = models.TextField()
+    likes_count = models.PositiveIntegerField(default=0)
+    comment_count = models.PositiveIntegerField(default=0)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Recomment by {self.user.username}"
 
 
 class Follow(models.Model):

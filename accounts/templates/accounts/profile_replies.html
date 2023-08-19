@@ -1,3 +1,5 @@
-<div>
-    Threre is no repply yet.
-</div>
+{% for cmt in u.comment.all %}
+    {% include "accounts/partials/_profile_replies.html" with cmt=cmt %}
+    {% include "accounts/partials/_profile_reply.html" with cmt=cmt %}
+    <div class="divider"></div>
+{% endfor %}

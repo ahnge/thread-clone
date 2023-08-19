@@ -3,16 +3,16 @@
 <div class="w-full flex px-2 sm:px-4 space-x-2 sm:space-x-4 text-base sm:text-lg">
     <!-- Left -->
     <div>
-        {% if thread.threader.myuser.profile_picture %}
+        {% if cmt.user.profile_picture %}
             <div class="avatar">
                 <div class="w-10 sm:w-14 rounded-full">
-                    <img src="{{ thread.threader.myuser.profile_picture.url }}" alt="Profile" />
+                    <img src="{{ cmt.user.profile_picture.url }}" alt="Profile" />
                 </div>
             </div>
         {% else %}
             <div class="avatar placeholder">
                 <div class="bg-neutral-focus text-neutral-content rounded-full w-10 sm:w-14">
-                    <span class="text-xs uppercase sm:text-base">{{ thread.threader.username|ecut }}</span>
+                    <span class="text-xs uppercase sm:text-base">{{ cmt.user.username|ecut }}</span>
                 </div>
             </div>
         {% endif %}
@@ -21,9 +21,9 @@
     <div class="w-full">
         <!-- Right first row-->
         <div class="flex justify-between py-1">
-            <div class="font-semibold text-black">{{ thread.threader.username }}</div>
+            <div class="font-semibold text-black">{{ cmt.user.username }}</div>
             <div class="flex items-center space-x-2 sm:pr-2">
-                <span class="text-neutral-content">{{ thread.created_at|time_ago }}</span>
+                <span class="text-neutral-content">{{ cmt.created_at|time_ago }}</span>
                 <span class="cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg"
                          fill="none"
@@ -37,18 +37,14 @@
             </div>
         </div>
         <!-- Right text content -->
-        <p class="text-base-content font-extralight">{{ thread.content }}</p>
-        <!-- Right Image content if any -->
-        {% if thread.image_thread.all %}
-            {% include "thread/partials/_thread_carousel.html" with thread=thread %}
-        {% endif %}
+        <p class="text-base-content font-extralight">{{ cmt.text }}</p>
         <!-- Action btns -->
         {% include "thread/partials/_thread_actions.html" %}
         <!-- Replys and likes-->
         <div class="flex text-neutral-content pt-2 space-x-2">
-            {% if thread.comment_count > 0 %}
-                <span>{{ thread.comment_count }}
-                    {% if thread.comment_count > 1 %}
+            {% if cmt.comment_count > 0 %}
+                <span>{{ cmt.comment_count }}
+                    {% if cmt.comment_count > 1 %}
                         replies
                     {% else %}
                         reply
@@ -56,7 +52,7 @@
                 </span>
                 <span>.</span>
             {% endif %}
-            <span>{{ thread.likes_count }} like{{ thread.likes_count|pluralize }}</span>
+            <span>{{ cmt.likes_count }} like{{ cmt.likes_count|pluralize }}</span>
         </div>
     </div>
 </div>
