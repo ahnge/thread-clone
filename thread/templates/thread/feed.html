@@ -1,4 +1,4 @@
-<div class="flex flex-col justify-start pb-6 items-center w-full">
+<div class="flex flex-col justify-start pb-11 items-center w-full">
     <!-- Thread logo-->
     <div class="text-black py-4">
         <svg xmlns="http://www.w3.org/2000/svg"
@@ -14,7 +14,7 @@
         {% for thread in threads %}
             {% include "thread/partials/_thread.html" with thread=thread %}
             <div class="divider"></div>
-            {% empty %}
+        {% empty %}
             <div class="h-96 flex justify-center items-center">There is no feed yet.</div>
         {% endfor %}
     </div>
