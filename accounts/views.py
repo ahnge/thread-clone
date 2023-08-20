@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.core.exceptions import ValidationError
 
-from thread.models import Follow
+from thread.models import Comment
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -114,7 +114,10 @@ def profile_threads(request, username):
 @login_required
 def profile_replies(request, username):
     user = get_object_or_404(User, username=username)
-    print(user.comment.all())
     if request.META.get("HTTP_HX_REQUEST"):
-        return render(request, "accounts/profile_replies.html", {"u": user})
+        return render(
+            request,
+            "accounts/profile_replies.html",
+            {"u": user},
+        )
     return redirect("accounts:profile", user)

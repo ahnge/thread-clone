@@ -1,5 +1,9 @@
 {% for cmt in u.comment.all %}
-    {% include "accounts/partials/_profile_replies.html" with cmt=cmt %}
+    {% if cmt.parent_comment %}
+        {% include "accounts/partials/_profile_reply_parent_comment.html" with cmt=cmt %}
+    {% else %}
+        {% include "accounts/partials/_profile_reply_thread.html" with cmt=cmt %}
+    {% endif %}
     {% include "accounts/partials/_profile_reply.html" with cmt=cmt %}
     <div class="divider"></div>
 {% endfor %}

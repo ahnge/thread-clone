@@ -2,29 +2,30 @@
 <!-- Thread Post -->
 <div class="w-full flex px-2 sm:px-4 space-x-2 sm:space-x-4 text-base sm:text-lg">
     <!-- Left -->
-    <div>
-        {% if cmt.thread.threader.myuser.profile_picture %}
+    <div class="flex flex-col items-center">
+        {% if cmt.parent_comment.user.myuser.profile_picture %}
             <div class="avatar">
                 <div class="w-10 sm:w-14 rounded-full">
-                    <img src="{{ cmt.thread.threader.myuser.profile_picture.url }}"
+                    <img src="{{ cmt.parent_comment.user.myuser.profile_picture.url }}"
                          alt="Profile" />
                 </div>
             </div>
         {% else %}
             <div class="avatar placeholder">
                 <div class="bg-neutral-focus text-neutral-content rounded-full w-10 sm:w-14">
-                    <span class="text-xs uppercase sm:text-base">{{ cmt.thread.threader.username|ecut }}</span>
+                    <span class="text-xs uppercase sm:text-base">{{ cmt.parent_comment.user.username|ecut }}</span>
                 </div>
             </div>
         {% endif %}
+        {% if cmt.parent_comment.comment_count > 0 %}<div class="bg-neutral-content w-[2px] grow my-3 z-10"></div>{% endif %}
     </div>
     <!-- Right -->
     <div class="w-full">
         <!-- Right first row-->
         <div class="flex justify-between py-1">
-            <div class="font-semibold text-black">{{ cmt.thread.threader.username }}</div>
+            <div class="font-semibold text-black">{{ cmt.parent_comment.user.username }}</div>
             <div class="flex items-center space-x-2 sm:pr-2">
-                <span class="text-neutral-content">{{ cmt.thread.created_at|time_ago }}</span>
+                <span class="text-neutral-content">{{ cmt.parent_comment.created_at|time_ago }}</span>
                 <span class="cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg"
                          fill="none"
@@ -38,18 +39,18 @@
             </div>
         </div>
         <!-- Right text content -->
-        <p class="text-base-content font-extralight">{{ cmt.thread.content }}</p>
+        <p class="text-base-content font-extralight">{{ cmt.parent_comment.content }}</p>
         <!-- Right Image content if any -->
-        {% if cmd.thread.image_thread.all %}
-            {% include "thread/partials/_thread_carousel.html" with thread=cmt.thread %}
+        {% if cmt.parent_comment.comment_image.all %}
+            {% include "accounts/partials/_comment_carousel.html" with cmt=cmt.parent_comment %}
         {% endif %}
         <!-- Action btns -->
         {% include "thread/partials/_thread_actions.html" %}
         <!-- Replys and likes-->
         <div class="flex text-neutral-content pt-2 space-x-2">
-            {% if cmt.thread.comment_count > 0 %}
-                <span>{{ cmt.thread.comment_count }}
-                    {% if cmt.thread.comment_count > 1 %}
+            {% if cmt.parent_comment.comment_count > 0 %}
+                <span>{{ cmt.parent_comment.comment_count }}
+                    {% if cmt.parent_comment.comment_count > 1 %}
                         replies
                     {% else %}
                         reply
@@ -57,7 +58,7 @@
                 </span>
                 <span>.</span>
             {% endif %}
-            <span>{{ cmt.thread.likes_count }} like{{ cmt.thread.likes_count|pluralize }}</span>
+            <span>{{ cmt.parent_comment.likes_count }} like{{ cmt.parent_comment.likes_count|pluralize }}</span>
         </div>
     </div>
 </div>

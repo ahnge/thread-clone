@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
 
 
 class Thread(models.Model):
@@ -20,7 +18,7 @@ class Thread(models.Model):
         return f"Thread by {self.threader.username} at {self.created_at}"
 
 
-class ImageThread(models.Model):
+class ThreadImage(models.Model):
     thread = models.ForeignKey(
         Thread, on_delete=models.CASCADE, related_name="image_thread"
     )
@@ -44,10 +42,10 @@ class Like(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.user.username} liked {self.thread.content_object}"
+        return f"{self.user.username} liked {self.thread.content[:10]}"
 
 
-class Rethread(models.Model):
+class Repost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
 
@@ -55,15 +53,18 @@ class Rethread(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.user.username} rethreaded {self.thread}"
+        return f"{self.user.username} rethreaded {self.thread.content[:10]}"
 
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comment")
-    thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
-    text = models.TextField()
+    thread = models.ForeignKey(Thread, on_delete=models.CASCADE, related_name="comment")
+    content = models.TextField(default="")
     likes_count = models.PositiveIntegerField(default=0)
     comment_count = models.PositiveIntegerField(default=0)
+    parent_comment = models.ForeignKey(
+        "self", on_delete=models.CASCADE, null=True, blank=True, related_name="replies"
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -72,20 +73,14 @@ class Comment(models.Model):
         return f"Comment by {self.user.username} on {self.thread.threader.username}'s post."
 
 
-class Recomment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="recomment")
+class CommentImage(models.Model):
     comment = models.ForeignKey(
-        Comment, on_delete=models.CASCADE, related_name="recomment"
+        Comment, on_delete=models.CASCADE, related_name="comment_image"
     )
-    text = models.TextField()
-    likes_count = models.PositiveIntegerField(default=0)
-    comment_count = models.PositiveIntegerField(default=0)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    image = models.ImageField(upload_to="comment_images/")
 
     def __str__(self):
-        return f"Recomment by {self.user.username}"
+        return f"Comment image by {self.comment.user.username}"
 
 
 class Follow(models.Model):
