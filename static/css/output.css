@@ -1724,10 +1724,6 @@ html {
   z-index: 50;
 }
 
-.z-0 {
-  z-index: 0;
-}
-
 .mx-3 {
   margin-left: 0.75rem;
   margin-right: 0.75rem;
@@ -1783,10 +1779,6 @@ html {
   height: 100vh;
 }
 
-.h-full {
-  height: 100%;
-}
-
 .max-h-\[12rem\] {
   max-height: 12rem;
 }
@@ -1811,24 +1803,16 @@ html {
   width: 2rem;
 }
 
-.w-full {
-  width: 100%;
-}
-
-.w-2 {
-  width: 0.5rem;
-}
-
-.w-1 {
-  width: 0.25rem;
-}
-
 .w-\[2px\] {
   width: 2px;
 }
 
 .w-auto {
   width: auto;
+}
+
+.w-full {
+  width: 100%;
 }
 
 .min-w-full {
@@ -1983,11 +1967,6 @@ html {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
-}
-
-.py-3 {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
 }
 
 .pb-11 {

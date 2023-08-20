@@ -15,7 +15,7 @@ class Thread(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return f"Thread by {self.threader.username} at {self.created_at}"
+        return f"Thread: {self.content[:20]}"
 
 
 class ThreadImage(models.Model):
@@ -25,7 +25,7 @@ class ThreadImage(models.Model):
     image = models.ImageField(upload_to="thread_images/")
 
     def __str__(self):
-        return f"Thread image by {self.thread.threader.username}"
+        return f"Thread image of {self.thread.content[:20]}"
 
 
 class Like(models.Model):
@@ -42,7 +42,7 @@ class Like(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.user.username} liked {self.thread.content[:10]}"
+        return f"{self.user.username} liked {self.thread.content[:20]}"
 
 
 class Repost(models.Model):
@@ -52,8 +52,11 @@ class Repost(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ["-created_at"]
+
     def __str__(self):
-        return f"{self.user.username} rethreaded {self.thread.content[:10]}"
+        return f"{self.user.username} reposted {self.thread.content[:20]}"
 
 
 class Comment(models.Model):
@@ -63,14 +66,21 @@ class Comment(models.Model):
     likes_count = models.PositiveIntegerField(default=0)
     comment_count = models.PositiveIntegerField(default=0)
     parent_comment = models.ForeignKey(
-        "self", on_delete=models.CASCADE, null=True, blank=True, related_name="replies"
+        "self",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        related_name="sub_comment",
     )
+
+    class Meta:
+        ordering = ["-created_at"]
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Comment by {self.user.username} on {self.thread.threader.username}'s post."
+        return f"Comment: {self.content[:20]}"
 
 
 class CommentImage(models.Model):
@@ -80,7 +90,7 @@ class CommentImage(models.Model):
     image = models.ImageField(upload_to="comment_images/")
 
     def __str__(self):
-        return f"Comment image by {self.comment.user.username}"
+        return f"Comment image of {self.comment.content}"
 
 
 class Follow(models.Model):
