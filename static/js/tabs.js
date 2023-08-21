@@ -1,3 +1,4 @@
+htmx.config.refreshOnHistoryMiss = true;
 // This is bottom nav listening to be tabbed (which makes an htmx request), we have to listen all the time.
 // find all mytabs in bottom nav
 const allTabs = htmx.findAll(".mytab");
@@ -17,21 +18,21 @@ allTabs.forEach((tab) => {
   });
 });
 
-// If the route go form "thread:feed" to "accounts:profile", we have to listen only after the ptabs have been swapped into the template.
+// If the route go form "anywhere" to "accounts:profile", we have to listen only after the ptabs have been swapped into the template.
 const profileTab = htmx.find("#profile-tab");
-htmx.find("body").addEventListener("htmx:afterSwap", (evt) => {
+htmx.find("#container").addEventListener("htmx:afterSwap", (evt) => {
   if (evt.detail.requestConfig.elt === profileTab) {
     var pTabs = htmx.findAll(".ptab");
     // find alll ptabs in profile page
     pTabs.forEach((ptab) => {
-      ptab.addEventListener("htmx:beforeRequest", (evt) => {
+      ptab.addEventListener("htmx:beforeRequest", (e) => {
         // empty the container (optional for ux)
         htmx.find("#profile-container").innerHTML = "";
         // toggle the ptabs
         for (let pt of pTabs) {
-          htmx.toggleClass(pt, "border-b-2");
-          htmx.toggleClass(pt, "border-black");
+          pt.classList.remove("border-b-2", "border-black");
         }
+        e.detail.requestConfig.elt.classList.add("border-b-2", "border-black");
       });
     });
   }
@@ -41,17 +42,22 @@ htmx.find("body").addEventListener("htmx:afterSwap", (evt) => {
 var pTabs = htmx.findAll(".ptab");
 // find alll ptabs in profile page
 pTabs.forEach((ptab) => {
-  ptab.addEventListener("htmx:beforeRequest", (evt) => {
+  ptab.addEventListener("htmx:beforeRequest", (e) => {
     // empty the container (optional for ux)
     htmx.find("#profile-container").innerHTML = "";
     // toggle the ptabs
     for (let pt of pTabs) {
-      htmx.toggleClass(pt, "border-b-2");
-      htmx.toggleClass(pt, "border-black");
+      pt.classList.remove("border-b-2", "border-black");
     }
+    e.detail.requestConfig.elt.classList.add("border-b-2", "border-black");
   });
 });
 
-document.body.addEventListener("htmx:pushedIntoHistory", (evt) => {
+document.addEventListener("htmx:pushedIntoHistory", (evt) => {
   localStorage.removeItem("htmx-history-cache");
+});
+
+document.addEventListener("htmx:historyRestore", (evt) => {
+  localStorage.removeItem("htmx-history-cache");
+  location.reload();
 });
