@@ -7,6 +7,7 @@
     <div class="flex justify-center fixed z-50 bottom-0 left-0 w-full bg-white">
         <nav class="flex bg-white max-w-3xl w-full justify-between px-4 sm:px-8 pt-3 pb-6">
             <div class="mytab text-black hover:text-black cursor-pointer"
+                 id="home-tab"
                  hx-get="{% url 'thread:feed' %}"
                  hx-indicator="#indicator"
                  hx-push-url="true"
@@ -30,7 +31,8 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                 </svg>
             </div>
-            <div class="mytab text-gray-400 hover:text-black cursor-pointer">
+            <div class="text-gray-400 hover:text-black cursor-pointer"
+                 id="new-thread-tab">
                 <svg xmlns="http://www.w3.org/2000/svg"
                      fill="none"
                      viewBox="0 0 24 24"

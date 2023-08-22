@@ -6,16 +6,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Threads</title>
         <link rel="stylesheet" href="{% static 'css/output.css' %}">
-        <script defer
-                src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.3/dist/cdn.min.js"></script>
         <script src="https://unpkg.com/htmx.org@1.9.4"
                 integrity="sha384-zUfuhFKKZCbHTY6aRR46gxiqszMk5tcHjsVFxnUo8VMus4kHGVdIYVbOYYNlKmHV"
                 crossorigin="anonymous"></script>
         <script defer src="{% static 'js/tabs.js' %}"></script>
+        <script defer src="{% static 'js/newThread.js' %}"></script>
         {% block script %}
         {% endblock script %}
     </head>
-    <body>
+    <body class="top-5">
         <div class="max-w-3xl mx-auto w-full min-h-screen">
             <!-- HTMX indicator -->
             <div id="indicator"
@@ -34,8 +33,11 @@
                 {% block content %}
                 {% endblock content %}
             </div>
+            <!-- Nav Container -->
             {% block nav %}
             {% endblock nav %}
+            <!-- New thread-->
+            {% include "partials/_new_thread.html" %}
         </div>
         <a href="{% url 'accounts:logout' %}" class="btn fixed right-0 bottom-0">Logout</a>
     </body>
