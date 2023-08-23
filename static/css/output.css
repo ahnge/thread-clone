@@ -9351,6 +9351,10 @@ details.collapse summary::-webkit-details-marker {
   padding-bottom: 2.75rem;
 }
 
+.pb-20 {
+  padding-bottom: 5rem;
+}
+
 .pb-6 {
   padding-bottom: 1.5rem;
 }
@@ -9383,8 +9387,12 @@ details.collapse summary::-webkit-details-marker {
   padding-top: 2rem;
 }
 
-.pb-20 {
-  padding-bottom: 5rem;
+.pr-4 {
+  padding-right: 1rem;
+}
+
+.pb-16 {
+  padding-bottom: 4rem;
 }
 
 .text-left {

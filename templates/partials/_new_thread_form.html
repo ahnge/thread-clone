@@ -2,12 +2,12 @@
 <form enctype="multipart/form-data"
       action="{% url 'thread:create_thread' %}"
       method="post"
-      class="w-full relative">
+      class="w-full overflow-y-auto my-max-h pb-16">
     {% csrf_token %}
     <!-- Unit container -->
-    <div id="unit-container" class="overflow-y-auto my-max-h pb-20">
+    <div id="unit-container">
         <!-- Upper unit -->
-        <div class="upper-unit flex px-2 sm:px-4 space-x-3 sm:space-x-4 text-base sm:text-lg mt-2 ">
+        <div class="upper-unit flex px-2 sm:px-4 space-x-3 sm:space-x-4 text-base sm:text-lg mt-2">
             <!-- Left -->
             <div class="flex flex-col items-center">
                 {% if user.myuser.profile_picture %}
@@ -55,7 +55,7 @@
                               maxlength="420"
                               class="content border-none no-scrollbar focus:outline-none focus:border-none h-auto resize-none"></textarea>
                     <!-- Paper clip -->
-                    <div class="pb-6 clip">
+                    <div class="clip">
                         <label>
                             <svg xmlns="http://www.w3.org/2000/svg"
                                  fill="none"
@@ -75,6 +75,8 @@
                     <!-- Image container -->
                     <div class="carousel carousel-center min-w-full p-4 pl-12 -ml-12 space-x-2 sm:space-x-4 bg-white rounded-box hidden transition new-thread-image-container">
                     </div>
+                    <!-- Paddind dude -->
+                    <div class="opacity-0 pb-6"></div>
                     <!-- Att btn-->
                     <div class="flex items-center space-x-3">
                         <button class="text-gray-200 w-fit att"
@@ -96,8 +98,11 @@
             </div>
         </div>
     </div>
-    <input type="submit"
-           name="post"
-           value="Post"
-           class="absolute -bottom-5 font-medium right-2 py-4 text-blue-600">
+    <div class="flex justify-between w-full">
+        <div class="opacity-0"></div>
+        <input type="submit"
+               name="submit"
+               value="Post"
+               class="font-medium block py-4 pr-4 text-blue-600">
+    </div>
 </form>

@@ -42,7 +42,6 @@ const unitLogic = (upperUnit) => {
       // Enable the att btn
       let attBtnStillExists =
         upperUnit.querySelector(".smallter") && upperUnit.querySelector(".att");
-
       if (attBtnStillExists) {
         upperUnit.querySelector(".smallter").classList.remove("opacity-30");
         upperUnit.querySelector(".att").disabled = false;
@@ -50,7 +49,7 @@ const unitLogic = (upperUnit) => {
 
       const xButtons = imgContainer.querySelectorAll(".new-image-delete");
       const newImages = imgContainer.querySelectorAll(".new-image");
-      // Listen for remove buttons
+      // Listen for img remove buttons
       [...xButtons].forEach((btn) => {
         // We make a new dt instance and add all images except the one we want to delete
         btn.addEventListener("click", () => {
@@ -69,9 +68,11 @@ const unitLogic = (upperUnit) => {
               newImg.remove();
             }
           });
-          // Show the clip back
           if (threadImages.files.length === 0) {
+            // Show the clip back
             upperUnit.querySelector(".clip").classList.remove("hidden");
+            // Hide the img container
+            imgContainer.classList.add("hidden");
           }
           // Enable the att button
           if (
@@ -125,21 +126,46 @@ const unitLogic = (upperUnit) => {
       upperUnit.querySelector(".att").disabled = true;
     }
   });
+  // if there are more than one unit and content is focus, we hide all other clips and show the focus one if there is no images in threadImages
+  content.addEventListener("focus", () => {
+    if (appState.unitCount > 1) {
+      // Hide all other clips
+      [...upperUnits].forEach((uu) => {
+        uu.querySelector(".clip").classList.add("hidden");
+      });
+      // Show the focused unit's clip
+      if (threadImages.files.length === 0) {
+        upperUnit.querySelector(".clip").classList.remove("hidden");
+      }
+    }
+  });
 
   // Delete unit logic
   const deleteUnit = upperUnit.querySelector(".delete-unit");
   deleteUnit.addEventListener("click", () => {
     if (appState.unitCount === 1) {
+      // Clear the text and hide the du btn
       content.value = "";
       deleteUnit.classList.add("hidden");
+      // If thre are also no images in the unit, disable the att btn
       if (threadImages.files.length === 0) {
         upperUnit.querySelector(".smallter").classList.add("opacity-30");
         upperUnit.querySelector(".att").disabled = true;
       }
     } else {
+      // Remove the parent uu and update the state
       const parentUpperUnit = deleteUnit.parentNode.parentNode.parentNode;
       parentUpperUnit.remove();
       appState.unitCount--;
+      // Update the upperUnits global varialbe
+      upperUnits = htmx.findAll(".upper-unit");
+      // Show the att btn of the last upperUnit in the upperUnits set
+      upperUnits[upperUnits.length - 1]
+        .querySelector(".att")
+        .classList.remove("hidden");
+      upperUnits[upperUnits.length - 1]
+        .querySelector(".smallter")
+        .classList.remove("hidden");
     }
   });
 };
@@ -148,6 +174,7 @@ let upperUnits = htmx.findAll(".upper-unit");
 
 [...upperUnits].forEach(unitLogic);
 
+// New unit logic
 const unitContainer = htmx.find("#unit-container");
 unitContainer.addEventListener("htmx:afterSwap", (evt) => {
   // Update the unit count
@@ -156,11 +183,23 @@ unitContainer.addEventListener("htmx:afterSwap", (evt) => {
   // Update the upperUnits variable
   upperUnits = htmx.findAll(".upper-unit");
 
-  // Delete the att btn of the above unit
-  evt.detail.requestConfig.elt.remove();
-  upperUnits[upperUnits.length - 2].querySelector(".smallter").remove();
+  // Hide the att btn of the above unit
+  evt.detail.requestConfig.elt.classList.add("hidden");
+  upperUnits[upperUnits.length - 2]
+    .querySelector(".smallter")
+    .classList.add("hidden");
+
+  // Hide the clip icon of the above unit
+  upperUnits[upperUnits.length - 2]
+    .querySelector(".clip")
+    .classList.add("hidden");
 
   // run the logic for the comming unit
   const newUpperUnit = upperUnits[upperUnits.length - 1];
   unitLogic(newUpperUnit);
+
+  // Show all the du buttons
+  [...upperUnits].forEach((uu) => {
+    uu.querySelector(".delete-unit").classList.remove("hidden");
+  });
 });

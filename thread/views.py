@@ -21,6 +21,8 @@ def feed(request):
 @login_required
 def create_thread(request):
     if request.method == "POST":
+        print(request.POST)
+        print(request.FILES)
         for afile in request.FILES.getlist("thread_images"):
             # Save images in respective models with the links to other models
             print(afile)
