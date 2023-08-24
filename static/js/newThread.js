@@ -23,11 +23,18 @@ const unitLogic = (upperUnit) => {
   // When user input images, we want to display before uploading to the server.
   threadImages.addEventListener("change", () => {
     // Ensure uploaded images are not more than 10
-    if (threadImages.files.length > 2) {
-      console.log("hey hey hey");
+    if (threadImages.files.length > 10) {
+      alert("Images can't be more that 10.");
+      threadImages.value = "";
     } else {
+      const maxAllowedSize = 5 * 1024 * 1024;
       // Add images to img Container one by one
       for (const file of threadImages.files) {
+        // Ensure file size is withing limit, else we don't add to ui
+        if (file.size > maxAllowedSize) {
+          alert("We don't allow file size greater that 5 MB.");
+          continue;
+        }
         let imgSrc = URL.createObjectURL(file);
         imgContainer.innerHTML += `
         <div class="carousel-item transition sm:max-w-xs xl:max-w-md relative new-image" data-image-name="${file.name}">
@@ -36,58 +43,66 @@ const unitLogic = (upperUnit) => {
         </div>
       `;
       }
-      // Display the image container
-      imgContainer.classList.remove("hidden");
-
-      // Hide the clip
-      upperUnit.querySelector(".clip").classList.add("hidden");
-
-      // Enable the att btn
-      let attBtnStillExists =
-        upperUnit.querySelector(".smallter") && upperUnit.querySelector(".att");
-      if (attBtnStillExists) {
-        upperUnit.querySelector(".smallter").classList.remove("opacity-30");
-        upperUnit.querySelector(".att").disabled = false;
+      // Remove the file of size greater that limited size from threadImages.files
+      const dt = new DataTransfer();
+      for (const file of threadImages.files) {
+        if (file.size < maxAllowedSize) dt.items.add(file);
       }
+      threadImages.files = dt.files;
 
-      const xButtons = imgContainer.querySelectorAll(".new-image-delete");
-      const newImages = imgContainer.querySelectorAll(".new-image");
-      // Listen for img remove buttons
-      [...xButtons].forEach((btn) => {
-        // We make a new dt instance and add all images except the one we want to delete
-        btn.addEventListener("click", () => {
-          const name = btn.dataset.imageDeleteName;
-          const dt = new DataTransfer();
-          for (let i = 0; i < threadImages.files.length; i++) {
-            const file = threadImages.files[i];
-            if (name !== file.name) dt.items.add(file);
-          }
-          // Update the FileList
-          threadImages.files = dt.files;
-          // Update the ui
-          // remove the image
-          [...newImages].forEach((newImg) => {
-            if (newImg.dataset.imageName === name) {
-              newImg.remove();
+      // Update ui only if thread.images exist
+      if (threadImages.files.length > 0) {
+        // Display the image container
+        imgContainer.classList.remove("hidden");
+        // Hide the clip
+        upperUnit.querySelector(".clip").classList.add("hidden");
+        // Enable the att btn
+        let attBtnStillExists =
+          upperUnit.querySelector(".smallter") &&
+          upperUnit.querySelector(".att");
+        if (attBtnStillExists) {
+          upperUnit.querySelector(".smallter").classList.remove("opacity-30");
+          upperUnit.querySelector(".att").disabled = false;
+        }
+        const xButtons = imgContainer.querySelectorAll(".new-image-delete");
+        const newImages = imgContainer.querySelectorAll(".new-image");
+        // Listen for img remove buttons
+        [...xButtons].forEach((btn) => {
+          // We make a new dt instance and add all images except the one we want to delete
+          btn.addEventListener("click", () => {
+            const name = btn.dataset.imageDeleteName;
+            const dt = new DataTransfer();
+            for (let i = 0; i < threadImages.files.length; i++) {
+              const file = threadImages.files[i];
+              if (name !== file.name) dt.items.add(file);
+            }
+            // Update the FileList
+            threadImages.files = dt.files;
+            // Update the ui
+            // remove the image
+            [...newImages].forEach((newImg) => {
+              if (newImg.dataset.imageName === name) {
+                newImg.remove();
+              }
+            });
+            if (threadImages.files.length === 0) {
+              // Show the clip back
+              upperUnit.querySelector(".clip").classList.remove("hidden");
+              // Hide the img container
+              imgContainer.classList.add("hidden");
+            }
+            // Enable the att button
+            if (
+              threadImages.files.length === 0 &&
+              content.value.length === 0 &&
+              attBtnStillExists
+            ) {
+              upperUnit.querySelector(".smallter").classList.add("opacity-30");
+              upperUnit.querySelector(".att").disabled = true;
             }
           });
-          if (threadImages.files.length === 0) {
-            // Show the clip back
-            upperUnit.querySelector(".clip").classList.remove("hidden");
-            // Hide the img container
-            imgContainer.classList.add("hidden");
-          }
-          // Enable the att button
-          if (
-            threadImages.files.length === 0 &&
-            content.value.length === 0 &&
-            attBtnStillExists
-          ) {
-            upperUnit.querySelector(".smallter").classList.add("opacity-30");
-            upperUnit.querySelector(".att").disabled = true;
-          }
         });
-      });
+      }
     }
   });
 
