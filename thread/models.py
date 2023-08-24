@@ -43,7 +43,7 @@ class Like(models.Model):
         ]
 
     def save(self, *args, **kwargs):
-        super(Comment, self).save(*args, **kwargs)
+        super(Like, self).save(*args, **kwargs)
         # Update the like_count of the related Thread
         self.thread.likes_count = Like.objects.filter(thread=self.thread).count()
         self.thread.save()
@@ -63,7 +63,7 @@ class Repost(models.Model):
         ordering = ["-created_at"]
 
     def save(self, *args, **kwargs):
-        super(Comment, self).save(*args, **kwargs)
+        super(Repost, self).save(*args, **kwargs)
         # Update the repost_count of the related Thread
         self.thread.repost_count = Repost.objects.filter(thread=self.thread).count()
         self.thread.save()
