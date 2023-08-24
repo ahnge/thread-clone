@@ -1,3 +1,6 @@
+// Ok, future me. This file seems like confusing and not wanting to read again. Let me break it down for you before I forget. All of the logic within is base upon "upper-unit", which is just a html section of a form that contains a textarea and multiple images input. Check out _new_thread_form.html to see the primary upper unit. The problem is we might want more than just a unit for a form. If the user want to add more to a thread, we want to add another unit dynamically. We solve this with the htmx request to the server and we send another unit and add this unit within the form. All the interactivity is than listen on the newly added unit. That is.
+
+// Slide up
 htmx.find("#new-thread-tab").addEventListener("click", () => {
   htmx.removeClass(htmx.find("#new-thread-popup"), "top-full");
   htmx.addClass(htmx.find("#new-thread-popup"), "top-5");
@@ -126,17 +129,15 @@ const unitLogic = (upperUnit) => {
       upperUnit.querySelector(".att").disabled = true;
     }
   });
-  // if there are more than one unit and content is focus, we hide all other clips and show the focus one if there is no images in threadImages
+  // When content is focus, we hide all other clips and show the focus one if there is no images in threadImages
   content.addEventListener("focus", () => {
-    if (appState.unitCount > 1) {
-      // Hide all other clips
-      [...upperUnits].forEach((uu) => {
-        uu.querySelector(".clip").classList.add("hidden");
-      });
-      // Show the focused unit's clip
-      if (threadImages.files.length === 0) {
-        upperUnit.querySelector(".clip").classList.remove("hidden");
-      }
+    // Hide all other clips
+    [...upperUnits].forEach((uu) => {
+      uu.querySelector(".clip").classList.add("hidden");
+    });
+    // Show the focused unit's clip
+    if (threadImages.files.length === 0) {
+      upperUnit.querySelector(".clip").classList.remove("hidden");
     }
   });
 
@@ -153,19 +154,21 @@ const unitLogic = (upperUnit) => {
         upperUnit.querySelector(".att").disabled = true;
       }
     } else {
-      // Remove the parent uu and update the state
+      // Remove the parent upperUnit and update the state
       const parentUpperUnit = deleteUnit.parentNode.parentNode.parentNode;
       parentUpperUnit.remove();
       appState.unitCount--;
       // Update the upperUnits global varialbe
       upperUnits = htmx.findAll(".upper-unit");
+
+      const lastUpperUnit = upperUnits[upperUnits.length - 1];
       // Show the att btn of the last upperUnit in the upperUnits set
-      upperUnits[upperUnits.length - 1]
-        .querySelector(".att")
-        .classList.remove("hidden");
-      upperUnits[upperUnits.length - 1]
-        .querySelector(".smallter")
-        .classList.remove("hidden");
+      lastUpperUnit.querySelector(".att").classList.remove("hidden");
+      lastUpperUnit.querySelector(".smallter").classList.remove("hidden");
+      // Show the clip of the last upperUnit if the unit's threadImages is empty
+      if (lastUpperUnit.querySelector(".thread-images").files.length === 0) {
+        lastUpperUnit.querySelector(".clip").classList.remove("hidden");
+      }
     }
   });
 };
