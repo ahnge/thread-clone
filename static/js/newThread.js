@@ -177,9 +177,10 @@ const unitLogic = (upperUnit) => {
       upperUnits = htmx.findAll(".upper-unit");
 
       const lastUpperUnit = upperUnits[upperUnits.length - 1];
-      // Show the att btn of the last upperUnit in the upperUnits set
+      // Show the att btn and att-parent of the last upperUnit in the upperUnits set
       lastUpperUnit.querySelector(".att").classList.remove("hidden");
       lastUpperUnit.querySelector(".smallter").classList.remove("hidden");
+      lastUpperUnit.querySelector(".att-parent").classList.remove("hidden");
       // Show the clip of the last upperUnit if the unit's threadImages is empty
       if (lastUpperUnit.querySelector(".thread-images").files.length === 0) {
         lastUpperUnit.querySelector(".clip").classList.remove("hidden");
@@ -201,16 +202,14 @@ unitContainer.addEventListener("htmx:afterSwap", (evt) => {
   // Update the upperUnits variable
   upperUnits = htmx.findAll(".upper-unit");
 
-  // Hide the att btn of the above unit
+  const aboveUnit = upperUnits[upperUnits.length - 2];
+  // Hide the att btn of the above unit and att-parent
   evt.detail.requestConfig.elt.classList.add("hidden");
-  upperUnits[upperUnits.length - 2]
-    .querySelector(".smallter")
-    .classList.add("hidden");
+  aboveUnit.querySelector(".smallter").classList.add("hidden");
+  aboveUnit.querySelector(".att-parent").classList.add("hidden");
 
   // Hide the clip icon of the above unit
-  upperUnits[upperUnits.length - 2]
-    .querySelector(".clip")
-    .classList.add("hidden");
+  aboveUnit.querySelector(".clip").classList.add("hidden");
 
   // run the logic for the comming unit
   const newUpperUnit = upperUnits[upperUnits.length - 1];
