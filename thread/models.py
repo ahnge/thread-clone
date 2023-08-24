@@ -7,6 +7,7 @@ class Thread(models.Model):
     content = models.TextField(default="")
     likes_count = models.PositiveIntegerField(default=0)
     comment_count = models.PositiveIntegerField(default=0)
+    repost_count = models.PositiveIntegerField(default=0)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -41,6 +42,12 @@ class Like(models.Model):
             models.UniqueConstraint(fields=["user", "thread"], name="unique_like")
         ]
 
+    def save(self, *args, **kwargs):
+        super(Comment, self).save(*args, **kwargs)
+        # Update the like_count of the related Thread
+        self.thread.likes_count = Like.objects.filter(thread=self.thread).count()
+        self.thread.save()
+
     def __str__(self):
         return f"{self.user.username} liked {self.thread.content[:20]}"
 
@@ -54,6 +61,12 @@ class Repost(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+
+    def save(self, *args, **kwargs):
+        super(Comment, self).save(*args, **kwargs)
+        # Update the repost_count of the related Thread
+        self.thread.repost_count = Repost.objects.filter(thread=self.thread).count()
+        self.thread.save()
 
     def __str__(self):
         return f"{self.user.username} reposted {self.thread.content[:20]}"
@@ -78,6 +91,24 @@ class Comment(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        # Check if this is a new comment or an existing one being updated
+        is_new_comment = self._state.adding
+        super(Comment, self).save(*args, **kwargs)
+
+        if is_new_comment and not self.parent_comment:
+            # Update the comment_count of the related Thread
+            self.thread.comment_count = Comment.objects.filter(
+                thread=self.thread, parent_comment=None
+            ).count()
+            self.thread.save()
+        if is_new_comment and self.parent_comment:
+            # Update the comment_count of the related parent comment
+            self.parent_comment.comment_count = Comment.objects.filter(
+                thread=self.thread, parent_comment=self.parent_comment
+            ).count()
+            self.parent_comment.save()
 
     def __str__(self):
         return f"Comment: {self.content[:20]}"
