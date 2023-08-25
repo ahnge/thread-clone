@@ -7857,10 +7857,6 @@ details.collapse summary::-webkit-details-marker {
   inset: 0px;
 }
 
-.-bottom-5 {
-  bottom: -1.25rem;
-}
-
 .-top-\[2px\] {
   top: -2px;
 }
@@ -7885,10 +7881,6 @@ details.collapse summary::-webkit-details-marker {
   right: 0px;
 }
 
-.right-2 {
-  right: 0.5rem;
-}
-
 .right-3 {
   right: 0.75rem;
 }
@@ -7899,6 +7891,10 @@ details.collapse summary::-webkit-details-marker {
 
 .top-3 {
   top: 0.75rem;
+}
+
+.top-4 {
+  top: 1rem;
 }
 
 .top-5 {
@@ -8191,6 +8187,10 @@ details.collapse summary::-webkit-details-marker {
 
 .shrink {
   flex-shrink: 1;
+}
+
+.shrink-0 {
+  flex-shrink: 0;
 }
 
 .flex-grow {
@@ -9283,6 +9283,10 @@ details.collapse summary::-webkit-details-marker {
   background-origin: content-box;
 }
 
+.stroke-current {
+  stroke: currentColor;
+}
+
 .object-contain {
   -o-object-fit: contain;
      object-fit: contain;
@@ -9351,8 +9355,8 @@ details.collapse summary::-webkit-details-marker {
   padding-bottom: 2.75rem;
 }
 
-.pb-20 {
-  padding-bottom: 5rem;
+.pb-16 {
+  padding-bottom: 4rem;
 }
 
 .pb-6 {
@@ -9365,6 +9369,10 @@ details.collapse summary::-webkit-details-marker {
 
 .pl-12 {
   padding-left: 3rem;
+}
+
+.pr-4 {
+  padding-right: 1rem;
 }
 
 .pt-1 {
@@ -9385,14 +9393,6 @@ details.collapse summary::-webkit-details-marker {
 
 .pt-8 {
   padding-top: 2rem;
-}
-
-.pr-4 {
-  padding-right: 1rem;
-}
-
-.pb-16 {
-  padding-bottom: 4rem;
 }
 
 .text-left {
