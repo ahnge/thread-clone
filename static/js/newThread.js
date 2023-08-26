@@ -20,6 +20,7 @@ let appState = {
 const unitLogic = (upperUnit) => {
   const threadImages = upperUnit.querySelector(".thread-images");
   const imgContainer = upperUnit.querySelector(".new-thread-image-container");
+  const imgCount = upperUnit.querySelector(".image-count");
   // When user input images, we want to display before uploading to the server.
   threadImages.addEventListener("change", () => {
     // Ensure uploaded images are not more than 10
@@ -49,6 +50,8 @@ const unitLogic = (upperUnit) => {
         if (file.size < maxAllowedSize) dt.items.add(file);
       }
       threadImages.files = dt.files;
+      // Update the imageCount
+      imgCount.value = threadImages.files.length;
 
       // Update ui only if thread.images exist
       if (threadImages.files.length > 0) {
@@ -78,6 +81,8 @@ const unitLogic = (upperUnit) => {
             }
             // Update the FileList
             threadImages.files = dt.files;
+            // Update the ImageCount
+            imgCount.value = threadImages.files.length;
             // Update the ui
             // remove the image
             [...newImages].forEach((newImg) => {

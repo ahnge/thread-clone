@@ -68,10 +68,12 @@
             <!-- Image container -->
             <div class="carousel carousel-center min-w-full p-4 pl-12 -ml-12 space-x-2 sm:space-x-4 bg-white rounded-box hidden transition new-thread-image-container">
             </div>
+            <!-- Image count -->
+            <input type="number" name="image_count" value=0 hidden class="image-count">
             <!-- Paddind dude -->
             <div class="opacity-0 pb-6"></div>
             <!-- Att btn-->
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-3 att-parent">
                 <button class="text-gray-200 w-fit att"
                         hx-get="{% url 'thread:get_thread_unit' %}"
                         hx-swap="beforeend"
