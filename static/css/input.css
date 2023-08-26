@@ -28,3 +28,28 @@
 .my-max-h {
   max-height: calc(100vh - 84px);
 }
+
+/* Smapp profiles */
+.smps-1 {
+  @apply w-5 sm:w-7;
+}
+
+.smps-2 {
+  @apply w-4 sm:w-6;
+}
+
+.smps-3 {
+  @apply w-3 sm:w-5;
+}
+
+.smp-1 {
+  @apply absolute bottom-1 left-[1px];
+}
+
+.smp-2 {
+  @apply absolute right-1 bottom-0;
+}
+
+.smp-3 {
+  @apply absolute top-0 -left-[10px];
+}

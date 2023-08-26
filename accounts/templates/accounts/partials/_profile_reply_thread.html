@@ -17,7 +17,9 @@
                 </div>
             </div>
         {% endif %}
-        {% if cmt.thread.comment_count > 0 %}<div class="bg-neutral-content w-[2px] grow my-3 z-10"></div>{% endif %}
+        {% if cmt.thread.comment_count > 0 %}
+            <div class="bg-neutral-content w-[2px] grow my-3 z-10 relative">{% include "partials/components/_circle.html" %}</div>
+        {% endif %}
     </div>
     <!-- Right -->
     <div class="w-full">

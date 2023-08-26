@@ -2,19 +2,17 @@
 <!-- Thread Post -->
 <div class="w-full flex px-2 sm:px-4 space-x-2 sm:space-x-4 text-base sm:text-lg">
     <!-- Left -->
-    <div>
-        {% if thread.threader.myuser.profile_picture %}
-            <div class="avatar">
-                <div class="w-10 sm:w-14 rounded-full">
-                    <img src="{{ thread.threader.myuser.profile_picture.url }}" alt="Profile" />
-                </div>
-            </div>
-        {% else %}
-            <div class="avatar placeholder">
-                <div class="bg-neutral-focus text-neutral-content rounded-full w-10 sm:w-14">
-                    <span class="text-xs uppercase sm:text-base">{{ thread.threader.username|ecut }}</span>
-                </div>
-            </div>
+    <div class="flex flex-col items-center">
+        {% include "partials/components/_profile_picture.html" with user=thread.threader %}
+        {% if thread.comment_count > 0 %}
+            <div class="bg-neutral-content w-[2px] grow my-3 z-10"></div>
+            {% if thread.comment_count == 1 %}
+                {% include "partials/components/_one_small_profile.html" with user=thread.comment.first.user.myuser %}
+            {% elif thread.comment_count == 2 %}
+                {% include "partials/components/_two_small_profile.html" with cmts=thread.comment.all %}
+            {% elif thread.comment_count > 2 %}
+                {% include "partials/components/_three_small_profile.html" with cmts=thread.comment.all %}
+            {% endif %}
         {% endif %}
     </div>
     <!-- Right -->

@@ -1,0 +1,20 @@
+{% load extra %}
+<div class="relative mt-5">
+    {% for cmt  in cmts %}
+        {% if forloop.counter <= 3 %}
+            {% if cmt.user.myuser.profile_picture %}
+                <div class="avatar smp-{{ forloop.counter }}">
+                    <div class="smps-{{ forloop.counter }} rounded-full">
+                        <img src="{{ cmt.user.myuser.profile_picture.url }}" alt="Profile" />
+                    </div>
+                </div>
+            {% else %}
+                <div class="avatar placeholder smp-{{ forloop.counter }}">
+                    <div class="bg-neutral-focus text-neutral-content rounded-full smps-{{ forloop.counter }}">
+                        <span class="text-xs uppercase sm:text-sm">{{ cmt.user.username|ecut }}</span>
+                    </div>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</div>

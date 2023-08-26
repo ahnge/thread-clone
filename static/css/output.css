@@ -7865,6 +7865,10 @@ details.collapse summary::-webkit-details-marker {
   bottom: 0px;
 }
 
+.bottom-20 {
+  bottom: 5rem;
+}
+
 .end-1 {
   inset-inline-end: 0.25rem;
 }
@@ -7993,6 +7997,10 @@ details.collapse summary::-webkit-details-marker {
   margin-top: 0.75rem;
 }
 
+.mt-5 {
+  margin-top: 1.25rem;
+}
+
 .box-border {
   box-sizing: border-box;
 }
@@ -8092,6 +8100,10 @@ details.collapse summary::-webkit-details-marker {
   display: none;
 }
 
+.h-1 {
+  height: 0.25rem;
+}
+
 .h-6 {
   height: 1.5rem;
 }
@@ -8124,12 +8136,20 @@ details.collapse summary::-webkit-details-marker {
   min-height: 100vh;
 }
 
+.w-1 {
+  width: 0.25rem;
+}
+
 .w-10 {
   width: 2.5rem;
 }
 
 .w-16 {
   width: 4rem;
+}
+
+.w-4 {
+  width: 1rem;
 }
 
 .w-5 {
@@ -8706,6 +8726,12 @@ details.collapse summary::-webkit-details-marker {
   justify-items: stretch;
 }
 
+.-space-x-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(-0.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(-0.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.5rem * var(--tw-space-x-reverse));
@@ -9097,6 +9123,10 @@ details.collapse summary::-webkit-details-marker {
   border-width: 1px;
 }
 
+.border-2 {
+  border-width: 2px;
+}
+
 .border-x {
   border-left-width: 1px;
   border-right-width: 1px;
@@ -9310,6 +9340,10 @@ details.collapse summary::-webkit-details-marker {
 .object-scale-down {
   -o-object-fit: scale-down;
      object-fit: scale-down;
+}
+
+.p-2 {
+  padding: 0.5rem;
 }
 
 .p-4 {
@@ -9981,6 +10015,56 @@ details.collapse summary::-webkit-details-marker {
   max-height: calc(100vh - 84px);
 }
 
+/* Smapp profiles */
+
+.smps-1 {
+  width: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .smps-1 {
+    width: 1.75rem;
+  }
+}
+
+.smps-2 {
+  width: 1rem;
+}
+
+@media (min-width: 640px) {
+  .smps-2 {
+    width: 1.5rem;
+  }
+}
+
+.smps-3 {
+  width: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .smps-3 {
+    width: 1.25rem;
+  }
+}
+
+.smp-1 {
+  position: absolute;
+  bottom: 0.25rem;
+  left: 1px;
+}
+
+.smp-2 {
+  position: absolute;
+  right: 0.25rem;
+  bottom: 0px;
+}
+
+.smp-3 {
+  position: absolute;
+  top: 0px;
+  left: -10px;
+}
+
 @media (hover:hover) {
   .table .hover\:hover:hovertr:hover,
   .table .hover\:hover:hovertr:nth-child(even):hover {
@@ -10135,6 +10219,10 @@ details.collapse summary::-webkit-details-marker {
     width: 5rem;
   }
 
+  .sm\:w-6 {
+    width: 1.5rem;
+  }
+
   .sm\:w-7 {
     width: 1.75rem;
   }
@@ -10175,6 +10263,11 @@ details.collapse summary::-webkit-details-marker {
   .sm\:text-lg {
     font-size: 1.125rem;
     line-height: 1.75rem;
+  }
+
+  .sm\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
   }
 
   .sm\:underline {

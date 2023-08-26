@@ -3,20 +3,7 @@
 <div class="w-full flex px-2 sm:px-4 space-x-2 sm:space-x-4 text-base sm:text-lg">
     <!-- Left -->
     <div class="flex flex-col items-center">
-        {% if cmt.parent_comment.user.myuser.profile_picture %}
-            <div class="avatar">
-                <div class="w-10 sm:w-14 rounded-full">
-                    <img src="{{ cmt.parent_comment.user.myuser.profile_picture.url }}"
-                         alt="Profile" />
-                </div>
-            </div>
-        {% else %}
-            <div class="avatar placeholder">
-                <div class="bg-neutral-focus text-neutral-content rounded-full w-10 sm:w-14">
-                    <span class="text-xs uppercase sm:text-base">{{ cmt.parent_comment.user.username|ecut }}</span>
-                </div>
-            </div>
-        {% endif %}
+        {% include "partials/components/_profile_picture.html" with user=cmt.parent_comment.user %}
         {% if cmt.parent_comment.comment_count > 0 %}<div class="bg-neutral-content w-[2px] grow my-3 z-10"></div>{% endif %}
     </div>
     <!-- Right -->

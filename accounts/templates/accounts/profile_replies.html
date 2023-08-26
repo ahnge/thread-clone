@@ -1,4 +1,4 @@
-{% for cmt in u.comment.all %}
+{% for cmt in replies %}
     {% if cmt.parent_comment %}
         {% include "accounts/partials/_profile_reply_parent_comment.html" with cmt=cmt %}
     {% else %}
