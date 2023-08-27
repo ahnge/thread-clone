@@ -3,7 +3,7 @@
 <div class="w-full flex px-2 sm:px-4 space-x-2 sm:space-x-4 text-base sm:text-lg">
     <!-- Left -->
     <div class="flex flex-col items-center">
-        {% include "partials/components/_profile_picture.html" with user=cmt.user %}
+        {% include "partials/components/_profile_picture.html" with u=cmt.user %}
         {% if cmt.comment_count > 0 %}
             <div class="bg-neutral-content w-[2px] grow my-3 z-10"></div>
             {% if cmt.comment_count == 1 %}

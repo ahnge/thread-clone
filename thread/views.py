@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .models import Thread, ThreadImage, Comment, CommentImage
+from .models import Thread
 from .utils import (
     create_thread_post,
     create_thread_images,
@@ -84,7 +84,24 @@ def create_thread(request):
 
 
 @login_required
-def get_thread_unit(request):
+def get_thread_form_unit(request):
     if request.META.get("HTTP_HX_REQUEST"):
-        return render(request, "partials/_thread_unit.html")
+        return render(request, "partials/htmx/_thread_form_unit.html")
+    return redirect("thread:feed")
+
+
+@login_required
+def get_reply_form(request, username, id):
+    if request.META.get("HTTP_HX_REQUEST"):
+        thread = get_object_or_404(Thread, pk=id)
+        print(thread)
+        context = {"thread": thread}
+        return render(request, "partials/htmx/_reply_form.html", context)
+    return redirect("thread:feed")
+
+
+@login_required
+def get_reply_form_unit(request):
+    if request.META.get("HTTP_HX_REQUEST"):
+        return render(request, "partials/htmx/_reply_form_unit.html")
     return redirect("thread:feed")

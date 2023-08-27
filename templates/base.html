@@ -12,6 +12,7 @@
         <script defer src="{% static 'js/tabs.js' %}"></script>
         <script defer src="{% static 'js/newThread.js' %}"></script>
         <script defer src="{% static 'js/messages.js' %}"></script>
+        <script defer src="{% static 'js/base.js' %}"></script>
         {% block script %}
         {% endblock script %}
     </head>
@@ -39,6 +40,8 @@
             {% endblock nav %}
             <!-- New thread-->
             {% include "partials/_new_thread.html" %}
+            <!-- Reply -->
+            {% include "partials/_new_reply.html" %}
         </div>
         <!-- Messages -->
         {% if messages %}

@@ -1,21 +1,9 @@
 {% load extra %}
-<!-- Upper unit -->
-<div class="upper-unit flex px-2 sm:px-4 space-x-3 sm:space-x-4 text-base sm:text-lg mt-2 ">
+<!-- Reply form unit -->
+<div class="reply-unit flex px-2 sm:px-4 space-x-3 sm:space-x-4 text-base sm:text-lg mt-2 ">
     <!-- Left -->
     <div class="flex flex-col items-center">
-        {% if user.myuser.profile_picture %}
-            <div class="avatar">
-                <div class="w-10 sm:w-14 rounded-full">
-                    <img src="{{ user.myuser.profile_picture.url }}" alt="Profile" />
-                </div>
-            </div>
-        {% else %}
-            <div class="avatar placeholder">
-                <div class="bg-neutral-focus text-neutral-content rounded-full w-10 sm:w-14">
-                    <span class="text-xs uppercase sm:text-base">{{ user.username|ecut }}</span>
-                </div>
-            </div>
-        {% endif %}
+        {% include "partials/components/_profile_picture.html" with u=user %}
         <div class="bg-neutral-content w-[2px] grow my-3 z-10"></div>
         {% if user.myuser.profile_picture %}
             <div class="avatar opacity-30 smallter">
@@ -24,7 +12,7 @@
                 </div>
             </div>
         {% else %}
-            <div class="avatar placeholder opacity-30 smallter">
+            <div class="avatar placeholder opacity-30 reply-smallter">
                 <div class="bg-neutral-focus text-neutral-content rounded-full w-5 sm:w-7">
                     <span class="text-xs uppercase">{{ user.username|ecut }}</span>
                 </div>
@@ -36,9 +24,9 @@
         <!-- Username-->
         <div class="flex w-full justify-between">
             <div class="font-medium text-black">{{ user.username }}</div>
-            <span class="text-gray-400 text-lg px-2 cursor-pointer delete-unit">x</span>
+            <span class="text-gray-400 text-lg px-2 cursor-pointer reply-delete-unit">x</span>
         </div>
-        <!-- Form inner unit -->
+        <!-- reply Form inner unit -->
         <div class="flex flex-col mt-3 space-y-2 inner-unit">
             <textarea name="content"
                       placeholder="Say more..."
@@ -48,7 +36,7 @@
                       maxlength="420"
                       class="content border-none no-scrollbar focus:outline-none focus:border-none h-auto resize-none"></textarea>
             <!-- Paper clip -->
-            <div class="clip">
+            <div class="reply-clip">
                 <label>
                     <svg xmlns="http://www.w3.org/2000/svg"
                          fill="none"
@@ -59,28 +47,28 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739l-7.693 7.693a4.5 4.5 0 01-6.364-6.364l10.94-10.94A3 3 0 1119.5 7.372L8.552 18.32m.009-.01l-.01.01m5.699-9.941l-7.81 7.81a1.5 1.5 0 002.112 2.13" />
                     </svg>
                     <input type="file"
-                           name="thread_images"
+                           name="reply_images"
                            accept="image/*"
                            multiple
-                           class="hidden thread-images">
+                           class="hidden reply-images">
                 </label>
             </div>
-            <!-- Image container -->
-            <div class="carousel carousel-center min-w-full p-4 pl-12 -ml-12 space-x-2 sm:space-x-4 bg-white rounded-box hidden transition new-thread-image-container">
+            <!-- Reply Image container -->
+            <div class="carousel carousel-center min-w-full p-4 pl-12 -ml-12 space-x-2 sm:space-x-4 bg-white rounded-box hidden transition new-reply-image-container">
             </div>
             <!-- Image count -->
-            <input type="number" name="image_count" value=0 hidden class="image-count">
+            <input type="number" name="image_count" value=0 hidden class="reply-image-count">
             <!-- Paddind dude -->
             <div class="opacity-0 pb-6"></div>
-            <!-- Att btn-->
-            <div class="flex items-center space-x-3 att-parent">
-                <button class="text-gray-200 w-fit att"
-                        hx-get="{% url 'thread:get_thread_unit' %}"
+            <!-- Reply Att btn-->
+            <div class="flex items-center space-x-3 reply-att-parent">
+                <button class="text-gray-200 w-fit reply-att"
+                        hx-get="{% url 'thread:get_reply_form_unit' %}"
                         hx-swap="beforeend"
                         disabled
-                        hx-indicator="#att-indicator"
-                        hx-target="#unit-container">Add to thread</button>
-                <div id="att-indicator" class="htmx-indicator">
+                        hx-indicator="#reply-att-indicator"
+                        hx-target="#reply-unit-container">Add to thread</button>
+                <div id="reply-att-indicator" class="htmx-indicator">
                     <svg width="24"
                          height="24"
                          viewBox="0 0 24 24"
