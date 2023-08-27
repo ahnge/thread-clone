@@ -10,7 +10,7 @@
         </svg>
     </div>
     <div class="cursor-pointer reply-action"
-         hx-get="{% url 'thread:get_reply_form' username=thread.threader.username id=thread.id %}"
+         hx-get="{% url 'thread:get_reply_form' username=username id=id %}?is_cmt={{ is_cmt }}"
          hx-indicator="#reply-indicator"
          hx-target="#reply-container">
         <svg xmlns="http://www.w3.org/2000/svg"

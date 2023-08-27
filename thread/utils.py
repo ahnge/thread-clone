@@ -3,7 +3,7 @@ from .models import Thread, ThreadImage, Comment, CommentImage
 
 def create_thread_post(content, user):
     thread = Thread(content=content)
-    thread.threader = user
+    thread.user = user
     thread.save()
     return thread
 

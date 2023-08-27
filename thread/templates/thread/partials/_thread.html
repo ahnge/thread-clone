@@ -3,7 +3,7 @@
 <div class="w-full flex px-2 sm:px-4 space-x-2 sm:space-x-4 text-base sm:text-lg">
     <!-- Left -->
     <div class="flex flex-col items-center">
-        {% include "partials/components/_profile_picture.html" with u=thread.threader %}
+        {% include "partials/components/_profile_picture.html" with u=thread.user %}
         {% if thread.comment_count > 0 %}
             <div class="bg-neutral-content w-[2px] grow my-3 z-10"></div>
             {% if thread.comment_count == 1 %}
@@ -19,7 +19,7 @@
     <div class="w-full">
         <!-- Right first row-->
         <div class="flex justify-between py-1">
-            <div class="font-semibold text-black">{{ thread.threader.username }}</div>
+            <div class="font-semibold text-black">{{ thread.user.username }}</div>
             <div class="flex items-center space-x-2 sm:pr-2">
                 <span class="text-neutral-content">{{ thread.created_at|time_ago }}</span>
                 <span class="cursor-pointer">
@@ -41,7 +41,7 @@
             {% include "thread/partials/_thread_carousel.html" with thread=thread %}
         {% endif %}
         <!-- Action btns -->
-        {% include "thread/partials/_thread_actions.html" with thread=thread %}
+        {% include "thread/partials/_thread_actions.html" with username=thread.user.username id=thread.id is_cmt=0 %}
         <!-- Replys and likes-->
         <div class="flex text-neutral-content pt-2 space-x-2">
             {% if thread.comment_count > 0 %}

@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Thread(models.Model):
-    threader = models.ForeignKey(User, on_delete=models.CASCADE, related_name="thread")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="thread")
     content = models.TextField(default="")
     likes_count = models.PositiveIntegerField(default=0)
     comment_count = models.PositiveIntegerField(default=0)

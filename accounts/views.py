@@ -116,7 +116,7 @@ def profile_replies(request, username):
     user = get_object_or_404(User, username=username)
     replies = (
         Comment.objects.filter(user=user)
-        .exclude(thread__threader=user)
+        .exclude(thread__user=user)
         .exclude(parent_comment__user=user)
     )
     if request.META.get("HTTP_HX_REQUEST"):

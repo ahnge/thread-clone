@@ -1,7 +1,8 @@
 <div class="carousel carousel-center min-w-full p-4 pl-12 -ml-12 space-x-2 sm:space-x-4 bg-white rounded-box">
     {% for comment_image in cmt.comment_image.all %}
-        <div class="carousel-item  sm:max-w-xs xl:max-w-md">
-            <img src="{{ comment_image.image.url }}" class="rounded-box w-auto max-h-[12rem] object-contain z-10" />
+        <div class="carousel-item z-10">
+            <img src="{{ comment_image.image.url }}"
+                 class="rounded-box w-auto max-h-[12rem] sm:max-h-80 xl:max-h-96 object-contain" />
         </div>
     {% endfor %}
 </div>

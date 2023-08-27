@@ -1,7 +1,12 @@
 {% load static %}
 {% load extra %}
-<!-- Reply thread -->
-{% include "partials/htmx/components/_reply_thread.html" with thread=thread %}
+{% if post.thread %}
+    <!-- Reply comment -->
+    {% include "partials/htmx/components/_reply_comment.html" with comment=post %}
+{% else %}
+    <!-- Reply thread -->
+    {% include "partials/htmx/components/_reply_thread.html" with thread=post %}
+{% endif %}
 <!-- Reply form-->
 <form enctype="multipart/form-data"
       {% comment %}
@@ -36,13 +41,13 @@
             <div class="w-full ">
                 <!-- Username-->
                 <div class="flex w-full justify-between">
-                    <div class="font-medium text-black">{{ user.username }}</div>
+                    <div class="font-semibold text-black">{{ user.username }}</div>
                     <span class="text-gray-400 text-lg px-2 hidden cursor-pointer reply-delete-unit">x</span>
                 </div>
                 <!-- Form inner unit -->
                 <div class="flex flex-col mt-3 space-y-2">
                     <textarea name="content"
-                              placeholder="Reply to {{thread.threader.username}}"
+                              placeholder="Reply to {{thread.user.username}}"
                               autofocus
                               width="100%"
                               height="auto"

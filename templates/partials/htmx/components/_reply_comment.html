@@ -2,20 +2,20 @@
 <div class="w-full flex px-2 sm:px-4 space-x-2 sm:space-x-4 text-base sm:text-lg min-h-[85px]">
     <!-- Left -->
     <div class="flex flex-col items-center">
-        {% include "partials/components/_profile_picture.html" with u=thread.user %}
+        {% include "partials/components/_profile_picture.html" with u=comment.user %}
         <div class="bg-neutral-content w-[2px] grow my-3 z-10"></div>
     </div>
     <!-- Right -->
     <div class="w-full">
         <!-- Right first row-->
         <div class="flex justify-between py-1">
-            <div class="font-semibold text-black">{{ thread.user.username }}</div>
+            <div class="font-semibold text-black">{{ comment.user.username }}</div>
         </div>
         <!-- Right text content -->
-        <p class="text-base-content font-extralight">{{ thread.content }}</p>
+        <p class="text-base-content font-extralight">{{ comment.content }}</p>
         <!-- Right Image content if any -->
-        {% if thread.image_thread.all %}
-            {% include "thread/partials/_thread_carousel.html" with thread=thread %}
+        {% if comment.comment_image.all %}
+            {% include "accounts/partials/_comment_carousel.html" with cmt=comment %}
         {% endif %}
     </div>
 </div>

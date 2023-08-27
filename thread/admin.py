@@ -10,8 +10,8 @@ class ThreadImageInline(admin.TabularInline):
 @admin.register(Thread)
 class ThreadAdmin(admin.ModelAdmin):
     inlines = [ThreadImageInline]
-    list_display = ["threader", "content", "created_at"]
-    list_filter = ["threader"]
+    list_display = ["user", "content", "created_at"]
+    list_filter = ["user"]
     search_fields = ["content"]
 
 
