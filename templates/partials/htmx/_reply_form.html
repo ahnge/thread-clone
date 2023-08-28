@@ -9,9 +9,7 @@
 {% endif %}
 <!-- Reply form-->
 <form enctype="multipart/form-data"
-      {% comment %}
-      action="{% url 'thread:create_thread' %}"
-      {% endcomment %}
+      action="{% url 'thread:create_reply' %}"
       method="post"
       class="w-full ">
     {% csrf_token %}
@@ -80,6 +78,13 @@
                            value="0"
                            hidden
                            class="reply-image-count">
+                    <!-- Parent thread or comment -->
+                    {% if post.thread %}
+                        <input type="hidden" name="comment_id" value="{{ post.id }}">
+                        <input type="hidden" name="thread_id" value="{{ post.thread.id }}">
+                    {% else %}
+                        <input type="hidden" name="thread_id" value="{{ post.id }}">
+                    {% endif %}
                     <!-- Paddind dude -->
                     <div class="opacity-0 pb-6"></div>
                     <!-- Att btn-->

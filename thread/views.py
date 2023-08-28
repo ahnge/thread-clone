@@ -8,7 +8,6 @@ from .utils import (
     create_thread_images,
     create_cmt,
     create_cmt_images,
-    create_child_cmt,
 )
 
 
@@ -69,11 +68,13 @@ def create_thread(request):
             # create child comments
             i = 2
             while i < len(content_list):
-                child_cmt = create_child_cmt(
-                    content_list[i], request.user, thread, comment
+                child_cmt = create_cmt(
+                    content_list[i], request.user, thread, parent_comment=comment
                 )
-                left = int(image_count_list[i - 1]) + 1
-                right = left + int(image_count_list[i]) + 1
+                left = 0
+                for j in range(i):
+                    left += int(image_count_list[j])
+                right = left + int(image_count_list[i])
                 create_cmt_images(image_list[left:right], comment=child_cmt)
                 i += 1
 
@@ -107,4 +108,54 @@ def get_reply_form(request, username, id):
 def get_reply_form_unit(request):
     if request.META.get("HTTP_HX_REQUEST"):
         return render(request, "partials/htmx/_reply_form_unit.html")
+    return redirect("thread:feed")
+
+
+@login_required
+def create_reply(request):
+    if request.method == "POST":
+        content_list = request.POST.getlist("content")
+        image_count_list = request.POST.getlist("image_count")
+        image_list = request.FILES.getlist("reply_images")
+        thread_id = request.POST.get("thread_id")
+        comment_id = request.POST.get("comment_id")
+
+        thread = get_object_or_404(Thread, pk=thread_id)
+        parent_comment = None
+        if comment_id:
+            parent_comment = get_object_or_404(Comment, pk=comment_id)
+
+        # Ensure thred content and thread images are not both empty.
+        if len(content_list[0]) == 0 and int(image_count_list[0]) == 0:
+            messages.warning(
+                request, "You have to provide some content to create reply."
+            )
+            return redirect("thread:feed")
+        # One comment case
+        cmt = create_cmt(
+            content=content_list[0],
+            user=request.user,
+            thread=thread,
+            parent_comment=parent_comment,
+        )
+        create_cmt_images(
+            image_list=image_list[: int(image_count_list[0])], comment=cmt
+        )
+        # More than one comment case
+        if len(content_list) > 1:
+            i = 1
+            while i < len(content_list):
+                child_cmt = create_cmt(
+                    content=content_list[i],
+                    user=request.user,
+                    thread=thread,
+                    parent_comment=cmt,
+                )
+                left = 0
+                for j in range(i):
+                    left += int(image_count_list[j])
+                right = left + int(image_count_list[i])
+                create_cmt_images(image_list=image_list[left:right], comment=child_cmt)
+                i += 1
+
     return redirect("thread:feed")
