@@ -1,14 +1,15 @@
 {% load extra %}
 {% if u.myuser.profile_picture %}
-    <div class="avatar">
+    <a href="{% url 'accounts:profile' u.username %}" class="avatar">
         <div class="w-10 sm:w-14 rounded-full">
             <img src="{{ u.myuser.profile_picture.url }}" alt="Profile" />
         </div>
-    </div>
+    </a>
 {% else %}
-    <div class="avatar placeholder">
+    <a href="{% url 'accounts:profile' u.username %}"
+       class="avatar placeholder">
         <div class="bg-neutral-focus text-neutral-content rounded-full w-10 sm:w-14">
             <span class="text-xs uppercase sm:text-base">{{ u.username|ecut }}</span>
         </div>
-    </div>
+    </a>
 {% endif %}

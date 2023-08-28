@@ -19,7 +19,8 @@
     <div class="w-full">
         <!-- Right first row-->
         <div class="flex justify-between py-1">
-            <div class="font-semibold text-black">{{ thread.user.username }}</div>
+            <a class="font-semibold text-black cursor-pointer"
+               href="{% url 'accounts:profile' thread.user.username %}">{{ thread.user.username }}</a>
             <div class="flex items-center space-x-2 sm:pr-2">
                 <span class="text-neutral-content">{{ thread.created_at|time_ago }}</span>
                 <span class="cursor-pointer">

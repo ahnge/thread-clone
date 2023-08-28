@@ -10,7 +10,8 @@
     <div class="w-full">
         <!-- Right first row-->
         <div class="flex justify-between py-1">
-            <div class="font-semibold text-black">{{ cmt.parent_comment.user.username }}</div>
+            <a href="{% url 'accounts:profile' cmt.parent_comment.user.username %}"
+               class="font-semibold text-black">{{ cmt.parent_comment.user.username }}</a>
             <div class="flex items-center space-x-2 sm:pr-2">
                 <span class="text-neutral-content">{{ cmt.parent_comment.created_at|time_ago }}</span>
                 <span class="cursor-pointer">
