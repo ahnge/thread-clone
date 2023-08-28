@@ -8193,10 +8193,6 @@ details.collapse summary::-webkit-details-marker {
   max-width: 48rem;
 }
 
-.max-w-\[12rem\] {
-  max-width: 12rem;
-}
-
 .max-w-xl {
   max-width: 36rem;
 }
@@ -9232,20 +9228,16 @@ details.collapse summary::-webkit-details-marker {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
-.bg-white\/80 {
-  background-color: rgb(255 255 255 / 0.8);
+.bg-white\/30 {
+  background-color: rgb(255 255 255 / 0.3);
+}
+
+.bg-white\/70 {
+  background-color: rgb(255 255 255 / 0.7);
 }
 
 .bg-white\/50 {
   background-color: rgb(255 255 255 / 0.5);
-}
-
-.bg-transparent {
-  background-color: transparent;
-}
-
-.bg-white\/30 {
-  background-color: rgb(255 255 255 / 0.3);
 }
 
 .decoration-slice {
