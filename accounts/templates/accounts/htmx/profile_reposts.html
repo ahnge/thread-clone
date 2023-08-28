@@ -1,0 +1,6 @@
+{% for repost in reposts %}
+    {% include "thread/partials/_thread.html" with thread=repost.thread %}
+    <div class="divider"></div>
+{% empty %}
+    <div class="flex h-96 justify-center items-center">User hasn't reposted anything yet.</div>
+{% endfor %}

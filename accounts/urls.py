@@ -6,6 +6,7 @@ from .views import (
     profile_view,
     profile_threads,
     profile_replies,
+    profile_reposts,
 )
 
 app_name = "accounts"
@@ -17,4 +18,5 @@ urlpatterns = [
     path("profile/<str:username>/", profile_view, name="profile"),
     path("profile/<str:username>/threads/", profile_threads, name="profile_threads"),
     path("profile/<str:username>/replies/", profile_replies, name="profile_replies"),
+    path("profile/<str:username>/reposts/", profile_reposts, name="profile_reposts"),
 ]

@@ -14,6 +14,12 @@
              hx-target="#profile-container">
             <a class="text-center">Replies</a>
         </div>
+        <div class="ptab cursor-pointer py-2 flex-1 w-full flex justify-center"
+             hx-get="{% url 'accounts:profile_reposts' u.username %}"
+             hx-indicator="#profile-indicator"
+             hx-target="#profile-container">
+            <a class="text-center">Reposts</a>
+        </div>
     </div>
     <div class="w-full h-[2px] bg-neutral-content relative -top-[2px] z-20"></div>
     <!-- HTMX indicator -->
@@ -35,7 +41,7 @@
             {% include "thread/partials/_thread.html" with thread=thread %}
             <div class="divider"></div>
         {% empty %}
-            <div class="flex h-96 justify-center items-center">There is no feed yet</div>
+            <div class="flex h-96 justify-center items-center">{{ u.username }} hasn't threaded anything yet.</div>
         {% endfor %}
     </div>
 </div>

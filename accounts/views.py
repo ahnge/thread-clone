@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.core.exceptions import ValidationError
 
-from thread.models import Comment
+from thread.models import Comment, Repost
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -99,7 +99,7 @@ def logout_view(request):
 def profile_view(request, username):
     user = get_object_or_404(User, username=username)
     if request.META.get("HTTP_HX_REQUEST"):
-        return render(request, "accounts/profile.html", {"u": user})
+        return render(request, "accounts/htmx/profile.html", {"u": user})
     return render(request, "accounts/f_profile.html", {"u": user})
 
 
@@ -107,7 +107,7 @@ def profile_view(request, username):
 def profile_threads(request, username):
     user = get_object_or_404(User, username=username)
     if request.META.get("HTTP_HX_REQUEST"):
-        return render(request, "accounts/profile_threads.html", {"u": user})
+        return render(request, "accounts/htmx/profile_threads.html", {"u": user})
     return redirect("accounts:profile", user)
 
 
@@ -122,7 +122,21 @@ def profile_replies(request, username):
     if request.META.get("HTTP_HX_REQUEST"):
         return render(
             request,
-            "accounts/profile_replies.html",
+            "accounts/htmx/profile_replies.html",
             {"u": user, "replies": replies},
+        )
+    return redirect("accounts:profile", user)
+
+
+@login_required
+def profile_reposts(request, username):
+    user = get_object_or_404(User, username=username)
+    reposts = Repost.objects.filter(user=user)
+
+    if request.META.get("HTTP_HX_REQUEST"):
+        return render(
+            request,
+            "accounts/htmx/profile_reposts.html",
+            {"u": user, "replies": reposts},
         )
     return redirect("accounts:profile", user)
