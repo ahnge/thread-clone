@@ -1,18 +1,20 @@
 {% load extra %}
 <div class="avatar-group -space-x-2">
     {% for cmt  in cmts %}
-        {% if cmt.user.myuser.profile_picture %}
-            <div class="avatar">
-                <div class="w-4 sm:w-6 rounded-full">
-                    <img src="{{ cmt.user.myuser.profile_picture.url }}" alt="Profile" />
+        {% if forloop.counter <= 2 %}
+            {% if cmt.user.myuser.profile_picture %}
+                <div class="avatar">
+                    <div class="w-4 sm:w-6 rounded-full">
+                        <img src="{{ cmt.user.myuser.profile_picture.url }}" alt="Profile" />
+                    </div>
                 </div>
-            </div>
-        {% else %}
-            <div class="avatar placeholder">
-                <div class="bg-neutral-focus text-neutral-content rounded-full w-4 sm:w-6">
-                    <span class="text-xs uppercase sm:text-sm">{{ cmt.user.username|ecut }}</span>
+            {% else %}
+                <div class="avatar placeholder">
+                    <div class="bg-neutral-focus text-neutral-content rounded-full w-4 sm:w-6">
+                        <span class="text-xs uppercase sm:text-sm">{{ cmt.user.username|ecut }}</span>
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         {% endif %}
     {% endfor %}
 </div>

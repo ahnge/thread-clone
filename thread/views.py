@@ -159,3 +159,13 @@ def create_reply(request):
                 i += 1
 
     return redirect("thread:feed")
+
+
+@login_required
+def get_thread(request, username, id):
+    thread = get_object_or_404(Thread, pk=id)
+    direct_comments = Comment.objects.filter(thread=thread, parent_comment=None)
+    context = {"thread": thread, "direct_comments": direct_comments}
+    if request.META.get("HTTP_HX_REQUEST"):
+        return render(request, "thread/htmx/thread_page.html", context)
+    return render(request, "thread/f_thread_page.html", context)

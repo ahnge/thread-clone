@@ -1,0 +1,13 @@
+<!-- Thread Page -->
+<div class="w-full pb-16">
+    <!-- Banner -->
+    <div class="flex bg-white border-b-2 justify-between px-3 py-4 sticky top-0 z-50">
+        <div class="text-center cursor-pointer" id="">Back</div>
+        <div class="text-center font-bold">Thread</div>
+        <div class="opacity-0">gibrish</div>
+    </div>
+    <!-- Thread -->
+    {% include "thread/htmx/partials/_thread_section.html" with thread=thread %}
+    <div class="divider my-0"></div>
+    {% include "thread/htmx/partials/_comment_section.html" with comments=direct_comments %}
+</div>

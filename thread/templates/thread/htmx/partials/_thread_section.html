@@ -1,24 +1,10 @@
 {% load extra %}
-<!-- Thread Post -->
-<div class="w-full flex px-2 sm:px-4 space-x-2 sm:space-x-4 text-base sm:text-lg">
-    <!-- Left -->
-    <div class="flex flex-col items-center">
+<!-- Thread Section -->
+<div class="w-full px-2 sm:px-4 text-base sm:text-lg mt-3">
+    <!-- Profile and name -->
+    <div class="flex items-center space-x-3 mb-2">
         {% include "partials/components/_profile_picture.html" with u=thread.user %}
-        {% if thread.comment_count > 0 %}
-            <div class="bg-neutral-content w-[2px] grow my-3 z-10"></div>
-            {% if thread.comment_count == 1 %}
-                {% include "partials/components/_one_small_profile.html" with user=thread.comment.first.user.myuser %}
-            {% elif thread.comment_count == 2 %}
-                {% include "partials/components/_two_small_profile.html" with cmts=thread.comment.all %}
-            {% elif thread.comment_count > 2 %}
-                {% include "partials/components/_three_small_profile.html" with cmts=thread.comment.all %}
-            {% endif %}
-        {% endif %}
-    </div>
-    <!-- Right -->
-    <div class="w-full">
-        <!-- Right first row-->
-        <div class="flex justify-between py-1">
+        <div class="flex justify-between py-1 w-full">
             <a class="font-semibold text-black cursor-pointer"
                href="{% url 'accounts:profile' thread.user.username %}">{{ thread.user.username }}</a>
             <div class="flex items-center space-x-2 sm:pr-2">
@@ -35,26 +21,18 @@
                 </span>
             </div>
         </div>
-        <!-- Right text content -->
-        <p class="text-base-content font-extralight"
-           hx-target="#container"
-           hx-indicator="indicator"
-           hx-push-url="true"
-           hx-trigger="click"
-           hx-get="{% url 'thread:get_thread' username=thread.user.username id=thread.id %}">{{ thread.content }}</p>
-        <!-- Right Image content if any -->
+    </div>
+    <!-- Thread Content -->
+    <div class="w-full">
+        <p class="text-base-content font-extralight">{{ thread.content }}</p>
+        <!-- Image content if any -->
         {% if thread.image_thread.all %}
             {% include "thread/partials/_thread_carousel.html" with thread=thread %}
         {% endif %}
         <!-- Action btns -->
         {% include "thread/partials/_thread_actions.html" with username=thread.user.username id=thread.id is_cmt=0 %}
         <!-- Replys and likes-->
-        <div class="flex text-neutral-content pt-2 space-x-2"
-             hx-target="#container"
-             hx-indicator="indicator"
-             hx-push-url="true"
-             hx-trigger="click"
-             hx-get="{% url 'thread:get_thread' username=thread.user.username id=thread.id %}">
+        <div class="flex text-neutral-content pt-2 space-x-2">
             {% if thread.comment_count > 0 %}
                 <span>{{ thread.comment_count }}
                     {% if thread.comment_count > 1 %}

@@ -17,4 +17,5 @@ urlpatterns = [
         name="get_reply_form",
     ),
     path("get-reply-form-unit/", views.get_reply_form_unit, name="get_reply_form_unit"),
+    path("<str:username>/threads/<int:id>/", views.get_thread, name="get_thread"),
 ]
