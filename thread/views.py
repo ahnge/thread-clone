@@ -169,3 +169,12 @@ def get_thread(request, username, id):
     if request.META.get("HTTP_HX_REQUEST"):
         return render(request, "thread/htmx/thread_page.html", context)
     return render(request, "thread/f_thread_page.html", context)
+
+
+@login_required
+def get_reply(request, username, id):
+    comment = get_object_or_404(Comment, pk=id)
+    context = {"comment": comment}
+    if request.META.get("HTTP_HX_REQUEST"):
+        return render(request, "thread/htmx/reply_page.html", context)
+    return render(request, "thread/f_reply_page.html", context)

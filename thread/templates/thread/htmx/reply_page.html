@@ -1,0 +1,25 @@
+<!-- Reply page -->
+<div class="w-full pb-16">
+    <!-- Banner -->
+    <div class="flex bg-white border-b-2 justify-between px-3 py-4 sticky top-0 z-50">
+        <div class="text-center cursor-pointer"
+             onclick="window.history.go(-1); return false;">Back</div>
+        <div class="text-center font-bold">Reply</div>
+        <div class="opacity-0">gibrish</div>
+    </div>
+    <!-- The margin dude-->
+    <div class="opacity-0 my-3"></div>
+    <!-- The thread -->
+    {% include "accounts/partials/_profile_reply_thread.html" with cmt=comment %}
+    <!-- The Hierarchy comments -->
+    {% for cmt  in comment.get_comment_hierarchy %}
+        {% include "thread/htmx/partials/_h_comment.html" with cmt=cmt %}
+    {% endfor %}
+    <!-- The comment -->
+    {% include "thread/htmx/partials/_comment.html" with comment=comment %}
+    {% if comment.sub_comment.all %}
+        <div class="divider my-0"></div>
+        <!-- Child comments -->
+        {% include "thread/htmx/partials/_comment_section.html" with comments=comment.sub_comment.all %}
+    {% endif %}
+</div>

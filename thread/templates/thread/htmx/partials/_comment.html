@@ -1,14 +1,14 @@
 {% load extra %}
-<!-- Thread Section -->
-<div class="w-full px-2 sm:px-4 text-base sm:text-lg">
+<!-- Comment -->
+<div class="w-full px-2 sm:px-4 text-base sm:text-lg mt-3">
     <!-- Profile and name -->
     <div class="flex items-center space-x-3 mb-2">
-        {% include "partials/components/_profile_picture.html" with u=thread.user %}
+        {% include "partials/components/_profile_picture.html" with u=comment.user %}
         <div class="flex justify-between py-1 w-full">
             <a class="font-semibold text-black cursor-pointer"
-               href="{% url 'accounts:profile' thread.user.username %}">{{ thread.user.username }}</a>
+               href="{% url 'accounts:profile' comment.user.username %}">{{ comment.user.username }}</a>
             <div class="flex items-center space-x-2 sm:pr-2">
-                <span class="text-neutral-content">{{ thread.created_at|time_ago }}</span>
+                <span class="text-neutral-content">{{ comment.created_at|time_ago }}</span>
                 <span class="cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg"
                          fill="none"
@@ -22,20 +22,20 @@
             </div>
         </div>
     </div>
-    <!-- Thread Content -->
+    <!-- Comment Content -->
     <div class="w-full">
-        <p class="text-base-content font-extralight">{{ thread.content }}</p>
+        <p class="text-base-content font-extralight">{{ comment.content }}</p>
         <!-- Image content if any -->
-        {% if thread.image_thread.all %}
-            {% include "thread/partials/_thread_carousel.html" with thread=thread %}
+        {% if comment.comment_image.all %}
+            {% include "accounts/partials/_comment_carousel.html" with cmt=comment %}
         {% endif %}
         <!-- Action btns -->
-        {% include "thread/partials/_thread_actions.html" with username=thread.user.username id=thread.id is_cmt=0 %}
+        {% include "thread/partials/_thread_actions.html" with username=comment.user.username id=comment.id is_cmt=1 %}
         <!-- Replys and likes-->
         <div class="flex text-neutral-content pt-2 space-x-2">
-            {% if thread.comment_count > 0 %}
-                <span class="cursor-pointer hover:underline">{{ thread.comment_count }}
-                    {% if thread.comment_count > 1 %}
+            {% if comment.comment_count > 0 %}
+                <span class="cursor-pointer hover:underline">{{ comment.comment_count }}
+                    {% if comment.comment_count > 1 %}
                         replies
                     {% else %}
                         reply
@@ -43,7 +43,7 @@
                 </span>
                 <span>.</span>
             {% endif %}
-            <span>{{ thread.likes_count }} like{{ thread.likes_count|pluralize }}</span>
+            <span>{{ comment.likes_count }} like{{ comment.likes_count|pluralize }}</span>
         </div>
     </div>
 </div>
