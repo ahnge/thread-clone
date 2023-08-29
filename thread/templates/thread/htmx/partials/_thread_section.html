@@ -24,7 +24,7 @@
     </div>
     <!-- Thread Content -->
     <div class="w-full">
-        <p class="text-base-content font-extralight">{{ thread.content }}</p>
+        <p class="text-base-content font-extralight cursor-pointer">{{ thread.content }}</p>
         <!-- Image content if any -->
         {% if thread.image_thread.all %}
             {% include "thread/partials/_thread_carousel.html" with thread=thread %}
@@ -34,7 +34,7 @@
         <!-- Replys and likes-->
         <div class="flex text-neutral-content pt-2 space-x-2">
             {% if thread.comment_count > 0 %}
-                <span>{{ thread.comment_count }}
+                <span class="cursor-pointer hover:underline">{{ thread.comment_count }}
                     {% if thread.comment_count > 1 %}
                         replies
                     {% else %}
