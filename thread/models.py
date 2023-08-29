@@ -93,7 +93,7 @@ class Comment(models.Model):
         ordering = ["-created_at"]
 
     def get_comment_hierarchy(self):
-        hierarchy = [self]
+        hierarchy = []
         parent_comment = self.parent_comment
 
         while parent_comment:
