@@ -86,11 +86,21 @@ class Comment(models.Model):
         related_name="sub_comment",
     )
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     class Meta:
         ordering = ["-created_at"]
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    def get_comment_hierarchy(self):
+        hierarchy = [self]
+        parent_comment = self.parent_comment
+
+        while parent_comment:
+            hierarchy.insert(0, parent_comment)
+            parent_comment = parent_comment.parent_comment
+
+        return hierarchy
 
     def save(self, *args, **kwargs):
         # Check if this is a new comment or an existing one being updated
