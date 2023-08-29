@@ -1,14 +1,14 @@
 {% load extra %}
-{% if user.profile_picture %}
+{% if user.myuser.profile_picture %}
     <div class="avatar">
         <div class="w-4 sm:w-8 rounded-full">
-            <img src="{{ user.profile_picture.url }}" alt="Profile" />
+            <img src="{{ user.myuser.profile_picture.url }}" alt="Profile" />
         </div>
     </div>
 {% else %}
     <div class="avatar placeholder">
         <div class="bg-neutral-focus text-neutral-content rounded-full w-4 sm:w-8">
-            <span class="text-xs uppercase sm:text-sm">{{ user.user.username|ecut }}</span>
+            <span class="text-xs uppercase sm:text-sm">{{ user.username|ecut }}</span>
         </div>
     </div>
 {% endif %}

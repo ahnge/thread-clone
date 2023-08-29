@@ -7,7 +7,7 @@
         {% if thread.comment_count > 0 %}
             <div class="bg-neutral-content w-[2px] grow my-3 z-10"></div>
             {% if thread.comment_count == 1 %}
-                {% include "partials/components/_one_small_profile.html" with user=thread.comment.first.user.myuser %}
+                {% include "partials/components/_one_small_profile.html" with user=thread.comment.first.user %}
             {% elif thread.comment_count == 2 %}
                 {% include "partials/components/_two_small_profile.html" with cmts=thread.comment.all %}
             {% elif thread.comment_count > 2 %}
