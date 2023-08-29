@@ -36,7 +36,7 @@
             </div>
         </div>
         <!-- Right text content -->
-        <p class="text-base-content font-extralight"
+        <p class="text-base-content font-extralight cursor-pointer"
            hx-target="#container"
            hx-indicator="indicator"
            hx-push-url="true"
@@ -49,14 +49,15 @@
         <!-- Action btns -->
         {% include "thread/partials/_thread_actions.html" with username=thread.user.username id=thread.id is_cmt=0 %}
         <!-- Replys and likes-->
-        <div class="flex text-neutral-content pt-2 space-x-2"
-             hx-target="#container"
-             hx-indicator="indicator"
-             hx-push-url="true"
-             hx-trigger="click"
-             hx-get="{% url 'thread:get_thread' username=thread.user.username id=thread.id %}">
+        <div class="flex text-neutral-content pt-2 space-x-2">
             {% if thread.comment_count > 0 %}
-                <span>{{ thread.comment_count }}
+                <span class="cursor-pointer hover:underline"
+                      hx-target="#container"
+                      hx-indicator="indicator"
+                      hx-push-url="true"
+                      hx-trigger="click"
+                      hx-get="{% url 'thread:get_thread' username=thread.user.username id=thread.id %}">
+                    {{ thread.comment_count }}
                     {% if thread.comment_count > 1 %}
                         replies
                     {% else %}

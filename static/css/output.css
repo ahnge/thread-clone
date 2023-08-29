@@ -7989,6 +7989,10 @@ details.collapse summary::-webkit-details-marker {
   margin-left: -3rem;
 }
 
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
 .mt-2 {
   margin-top: 0.5rem;
 }
@@ -7999,10 +8003,6 @@ details.collapse summary::-webkit-details-marker {
 
 .mt-5 {
   margin-top: 1.25rem;
-}
-
-.mb-2 {
-  margin-bottom: 0.5rem;
 }
 
 .box-border {
@@ -9437,10 +9437,6 @@ details.collapse summary::-webkit-details-marker {
   padding-top: 2rem;
 }
 
-.pb-10 {
-  padding-bottom: 2.5rem;
-}
-
 .text-left {
   text-align: left;
 }
@@ -10187,6 +10183,10 @@ details.collapse summary::-webkit-details-marker {
 .hover\:text-red-500:hover {
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity));
+}
+
+.hover\:underline:hover {
+  text-decoration-line: underline;
 }
 
 .before\:hover\:text-center:hover::before {
