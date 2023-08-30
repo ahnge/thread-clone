@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.core.exceptions import ValidationError
 from django.db.models import Q
+from django.contrib import messages
+
 
 from thread.models import Comment, Repost
 
@@ -60,6 +62,7 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            messages.success(request, "Registration success.")
             return redirect("thread")
         return render(request, "registration/register.html", {"form": form})
     elif request.method == "GET":
@@ -75,6 +78,7 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
+            messages.success(request, "Successfully logined.")
             return redirect("thread:home")
         else:
             form = AuthenticationForm(request.POST)

@@ -158,6 +158,8 @@ def create_reply(request):
                 create_cmt_images(image_list=image_list[left:right], comment=child_cmt)
                 i += 1
 
+        messages.success(request, "Reply created successfully.")
+
     return redirect("thread:feed")
 
 
