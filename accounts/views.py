@@ -4,6 +4,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate, logout
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 
 from thread.models import Comment, Repost
 
@@ -114,10 +115,9 @@ def profile_threads(request, username):
 @login_required
 def profile_replies(request, username):
     user = get_object_or_404(User, username=username)
-    replies = (
-        Comment.objects.filter(user=user)
-        .exclude(thread__user=user)
-        .exclude(parent_comment__user=user)
+    replies = Comment.objects.filter(user=user).exclude(
+        Q(parent_comment__isnull=False, parent_comment__user=user)
+        | Q(parent_comment__isnull=True, thread__user=user)
     )
     if request.META.get("HTTP_HX_REQUEST"):
         return render(

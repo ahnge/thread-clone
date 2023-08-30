@@ -27,7 +27,14 @@
             </div>
         </div>
         <!-- Right text content -->
-        <p class="text-base-content font-extralight">{{ cmt.parent_comment.content }}</p>
+        <p class="text-base-content font-extralight cursor-pointer"
+           hx-target="#container"
+           hx-indicator="#indicator"
+           hx-push-url="true"
+           hx-trigger="click"
+           hx-get="{% url 'thread:get_reply' username=cmt.user.username id=cmt.id %}">
+            {{ cmt.parent_comment.content }}
+        </p>
         <!-- Right Image content if any -->
         {% if cmt.parent_comment.comment_image.all %}
             {% include "accounts/partials/_comment_carousel.html" with cmt=cmt.parent_comment %}
@@ -37,7 +44,12 @@
         <!-- Replys and likes-->
         <div class="flex text-neutral-content pt-2 space-x-2">
             {% if cmt.parent_comment.comment_count > 0 %}
-                <span>{{ cmt.parent_comment.comment_count }}
+                <span class="cursor-pointer hover:underline"
+                      hx-target="#container"
+                      hx-indicator="#indicator"
+                      hx-push-url="true"
+                      hx-trigger="click"
+                      hx-get="{% url 'thread:get_reply' username=cmt.user.username id=cmt.id %}">{{ cmt.parent_comment.comment_count }}
                     {% if cmt.parent_comment.comment_count > 1 %}
                         replies
                     {% else %}
