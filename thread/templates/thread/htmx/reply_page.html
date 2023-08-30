@@ -18,7 +18,6 @@
     <!-- The comment -->
     {% include "thread/htmx/partials/_comment.html" with comment=comment %}
     {% if comment.sub_comment.all %}
-        <div class="divider my-0"></div>
         <!-- Child comments -->
         {% include "thread/htmx/partials/_comment_section.html" with comments=comment.sub_comment.all %}
     {% endif %}
