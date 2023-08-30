@@ -20,5 +20,7 @@
     {% if comment.sub_comment.all %}
         <!-- Child comments -->
         {% include "thread/htmx/partials/_comment_section.html" with comments=comment.sub_comment.all %}
+    {% else %}
+        <div class="pb-16"></div>
     {% endif %}
 </div>

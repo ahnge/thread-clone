@@ -7909,6 +7909,14 @@ details.collapse summary::-webkit-details-marker {
   top: 100%;
 }
 
+.bottom-1\/4 {
+  bottom: 25%;
+}
+
+.bottom-\[20\%\] {
+  bottom: 20%;
+}
+
 .isolate {
   isolation: isolate;
 }
