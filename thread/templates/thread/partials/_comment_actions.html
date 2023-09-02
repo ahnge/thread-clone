@@ -1,11 +1,12 @@
 <div class="flex text-black">
-    <div class="cursor-pointer p-2 rounded-full hover:bg-gray-400/10 like-thread"
-         {% if thread in user.liked_threads.all %} x-data="{ red: true }" {% else %} x-data="{ red: false}" {% endif %}
+    <div class="cursor-pointer p-2 rounded-full hover:bg-gray-400/10 like-comment"
+         {% if cmt in user.liked_comments.all %}x-data="{ red: true }" {% else %} x-data="{ red: false}" {% endif %}
          :class="red ? 'text-red-600' : ''"
-         hx-post="{% url 'thread:like_thread_toggle' thread.id %}"
          @click="red = ! red"
+         hx-post="{% url 'thread:like_comment_toggle' cmt.id %}"
          hx-swap="none"
-         hx-trigger="click">
+         hx-trigger="click"
+         >
         <svg xmlns="http://www.w3.org/2000/svg"
              x-bind:fill="red ? 'currentColor' : 'none'"
              viewBox="0 0 24 24"
@@ -16,7 +17,7 @@
         </svg>
     </div>
     <div class="cursor-pointer p-2 rounded-full hover:bg-gray-400/10 reply-action"
-         hx-get="{% url 'thread:get_thread_reply_form' id=thread.id %}"
+         hx-get="{% url 'thread:get_comment_reply_form' id=cmt.id %}"
          hx-indicator="#reply-indicator"
          hx-target="#reply-container">
         <svg xmlns="http://www.w3.org/2000/svg"

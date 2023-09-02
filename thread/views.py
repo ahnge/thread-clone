@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import HttpResponse
+import json
 
-from .models import Thread, Comment
+from .models import Thread, Comment, Like, LikeComment
 from .utils import (
     create_thread_post,
     create_thread_images,
@@ -92,15 +94,20 @@ def get_thread_form_unit(request):
 
 
 @login_required
-def get_reply_form(request, username, id):
+def get_thread_reply_form(request, id):
     if request.META.get("HTTP_HX_REQUEST"):
-        is_cmt = request.GET.get("is_cmt")[0]
-        if int(is_cmt) == 1:
-            post = get_object_or_404(Comment, pk=id)
-        else:
-            post = get_object_or_404(Thread, pk=id)
-        context = {"post": post}
-        return render(request, "partials/htmx/_reply_form.html", context)
+        thread = get_object_or_404(Thread, pk=id)
+        context = {"thread": thread}
+        return render(request, "partials/htmx/_thread_reply_form.html", context)
+    return redirect("thread:feed")
+
+
+@login_required
+def get_comment_reply_form(request, id):
+    if request.META.get("HTTP_HX_REQUEST"):
+        comment = get_object_or_404(Comment, pk=id)
+        context = {"comment": comment}
+        return render(request, "partials/htmx/_comment_reply_form.html", context)
     return redirect("thread:feed")
 
 
@@ -180,3 +187,29 @@ def get_reply(request, username, id):
     if request.META.get("HTTP_HX_REQUEST"):
         return render(request, "thread/htmx/reply_page.html", context)
     return render(request, "thread/f_reply_page.html", context)
+
+
+@login_required
+def like_thread_toggle(request, id):
+    if request.method == "POST":
+        thread = get_object_or_404(Thread, pk=id)
+        try:
+            like_obj = Like.objects.get(thread=thread, user=request.user)
+            like_obj.delete()
+        except Like.DoesNotExist:
+            Like.objects.create(thread=thread, user=request.user)
+        return HttpResponse("Success!")
+    return redirect("thread:feed")
+
+
+@login_required
+def like_comment_toggle(request, id):
+    if request.META.get("HTTP_HX_REQUEST"):
+        comment = get_object_or_404(Comment, pk=id)
+        try:
+            like_cmt_obj = LikeComment.objects.get(comment=comment, user=request.user)
+            like_cmt_obj.delete()
+        except LikeComment.DoesNotExist:
+            LikeComment.objects.create(comment=comment, user=request.user)
+        return HttpResponse("Success!")
+    return redirect("thread:feed")

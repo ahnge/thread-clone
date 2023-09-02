@@ -1,5 +1,14 @@
 from django.contrib import admin
-from .models import Thread, ThreadImage, Like, Repost, Comment, CommentImage, Follow
+from .models import (
+    Thread,
+    ThreadImage,
+    Like,
+    Repost,
+    Comment,
+    CommentImage,
+    Follow,
+    LikeComment,
+)
 
 
 # Define an Inline for ThreadImages
@@ -30,6 +39,12 @@ class CommentAdmin(admin.ModelAdmin):
 @admin.register(Like)
 class LikeAdmin(admin.ModelAdmin):
     list_display = ["user", "thread", "created_at"]
+    list_filter = ["user"]
+
+
+@admin.register(LikeComment)
+class LikeCommentAdmin(admin.ModelAdmin):
+    list_display = ["user", "comment", "created_at"]
     list_filter = ["user"]
 
 

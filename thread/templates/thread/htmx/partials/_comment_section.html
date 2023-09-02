@@ -48,7 +48,7 @@
                     {% include "accounts/partials/_comment_carousel.html" with cmt=cmt %}
                 {% endif %}
                 <!-- Action btns -->
-                {% include "thread/partials/_thread_actions.html" with username=cmt.user.username id=cmt.id is_cmt=1 %}
+                {% include "thread/partials/_comment_actions.html" with cmt=cmt %}
                 <!-- Replys and likes-->
                 <div class="flex text-neutral-content pt-2 space-x-2">
                     {% if cmt.comment_count > 0 %}

@@ -30,7 +30,7 @@
             {% include "thread/partials/_thread_carousel.html" with thread=thread %}
         {% endif %}
         <!-- Action btns -->
-        {% include "thread/partials/_thread_actions.html" with username=thread.user.username id=thread.id is_cmt=0 %}
+        {% include "thread/partials/_thread_actions.html" with thread=thread %}
         <!-- Replys and likes-->
         <div class="flex text-neutral-content pt-2 space-x-2">
             {% if thread.comment_count > 0 %}

@@ -7865,8 +7865,8 @@ details.collapse summary::-webkit-details-marker {
   bottom: 0px;
 }
 
-.bottom-20 {
-  bottom: 5rem;
+.bottom-\[20\%\] {
+  bottom: 20%;
 }
 
 .end-1 {
@@ -7907,14 +7907,6 @@ details.collapse summary::-webkit-details-marker {
 
 .top-full {
   top: 100%;
-}
-
-.bottom-1\/4 {
-  bottom: 25%;
-}
-
-.bottom-\[20\%\] {
-  bottom: 20%;
 }
 
 .isolate {
@@ -8011,10 +8003,6 @@ details.collapse summary::-webkit-details-marker {
 
 .mt-5 {
   margin-top: 1.25rem;
-}
-
-.mt-1 {
-  margin-top: 0.25rem;
 }
 
 .box-border {
@@ -8766,12 +8754,6 @@ details.collapse summary::-webkit-details-marker {
   margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
 }
 
-.space-x-1 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(0.25rem * var(--tw-space-x-reverse));
-  margin-left: calc(0.25rem * calc(1 - var(--tw-space-x-reverse)));
-}
-
 .space-y-reverse > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 1;
 }
@@ -9400,6 +9382,11 @@ details.collapse summary::-webkit-details-marker {
   padding-right: 1.5rem;
 }
 
+.px-8 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
@@ -9413,16 +9400,6 @@ details.collapse summary::-webkit-details-marker {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
-}
-
-.py-10 {
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
-}
-
-.px-8 {
-  padding-left: 2rem;
-  padding-right: 2rem;
 }
 
 .pb-11 {
@@ -9455,10 +9432,6 @@ details.collapse summary::-webkit-details-marker {
 
 .pt-2 {
   padding-top: 0.5rem;
-}
-
-.pt-3 {
-  padding-top: 0.75rem;
 }
 
 .pt-7 {
@@ -9676,6 +9649,11 @@ details.collapse summary::-webkit-details-marker {
 .text-neutral-content {
   --tw-text-opacity: 1;
   color: hsl(var(--nc) / var(--tw-text-opacity));
+}
+
+.text-red-600 {
+  --tw-text-opacity: 1;
+  color: rgb(220 38 38 / var(--tw-text-opacity));
 }
 
 .text-white {
@@ -10203,19 +10181,6 @@ details.collapse summary::-webkit-details-marker {
   }
 }
 
-.hover\:bg-gray-400:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-gray-400\/50:hover {
-  background-color: rgb(156 163 175 / 0.5);
-}
-
-.hover\:bg-gray-400\/20:hover {
-  background-color: rgb(156 163 175 / 0.2);
-}
-
 .hover\:bg-gray-400\/10:hover {
   background-color: rgb(156 163 175 / 0.1);
 }
@@ -10227,11 +10192,6 @@ details.collapse summary::-webkit-details-marker {
 .hover\:text-black:hover {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
-}
-
-.hover\:text-red-500:hover {
-  --tw-text-opacity: 1;
-  color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 
 .hover\:underline:hover {

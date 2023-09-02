@@ -9,6 +9,8 @@
         <script src="https://unpkg.com/htmx.org@1.9.4"
                 integrity="sha384-zUfuhFKKZCbHTY6aRR46gxiqszMk5tcHjsVFxnUo8VMus4kHGVdIYVbOYYNlKmHV"
                 crossorigin="anonymous"></script>
+        <script defer
+                src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.0/dist/cdn.min.js"></script>
         <script defer src="{% static 'js/tabs.js' %}"></script>
         <script defer src="{% static 'js/newThread.js' %}"></script>
         <script defer src="{% static 'js/messages.js' %}"></script>
@@ -60,6 +62,11 @@
                 {% endfor %}
             </ul>
         {% endif %}
+        <script>
+            document.body.addEventListener('htmx:configRequest', (event) => {
+                event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+            })
+        </script>
         <a href="{% url 'accounts:logout' %}"
            class="btn fixed right-0 bottom-0 z-50">Logout</a>
     </body>

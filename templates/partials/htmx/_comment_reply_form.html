@@ -1,12 +1,7 @@
 {% load static %}
 {% load extra %}
-{% if post.thread %}
-    <!-- Reply comment -->
-    {% include "partials/htmx/components/_reply_comment.html" with comment=post %}
-{% else %}
-    <!-- Reply thread -->
-    {% include "partials/htmx/components/_reply_thread.html" with thread=post %}
-{% endif %}
+<!-- Reply comment -->
+{% include "partials/htmx/components/_reply_comment.html" with comment=comment %}
 <!-- Reply form-->
 <form enctype="multipart/form-data"
       action="{% url 'thread:create_reply' %}"
@@ -45,7 +40,7 @@
                 <!-- Form inner unit -->
                 <div class="flex flex-col mt-3 space-y-2">
                     <textarea name="content"
-                              placeholder="Reply to {{thread.user.username}}"
+                              placeholder="Reply to {{comment.user.username}}"
                               autofocus
                               width="100%"
                               height="auto"

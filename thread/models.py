@@ -8,6 +8,9 @@ class Thread(models.Model):
     likes_count = models.PositiveIntegerField(default=0)
     comment_count = models.PositiveIntegerField(default=0)
     repost_count = models.PositiveIntegerField(default=0)
+    liked_users = models.ManyToManyField(
+        User, through="Like", related_name="liked_threads", blank=True
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -30,7 +33,7 @@ class ThreadImage(models.Model):
 
 
 class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="liked_threads")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -84,6 +87,9 @@ class Comment(models.Model):
         null=True,
         blank=True,
         related_name="sub_comment",
+    )
+    liked_users = models.ManyToManyField(
+        User, through="LikeComment", related_name="liked_comments", blank=True
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
