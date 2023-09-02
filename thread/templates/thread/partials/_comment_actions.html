@@ -1,12 +1,11 @@
-<div class="flex text-black">
+<div class="flex text-black" x-data>
     <div class="cursor-pointer p-2 rounded-full hover:bg-gray-400/10 like-comment"
          {% if cmt in user.liked_comments.all %}x-data="{ red: true }" {% else %} x-data="{ red: false}" {% endif %}
          :class="red ? 'text-red-600' : ''"
-         @click="red = ! red"
+         @click="$dispatch('toggle-like-cmt-{{ cmt.id }}', {red: red}); red = !red"
          hx-post="{% url 'thread:like_comment_toggle' cmt.id %}"
          hx-swap="none"
-         hx-trigger="click"
-         >
+         hx-trigger="click">
         <svg xmlns="http://www.w3.org/2000/svg"
              x-bind:fill="red ? 'currentColor' : 'none'"
              viewBox="0 0 24 24"

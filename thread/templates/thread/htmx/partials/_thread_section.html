@@ -43,7 +43,7 @@
                 </span>
                 <span>.</span>
             {% endif %}
-            <span>{{ thread.likes_count }} like{{ thread.likes_count|pluralize }}</span>
+            <span class="" x-data="{ lc: {{ thread.likes_count }}, lcc: ' like{{ thread.likes_count|pluralize }}' }" x-text="lc + lcc" @toggle-like-thread-{{ thread.id }}.window="$event.detail.red ? lc -= 1 : lc += 1"></span>
         </div>
     </div>
 </div>

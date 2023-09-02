@@ -60,7 +60,7 @@
                 </span>
                 <span>.</span>
             {% endif %}
-            <span>{{ cmt.likes_count }} like{{ cmt.likes_count|pluralize }}</span>
+            <span x-data="{ lc: {{ cmt.likes_count }}, lcc: ' like{{ cmt.likes_count|pluralize }}' }" x-text="lc + lcc" @toggle-like-cmt-{{ cmt.id }}.window="$event.detail.red ? lc -= 1 : lc += 1"></span>
         </div>
     </div>
 </div>
