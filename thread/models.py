@@ -30,7 +30,7 @@ class ThreadImage(models.Model):
 
 
 class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="liked_threads")
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -122,6 +122,33 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment: {self.content[:20]}"
+
+
+class LikeComment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        # Ensures a user can only like a thread once
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "comment"], name="unique_like_comment"
+            )
+        ]
+
+    def save(self, *args, **kwargs):
+        super(LikeComment, self).save(*args, **kwargs)
+        # Update the like_count of the related comment
+        self.comment.likes_count = LikeComment.objects.filter(
+            comment=self.comment
+        ).count()
+        self.comment.save()
+
+    def __str__(self):
+        return f"{self.user.username} liked {self.comment.content[:20]}"
 
 
 class CommentImage(models.Model):
