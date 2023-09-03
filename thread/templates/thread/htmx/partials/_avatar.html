@@ -1,0 +1,29 @@
+{% load static %}
+{% load extra %}
+<!-- Avatar -->
+<a href="{% url 'accounts:profile' u.username %}">
+    {% if u.myuser.profile_picture %}
+        <div className="avatar">
+            <div>
+                <img src="{{ u.myuser.profile_picture.url }}"
+                     class="w-12 rounded-full"
+                     alt="Profile of {{ user.username }}" />
+            </div>
+        </div>
+    {% else %}
+        <div class="avatar placeholder">
+            <div class="bg-neutral-focus text-neutral-content rounded-full w-12">
+                <span>{{ u.username|ecut }}</span>
+            </div>
+        </div>
+    {% endif %}
+</a>
+<!-- usernames -->
+<div class="flex-grow flex items-center border-b-[1px] border-gray-200 pb-4">
+    <a href="{% url 'accounts:profile' u.username %}" class="flex-grow">
+        <div class="font-semibold hover:underline">{{ u.username }}</div>
+        <div>{{ u.firstname }} {{ u.lastname }}</div>
+        <div>{{ u.followers.all.count }} follower{{ u.followers.all.count|pluralize }}</div>
+    </a>
+    <div class="py-1 px-4 bg-white border border-gray-200 h-fit rounded-md font-bold">Follow</div>
+</div>

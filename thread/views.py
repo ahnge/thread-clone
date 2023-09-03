@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponse
-import json
+from django.contrib.auth.models import User
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from .models import Thread, Comment, Like, LikeComment
 from .utils import (
@@ -213,3 +214,28 @@ def like_comment_toggle(request, id):
             LikeComment.objects.create(comment=comment, user=request.user)
         return HttpResponse("Success!")
     return redirect("thread:feed")
+
+
+@login_required
+def search(request):
+    users = User.objects.all().order_by("-date_joined")
+    paginator = Paginator(users, 10)
+    page_number = request.GET.get("page") or 1
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_number = 1
+    except EmptyPage:
+        page_number = 1
+
+    page_obj = paginator.page(page_number)
+
+    if request.META.get("HTTP_HX_REQUEST") and int(page_number) > 1:
+        return render(
+            request, "thread/htmx/partials/_more_search.html", {"page_obj": page_obj}
+        )
+
+    if request.META.get("HTTP_HX_REQUEST"):
+        return render(request, "thread/htmx/search.html", {"page_obj": page_obj})
+    return render(request, "thread/f_search.html", {"page_obj": page_obj})
