@@ -22,7 +22,7 @@ def home(request):
 @login_required
 def feed(request):
     threads = Thread.objects.all()
-    paginator = Paginator(threads, 3)
+    paginator = Paginator(threads, 10)
     page_number = request.GET.get("page") or 1
 
     try:
