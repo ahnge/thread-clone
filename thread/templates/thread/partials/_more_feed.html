@@ -1,0 +1,20 @@
+<!-- More Feed -->
+<div class="flex flex-col justify-start w-full overflow-y-scroll"
+     id="feed-container">
+    {% for thread in threads %}
+        {% if forloop.last and threads.next_page_number %}
+            <div class="last-feed-item"
+                 hx-get="{% url 'thread:feed' %}?page={{ threads.next_page_number }}"
+                 hx-trigger="revealed"
+                 hx-indicator="#feed-indicator"
+                 hx-target="#feed-container"
+                 hx-swap="afterend">{% include "thread/partials/_thread.html" with thread=thread %}</div>
+        {% elif forloop.last %}
+            <div>{% include "thread/partials/_thread.html" with thread=thread %}</div>
+        {% else %}
+            <div>{% include "thread/partials/_thread.html" with thread=thread %}</div>
+        {% endif %}
+    {% empty %}
+        <div class="h-96 flex justify-center items-center">There is no feed yet.</div>
+    {% endfor %}
+</div>

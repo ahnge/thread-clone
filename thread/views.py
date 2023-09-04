@@ -22,9 +22,22 @@ def home(request):
 @login_required
 def feed(request):
     threads = Thread.objects.all()
-    context = {"threads": threads}
+    paginator = Paginator(threads, 3)
+    page_number = request.GET.get("page") or 1
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_number = 1
+    except EmptyPage:
+        page_number = 1
+
+    page_obj = paginator.page(page_number)
+    context = {"threads": page_obj}
+    if request.META.get("HTTP_HX_REQUEST") and int(page_number) > 1:
+        return render(request, "thread/partials/_more_feed.html", context)
     if request.META.get("HTTP_HX_REQUEST"):
-        return render(request, "thread/feed.html", context)
+        return render(request, "thread/partials/_feed.html", context)
     return render(request, "thread/f_feed.html", context)
 
 
