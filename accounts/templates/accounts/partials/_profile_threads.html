@@ -39,7 +39,6 @@
          id="profile-container">
         {% for thread in u.thread.all %}
             {% include "thread/partials/_thread.html" with thread=thread %}
-            <div class="divider"></div>
         {% empty %}
             <div class="flex h-96 justify-center items-center">{{ u.username }} hasn't threaded anything yet.</div>
         {% endfor %}
