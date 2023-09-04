@@ -13,8 +13,11 @@ htmx.find("#reply-close").addEventListener("click", () => {
   htmx.addClass(htmx.find("#reply-popup"), "top-full");
 });
 
-htmx.find("#container").addEventListener("htmx:afterSwap", () => {
+htmx.find("#container").addEventListener("htmx:afterSwap", (evt) => {
   var replyActions = htmx.findAll(".reply-action");
+  if (htmx.find("#container") == evt.detail.target) {
+    window.scrollTo(0, 0);
+  }
 
   [...replyActions].forEach((ra) => {
     ra.addEventListener("click", () => {

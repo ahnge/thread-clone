@@ -1,9 +1,9 @@
 <div class="w-full pb-16">
     <div id="comment-section">
-        {% for cmt in comments %}
+        {% for cmt in direct_comments %}
             <div class="divider my-0"></div>
-            {% if forloop.last and comments.next_page_number %}
-                <div hx-get="{% url 'thread:get_thread' cmt.thread.user.username cmt.thread.id %}?page={{ comments.next_page_number }}"
+            {% if forloop.last and direct_comments.next_page_number %}
+                <div hx-get="{% url 'thread:get_thread' cmt.thread.user.username cmt.thread.id %}?page={{ direct_comments.next_page_number }}"
                      hx-trigger="revealed"
                      hx-indicator="#more-comment-section-indicator"
                      hx-swap="afterend">

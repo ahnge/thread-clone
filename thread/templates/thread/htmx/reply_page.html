@@ -17,9 +17,9 @@
     {% endfor %}
     <!-- The comment -->
     {% include "thread/htmx/partials/_comment.html" with comment=comment %}
-    {% if comment.sub_comment.all %}
+    {% if sub_comments %}
         <!-- Child comments -->
-        {% include "thread/htmx/partials/_comment_section.html" with comments=comment.sub_comment.all %}
+        {% include "thread/htmx/partials/_comment_section_for_reply_page.html" with sub_comments=sub_comments %}
     {% else %}
         <div class="pb-16"></div>
     {% endif %}

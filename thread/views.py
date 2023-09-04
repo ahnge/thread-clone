@@ -214,7 +214,7 @@ def get_thread(request, username, id):
     context = {"thread": thread, "direct_comments": page_obj}
     if request.META.get("HTTP_HX_REQUEST") and int(page_number) > 1:
         return render(
-            request, "thread/htmx/partials/_more_comment_section.html", context
+            request, "thread/htmx/partials/_more_comment_section_for_thread_page.html", context
         )
     if request.META.get("HTTP_HX_REQUEST"):
         return render(request, "thread/htmx/thread_page.html", context)
@@ -224,7 +224,25 @@ def get_thread(request, username, id):
 @login_required
 def get_reply(request, username, id):
     comment = get_object_or_404(Comment, pk=id)
-    context = {"comment": comment}
+    sub_comments = Comment.objects.filter(parent_comment=comment, thread=comment.thread)
+    print(sub_comments)
+
+    paginator = Paginator(sub_comments, 3)
+    page_number = request.GET.get("page") or 1
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_number = 1
+    except EmptyPage:
+        page_number = 1
+
+    page_obj = paginator.page(page_number)
+    context = {"comment": comment, "sub_comments": page_obj}
+    if request.META.get("HTTP_HX_REQUEST") and int(page_number) > 1:
+        return render(
+            request, "thread/htmx/partials/_more_comment_section_for_reply_page.html", context
+        )
     if request.META.get("HTTP_HX_REQUEST"):
         return render(request, "thread/htmx/reply_page.html", context)
     return render(request, "thread/f_reply_page.html", context)
