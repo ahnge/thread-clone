@@ -183,10 +183,14 @@ def create_reply(request):
 
         if parent_comment:
             return redirect(
-                "thread:get_reply", username=parent_comment.user.username, id=int(comment_id)
+                "thread:get_reply",
+                username=parent_comment.user.username,
+                id=int(comment_id),
             )
         else:
-            return redirect("thread:get_thread",username=thread.user.username, id=int(thread_id))
+            return redirect(
+                "thread:get_thread", username=thread.user.username, id=int(thread_id)
+            )
 
     return redirect("thread:feed")
 
@@ -195,7 +199,23 @@ def create_reply(request):
 def get_thread(request, username, id):
     thread = get_object_or_404(Thread, pk=id)
     direct_comments = Comment.objects.filter(thread=thread, parent_comment=None)
-    context = {"thread": thread, "direct_comments": direct_comments}
+
+    paginator = Paginator(direct_comments, 3)
+    page_number = request.GET.get("page") or 1
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_number = 1
+    except EmptyPage:
+        page_number = 1
+
+    page_obj = paginator.page(page_number)
+    context = {"thread": thread, "direct_comments": page_obj}
+    if request.META.get("HTTP_HX_REQUEST") and int(page_number) > 1:
+        return render(
+            request, "thread/htmx/partials/_more_comment_section.html", context
+        )
     if request.META.get("HTTP_HX_REQUEST"):
         return render(request, "thread/htmx/thread_page.html", context)
     return render(request, "thread/f_thread_page.html", context)

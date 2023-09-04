@@ -1,0 +1,71 @@
+{% load extra %}
+<!-- Comment of comment section below thread -->
+<div class="w-full flex px-2 sm:px-4 space-x-2 sm:space-x-4 text-base sm:text-lg">
+    <!-- Left -->
+    <div class="flex flex-col items-center">
+        {% include "partials/components/_profile_picture.html" with u=cmt.user %}
+        {% if cmt.comment_count > 0 %}
+            <div class="bg-neutral-content w-[2px] grow my-3 z-10"></div>
+            {% if cmt.comment_count == 1 %}
+                {% include "partials/components/_one_small_profile.html" with user=cmt.sub_comment.first.user %}
+            {% elif cmt.comment_count > 1 %}
+                {% include "partials/components/_two_small_profile.html" with cmts=cmt.sub_comment.all %}
+            {% endif %}
+        {% endif %}
+    </div>
+    <!-- Right -->
+    <div class="w-full">
+        <!-- Right first row-->
+        <div class="flex justify-between py-1">
+            <a class="font-semibold text-black cursor-pointer"
+               href="{% url 'accounts:profile' cmt.user.username %}">{{ cmt.user.username }}</a>
+            <div class="flex items-center space-x-2 sm:pr-2">
+                <span class="text-neutral-content">{{ cmt.created_at|time_ago }}</span>
+                <span class="cursor-pointer">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         fill="none"
+                         viewBox="0 0 24 24"
+                         stroke-width="1.5"
+                         stroke="currentColor"
+                         class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                    </svg>
+                </span>
+            </div>
+        </div>
+        <!-- Right text content -->
+        <p class="text-base-content font-extralight cursor-pointer"
+           hx-target="#container"
+           hx-indicator="#indicator"
+           hx-push-url="true"
+           hx-trigger="click"
+           hx-swap="innerHTML"
+           hx-get="{% url 'thread:get_reply' username=cmt.user.username id=cmt.id %}">{{ cmt.content }}</p>
+        <!-- Right Image content if any -->
+        {% if cmt.comment_image.all %}
+            {% include "accounts/partials/_comment_carousel.html" with cmt=cmt %}
+        {% endif %}
+        <!-- Action btns -->
+        {% include "thread/partials/_comment_actions.html" with cmt=cmt %}
+        <!-- Replys and likes-->
+        <div class="flex text-neutral-content pt-2 space-x-2">
+            {% if cmt.comment_count > 0 %}
+                <span class="cursor-pointer hover:underline"
+                      hx-target="#container"
+                      hx-indicator="#indicator"
+                      hx-push-url="true"
+                      hx-trigger="click"
+                      hx-swap="innerHTML"
+                      hx-get="{% url 'thread:get_reply' username=cmt.user.username id=cmt.id %}">{{ cmt.comment_count }}
+                    {% if cmt.comment_count > 1 %}
+                        replies
+                    {% else %}
+                        reply
+                    {% endif %}
+                </span>
+                <span>.</span>
+            {% endif %}
+            <span x-data="{ lc: {{ cmt.likes_count }}, lcc: ' like{{ cmt.likes_count|pluralize }}' }" x-text="lc + lcc" @toggle-like-cmt-{{ cmt.id }}.window="$event.detail.red ? lc -= 1 : lc += 1"></span>
+        </div>
+    </div>
+</div>
