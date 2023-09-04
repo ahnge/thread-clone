@@ -181,6 +181,13 @@ def create_reply(request):
 
         messages.success(request, "Reply created successfully.")
 
+        if parent_comment:
+            return redirect(
+                "thread:get_reply", username=parent_comment.user.username, id=int(comment_id)
+            )
+        else:
+            return redirect("thread:get_thread",username=thread.user.username, id=int(thread_id))
+
     return redirect("thread:feed")
 
 
