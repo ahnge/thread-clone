@@ -1,0 +1,18 @@
+{% for u in page_obj %}
+    {% if forloop.last and page_obj.next_page_number %}
+        <div class="flex pt-4 space-x-3 cursor-pointer"
+             hx-post="{% url 'thread:search_query' %}?page={{ page_obj.next_page_number }}"
+             hx-trigger="revealed"
+             hx-indicator="#more-search-indicator"
+             hx-include="#search"
+             hx-sync="#search:abort"
+             hx-swap="afterend">{% include "thread/htmx/partials/_avatar.html" with u=u %}</div>
+    {% elif forloop.last %}
+        <div class="flex pt-4 space-x-3 cursor-pointer">{% include "thread/htmx/partials/_avatar.html" with u=u %}</div>
+        <div class="text-center">That's all.</div>
+    {% else %}
+        <div class="flex pt-4 space-x-3 cursor-pointer">{% include "thread/htmx/partials/_avatar.html" with u=u %}</div>
+    {% endif %}
+{% empty %}
+    <dir>No profiles found.</dir>
+{% endfor %}

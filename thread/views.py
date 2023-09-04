@@ -233,9 +233,37 @@ def search(request):
 
     if request.META.get("HTTP_HX_REQUEST") and int(page_number) > 1:
         return render(
-            request, "thread/htmx/partials/_more_search.html", {"page_obj": page_obj}
+            request,
+            "thread/htmx/partials/_more_search.html",
+            {"page_obj": page_obj},
         )
 
     if request.META.get("HTTP_HX_REQUEST"):
         return render(request, "thread/htmx/search.html", {"page_obj": page_obj})
     return render(request, "thread/f_search.html", {"page_obj": page_obj})
+
+
+@login_required
+def search_query(request):
+    if request.method == "POST" and request.META.get("HTTP_HX_REQUEST"):
+        q = request.POST.get("search")
+        users = User.objects.filter(username__icontains=q).order_by("-date_joined")
+        paginator = Paginator(users, 10)
+        page_number = request.GET.get("page") or 1
+
+        try:
+            page_obj = paginator.page(page_number)
+        except PageNotAnInteger:
+            page_number = 1
+        except EmptyPage:
+            page_number = 1
+
+        page_obj = paginator.page(page_number)
+
+        return render(
+            request,
+            "thread/htmx/partials/_search_query.html",
+            {"page_obj": page_obj},
+        )
+    else:
+        return redirect("thread:search")

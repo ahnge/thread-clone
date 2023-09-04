@@ -8,6 +8,7 @@ urlpatterns = [
     path("", views.home, name="home"),
     path("feed/", views.feed, name="feed"),
     path("search/", views.search, name="search"),
+    path("search-query/", views.search_query, name="search_query"),
     path("create-thread/", views.create_thread, name="create_thread"),
     path("create-reply/", views.create_reply, name="create_reply"),
     # htmx form related (thread and comment)
