@@ -1,5 +1,14 @@
-{% for thread in u.thread.all %}
-    {% include "thread/partials/_thread.html" with thread=thread %}
+{% for thread in threads %}
+    {% if forloop.last and threads.next_page_number %}
+        <div hx-get="{% url 'accounts:profile_threads' u.username %}?page={{ threads.next_page_number }}"
+             hx-trigger="revealed"
+             hx-indicator="#profile-container-indicator"
+             hx-swap="afterend">{% include "thread/partials/_thread.html" with thread=thread %}</div>
+    {% elif forloop.last %}
+        <div>{% include "thread/partials/_thread.html" with thread=thread %}</div>
+    {% else %}
+        <div>{% include "thread/partials/_thread.html" with thread=thread %}</div>
+    {% endif %}
 {% empty %}
     <div class="flex h-96 justify-center items-center">{{ u.username }} hasn't threaded anything yet.</div>
 {% endfor %}

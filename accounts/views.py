@@ -6,9 +6,10 @@ from django.contrib.auth import login, authenticate, logout
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.contrib import messages
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
-from thread.models import Comment, Repost
+from thread.models import Comment, Repost, Thread
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -103,16 +104,54 @@ def logout_view(request):
 @login_required
 def profile_view(request, username):
     user = get_object_or_404(User, username=username)
+    threads = Thread.objects.filter(user=user)
+
+    paginator = Paginator(threads, 3)
+    page_number = request.GET.get("page") or 1
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_number = 1
+    except EmptyPage:
+        page_number = 1
+
+    page_obj = paginator.page(page_number)
+    if request.META.get("HTTP_HX_REQUEST") and int(page_number) > 1:
+        return render(
+            request,
+            "accounts/htmx/profile_threads.html",
+            {"threads": page_obj, "u": user},
+        )
     if request.META.get("HTTP_HX_REQUEST"):
-        return render(request, "accounts/htmx/profile.html", {"u": user})
-    return render(request, "accounts/f_profile.html", {"u": user})
+        return render(
+            request, "accounts/htmx/profile.html", {"threads": page_obj, "u": user}
+        )
+    return render(request, "accounts/f_profile.html", {"threads": page_obj, "u": user})
 
 
 @login_required
 def profile_threads(request, username):
     user = get_object_or_404(User, username=username)
+    threads = Thread.objects.filter(user=user)
+
+    paginator = Paginator(threads, 3)
+    page_number = request.GET.get("page") or 1
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_number = 1
+    except EmptyPage:
+        page_number = 1
+
+    page_obj = paginator.page(page_number)
     if request.META.get("HTTP_HX_REQUEST"):
-        return render(request, "accounts/htmx/profile_threads.html", {"u": user})
+        return render(
+            request,
+            "accounts/htmx/profile_threads.html",
+            {"threads": page_obj, "u": user},
+        )
     return redirect("accounts:profile", user)
 
 

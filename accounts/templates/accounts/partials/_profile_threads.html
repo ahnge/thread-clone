@@ -35,12 +35,34 @@
         </svg>
     </div>
     <!-- Content -->
-    <div class="flex flex-col justify-start w-full mt-3 pb-11"
-         id="profile-container">
-        {% for thread in u.thread.all %}
-            {% include "thread/partials/_thread.html" with thread=thread %}
-        {% empty %}
-            <div class="flex h-96 justify-center items-center">{{ u.username }} hasn't threaded anything yet.</div>
-        {% endfor %}
+    <div class="flex flex-col justify-start w-full mt-3 pb-11">
+        <div id="profile-container">
+            {% for thread in threads %}
+                {% if forloop.last and threads.next_page_number %}
+                    <div hx-get="{% url 'accounts:profile' u.username %}?page={{ threads.next_page_number }}"
+                         hx-trigger="revealed"
+                         hx-indicator="#profile-container-indicator"
+                         hx-swap="afterend">{% include "thread/partials/_thread.html" with thread=thread %}</div>
+                {% elif forloop.last %}
+                    <div>{% include "thread/partials/_thread.html" with thread=thread %}</div>
+                {% else %}
+                    <div>{% include "thread/partials/_thread.html" with thread=thread %}</div>
+                {% endif %}
+            {% empty %}
+                <div class="flex h-96 justify-center items-center">{{ u.username }} hasn't threaded anything yet.</div>
+            {% endfor %}
+        </div>
+        <!-- Infinete scroll indicator -->
+        <div id="profile-container-indicator"
+             class="htmx-indicator w-full flex justify-center items-center bg-white py-3 pb-14">
+            <svg width="24"
+                 height="24"
+                 viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+                <style>.spinner_7WDj{transform-origin:center;animation:spinner_PBVY .75s linear infinite}@keyframes spinner_PBVY{100%{transform:rotate(360deg)}}</style>
+                <path d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25" />
+                <circle class="spinner_7WDj" cx="12" cy="2.5" r="1.5" />
+            </svg>
+        </div>
     </div>
 </div>
