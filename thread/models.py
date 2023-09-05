@@ -7,7 +7,6 @@ class Thread(models.Model):
     content = models.TextField(default="")
     likes_count = models.PositiveIntegerField(default=0)
     comment_count = models.PositiveIntegerField(default=0)
-    repost_count = models.PositiveIntegerField(default=0)
     liked_users = models.ManyToManyField(
         User, through="Like", related_name="liked_threads", blank=True
     )
@@ -68,12 +67,6 @@ class Repost(models.Model):
     class Meta:
         ordering = ["-created_at"]
 
-    def save(self, *args, **kwargs):
-        super(Repost, self).save(*args, **kwargs)
-        # Update the repost_count of the related Thread
-        self.thread.repost_count = Repost.objects.filter(thread=self.thread).count()
-        self.thread.save()
-
     def __str__(self):
         return f"{self.user.username} reposted {self.thread.content[:20]}"
 
@@ -93,6 +86,9 @@ class Comment(models.Model):
     )
     liked_users = models.ManyToManyField(
         User, through="LikeComment", related_name="liked_comments", blank=True
+    )
+    reposted_users = models.ManyToManyField(
+        User, through="RepostComment", related_name="reposted_comments", blank=True
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -131,6 +127,20 @@ class Comment(models.Model):
 
     def __str__(self):
         return f"Comment: {self.content[:20]}"
+
+
+class RepostComment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.user.username} reposted {self.comment.content[:20]}"
 
 
 class LikeComment(models.Model):

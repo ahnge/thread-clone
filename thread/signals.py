@@ -1,7 +1,7 @@
 from django.db.models.signals import post_delete
 from django.dispatch import receiver
 
-from .models import Like, LikeComment, Repost, Comment
+from .models import Like, LikeComment, Comment
 
 
 @receiver(post_delete, sender=Like)
@@ -18,13 +18,6 @@ def update_cmt_likes_count(sender, instance, **kwargs):
         comment=instance.comment
     ).count()
     instance.comment.save()
-
-
-@receiver(post_delete, sender=Repost)
-def update_repost_count(sender, instance, **kwargs):
-    # Update the repost_count of the related Thread when a Repost is deleted
-    instance.thread.repost_count = Repost.objects.filter(thread=instance.thread).count()
-    instance.thread.save()
 
 
 @receiver(post_delete, sender=Comment)
