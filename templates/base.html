@@ -46,10 +46,11 @@
             {% include "partials/_new_reply.html" %}
         </div>
         <!-- Messages -->
-        {% if messages %}
-            <ul class="fixed z-50 top-4 flex flex-col space-y-2 w-full max-w-3xl items-center px-2 left-1/2 -translate-x-1/2" id="messages">
+        <ul class="fixed z-50 top-4 flex flex-col space-y-2 w-full max-w-3xl items-center left-1/2 -translate-x-1/2"
+            id="messages">
+            {% if messages %}
                 {% for message in messages %}
-                    <li class="alert alert-{{ message.tags }} cursor-pointer">
+                    <li class="alert alert-{{ message.tags }} cursor-pointer px-2 mx-2">
                         <svg xmlns="http://www.w3.org/2000/svg"
                              fill="none"
                              viewBox="0 0 24 24"
@@ -60,8 +61,8 @@
                         <span>{{ message }}</span>
                     </li>
                 {% endfor %}
-            </ul>
-        {% endif %}
+            {% endif %}
+        </ul>
         <script>
             document.body.addEventListener('htmx:configRequest', (event) => {
                 event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';

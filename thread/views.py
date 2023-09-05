@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
-from .models import Thread, Comment, Like, LikeComment
+from .models import Thread, Comment, Like, LikeComment, Repost, RepostComment
 from .utils import (
     create_thread_post,
     create_thread_images,
@@ -253,7 +253,7 @@ def get_reply(request, username, id):
 
 @login_required
 def like_thread_toggle(request, id):
-    if request.method == "POST":
+    if request.method == "POST" and request.META.get("HTTP_HX_REQUEST"):
         thread = get_object_or_404(Thread, pk=id)
         try:
             like_obj = Like.objects.get(thread=thread, user=request.user)
@@ -266,7 +266,7 @@ def like_thread_toggle(request, id):
 
 @login_required
 def like_comment_toggle(request, id):
-    if request.META.get("HTTP_HX_REQUEST"):
+    if request.method == "POST" and request.META.get("HTTP_HX_REQUEST"):
         comment = get_object_or_404(Comment, pk=id)
         try:
             like_cmt_obj = LikeComment.objects.get(comment=comment, user=request.user)
@@ -328,3 +328,35 @@ def search_query(request):
         )
     else:
         return redirect("thread:search")
+
+
+@login_required
+def repost_thread_toggle(request, id):
+    if request.method == "POST" and request.META.get("HTTP_HX_REQUEST"):
+        thread = get_object_or_404(Thread, pk=id)
+        try:
+            repost_obj = Repost.objects.get(thread=thread, user=request.user)
+            repost_obj.delete()
+            messages.success(request, "Thread repost deleted.")
+        except Repost.DoesNotExist:
+            Repost.objects.create(thread=thread, user=request.user)
+            messages.success(request, "Thread reposted.")
+        return render(request, "thread/htmx/partials/_repost_messages.html")
+    return redirect("thread:feed")
+
+
+@login_required
+def repost_comment_toggle(request, id):
+    if request.method == "POST" and request.META.get("HTTP_HX_REQUEST"):
+        comment = get_object_or_404(Comment, pk=id)
+        try:
+            repost_cmt_obj = RepostComment.objects.get(
+                comment=comment, user=request.user
+            )
+            repost_cmt_obj.delete()
+            messages.success(request, "Comment repost deleted.")
+        except RepostComment.DoesNotExist:
+            RepostComment.objects.create(comment=comment, user=request.user)
+            messages.success(request, "Comment reposted.")
+        return render(request, "thread/htmx/partials/_repost_messages.html")
+    return redirect("thread:feed")

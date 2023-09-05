@@ -38,4 +38,15 @@ urlpatterns = [
     # htmx detail page(thread and reply)
     path("<str:username>/threads/<int:id>/", views.get_thread, name="get_thread"),
     path("<str:username>/replies/<int:id>/", views.get_reply, name="get_reply"),
+    # htmx repost threads or comments
+    path(
+        "repost-toggle/thread/<int:id>/",
+        views.repost_thread_toggle,
+        name="repost_thread_toggle",
+    ),
+    path(
+        "repost-toggle/comment/<int:id>/",
+        views.repost_comment_toggle,
+        name="repost_comment_toggle",
+    ),
 ]
