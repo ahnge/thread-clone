@@ -4,8 +4,6 @@
              hx-trigger="revealed"
              hx-indicator="#profile-container-indicator"
              hx-swap="afterend">{% include "thread/partials/_thread.html" with thread=thread %}</div>
-    {% elif forloop.last %}
-        <div>{% include "thread/partials/_thread.html" with thread=thread %}</div>
     {% else %}
         <div>{% include "thread/partials/_thread.html" with thread=thread %}</div>
     {% endif %}

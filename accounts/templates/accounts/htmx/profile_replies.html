@@ -1,11 +1,26 @@
 {% for cmt in replies %}
-    {% if cmt.parent_comment %}
-        {% include "accounts/partials/_profile_reply_parent_comment.html" with cmt=cmt %}
+    {% if forloop.last and replies.next_page_number %}
+        <div hx-get="{% url 'accounts:profile_replies' u.username %}?page={{ replies.next_page_number }}"
+             hx-trigger="revealed"
+             hx-indicator="#profile-container-indicator"
+             hx-swap="afterend">
+            {% if cmt.parent_comment %}
+                {% include "accounts/partials/_profile_reply_parent_comment.html" with cmt=cmt %}
+            {% else %}
+                {% include "accounts/partials/_profile_reply_thread.html" with cmt=cmt %}
+            {% endif %}
+            {% include "accounts/partials/_profile_reply.html" with cmt=cmt %}
+        </div>
     {% else %}
-        {% include "accounts/partials/_profile_reply_thread.html" with cmt=cmt %}
+        <div>
+            {% if cmt.parent_comment %}
+                {% include "accounts/partials/_profile_reply_parent_comment.html" with cmt=cmt %}
+            {% else %}
+                {% include "accounts/partials/_profile_reply_thread.html" with cmt=cmt %}
+            {% endif %}
+            {% include "accounts/partials/_profile_reply.html" with cmt=cmt %}
+        </div>
     {% endif %}
-    {% include "accounts/partials/_profile_reply.html" with cmt=cmt %}
-    <div class="divider"></div>
 {% empty %}
     <div class="flex h-96 justify-center items-center">User hasn't reply to any thread yet.</div>
 {% endfor %}

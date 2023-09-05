@@ -162,11 +162,23 @@ def profile_replies(request, username):
         Q(parent_comment__isnull=False, parent_comment__user=user)
         | Q(parent_comment__isnull=True, thread__user=user)
     )
+
+    paginator = Paginator(replies, 3)
+    page_number = request.GET.get("page") or 1
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_number = 1
+    except EmptyPage:
+        page_number = 1
+
+    page_obj = paginator.page(page_number)
     if request.META.get("HTTP_HX_REQUEST"):
         return render(
             request,
             "accounts/htmx/profile_replies.html",
-            {"u": user, "replies": replies},
+            {"u": user, "replies": page_obj},
         )
     return redirect("accounts:profile", user)
 
