@@ -2,7 +2,7 @@
     {% for image_thread in thread.image_thread.all %}
         <div class="carousel-item z-10">
             <img src="{{ image_thread.image.url }}"
-                 class="rounded-box w-auto max-h-[12rem] sm:max-h-80 xl:max-h-96 object-contain" />
+                 class="rounded-box w-auto max-h-[12rem] sm:max-h-80 object-contain" />
         </div>
     {% endfor %}
 </div>
