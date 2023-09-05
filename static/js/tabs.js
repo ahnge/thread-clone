@@ -26,8 +26,14 @@ htmx.find("#container").addEventListener("htmx:afterSwap", (evt) => {
     // find alll ptabs in profile page
     pTabs.forEach((ptab) => {
       ptab.addEventListener("htmx:beforeRequest", (e) => {
+        // abort the infinite scroll xhr requests if any
+        const profileContainer = htmx.find("#profile-container");
+        const pis = profileContainer.querySelectorAll(".profile-infinite");
+        pis.forEach((pi) => {
+          htmx.trigger(pi, "htmx:abort");
+        });
         // empty the container (optional for ux)
-        htmx.find("#profile-container").innerHTML = "";
+        profileContainer.innerHTML = "";
         // toggle the ptabs
         for (let pt of pTabs) {
           pt.classList.remove("border-b-2", "border-black");
@@ -43,8 +49,14 @@ var pTabs = htmx.findAll(".ptab");
 // find alll ptabs in profile page
 pTabs.forEach((ptab) => {
   ptab.addEventListener("htmx:beforeRequest", (e) => {
+    // abort the infinite scroll xhr requests if any
+    const profileContainer = htmx.find("#profile-container");
+    const pis = profileContainer.querySelectorAll(".profile-infinite");
+    pis.forEach((pi) => {
+      htmx.trigger(pi, "htmx:abort");
+    });
     // empty the container (optional for ux)
-    htmx.find("#profile-container").innerHTML = "";
+    profileContainer.innerHTML = "";
     // toggle the ptabs
     for (let pt of pTabs) {
       pt.classList.remove("border-b-2", "border-black");

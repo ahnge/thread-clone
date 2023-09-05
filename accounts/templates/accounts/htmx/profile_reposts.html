@@ -1,6 +1,23 @@
 {% for repost in reposts %}
-    {% include "thread/partials/_thread.html" with thread=repost.thread %}
-    <div class="divider"></div>
+    {% if forloop.last and reposts.next_page_number %}
+        {% if repost.thread %}
+            <div class="profile-infinite" hx-get="{% url 'accounts:profile_reposts' u.username %}?page={{ reposts.next_page_number }}"
+                 hx-trigger="revealed"
+                 hx-indicator="#profile-container-indicator"
+                 hx-swap="afterend">{% include "accounts/partials/_profile_reply.html" with cmt=repost %}</div>
+        {% else %}
+            <div class="profile-infinite" hx-get="{% url 'accounts:profile_reposts' u.username %}?page={{ reposts.next_page_number }}"
+                 hx-trigger="revealed"
+                 hx-indicator="#profile-container-indicator"
+                 hx-swap="afterend">{% include "thread/partials/_thread.html" with thread=repost %}</div>
+        {% endif %}
+    {% else %}
+        {% if repost.thread %}
+            <div>{% include "accounts/partials/_profile_reply.html" with cmt=repost %}</div>
+        {% else %}
+            <div>{% include "thread/partials/_thread.html" with thread=repost %}</div>
+        {% endif %}
+    {% endif %}
 {% empty %}
     <div class="flex h-96 justify-center items-center">User hasn't reposted anything yet.</div>
 {% endfor %}

@@ -1,6 +1,7 @@
 {% for thread in threads %}
     {% if forloop.last and threads.next_page_number %}
-        <div hx-get="{% url 'accounts:profile_threads' u.username %}?page={{ threads.next_page_number }}"
+        <div class="profile-infinite"
+             hx-get="{% url 'accounts:profile_threads' u.username %}?page={{ threads.next_page_number }}"
              hx-trigger="revealed"
              hx-indicator="#profile-container-indicator"
              hx-swap="afterend">{% include "thread/partials/_thread.html" with thread=thread %}</div>

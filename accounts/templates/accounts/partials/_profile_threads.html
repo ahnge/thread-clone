@@ -6,19 +6,19 @@
              hx-get="{% url 'accounts:profile_threads' u.username %}"
              hx-indicator="#profile-indicator"
              hx-target="#profile-container">
-            <a class="text-center">Threads</a>
+            <span class="text-center">Threads</span>
         </div>
         <div class="ptab cursor-pointer py-2 flex-1 w-full flex justify-center"
              hx-get="{% url 'accounts:profile_replies' u.username %}"
              hx-indicator="#profile-indicator"
              hx-target="#profile-container">
-            <a class="text-center">Replies</a>
+            <span class="text-center">Replies</span>
         </div>
         <div class="ptab cursor-pointer py-2 flex-1 w-full flex justify-center"
              hx-get="{% url 'accounts:profile_reposts' u.username %}"
              hx-indicator="#profile-indicator"
              hx-target="#profile-container">
-            <a class="text-center">Reposts</a>
+            <span class="text-center">Reposts</span>
         </div>
     </div>
     <div class="w-full h-[2px] bg-neutral-content relative -top-[2px] z-20"></div>
@@ -39,7 +39,8 @@
         <div id="profile-container" class="pb-11">
             {% for thread in threads %}
                 {% if forloop.last and threads.next_page_number %}
-                    <div hx-get="{% url 'accounts:profile' u.username %}?page={{ threads.next_page_number }}"
+                    <div class="profile-infinite"
+                         hx-get="{% url 'accounts:profile' u.username %}?page={{ threads.next_page_number }}"
                          hx-trigger="revealed"
                          hx-indicator="#profile-container-indicator"
                          hx-swap="afterend">{% include "thread/partials/_thread.html" with thread=thread %}</div>

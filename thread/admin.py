@@ -5,6 +5,7 @@ from .models import (
     Like,
     Repost,
     Comment,
+    RepostComment,
     CommentImage,
     Follow,
     LikeComment,
@@ -51,6 +52,12 @@ class LikeCommentAdmin(admin.ModelAdmin):
 @admin.register(Repost)
 class RepostAdmin(admin.ModelAdmin):
     list_display = ["user", "thread", "created_at"]
+    list_filter = ["user"]
+
+
+@admin.register(RepostComment)
+class RepostAdmin(admin.ModelAdmin):
+    list_display = ["user", "comment", "created_at"]
     list_filter = ["user"]
 
 

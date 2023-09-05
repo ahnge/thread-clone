@@ -7,9 +7,10 @@ from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from itertools import chain
 
 
-from thread.models import Comment, Repost, Thread
+from thread.models import Comment, Repost, Thread, RepostComment
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -106,7 +107,7 @@ def profile_view(request, username):
     user = get_object_or_404(User, username=username)
     threads = Thread.objects.filter(user=user)
 
-    paginator = Paginator(threads, 3)
+    paginator = Paginator(threads, 7)
     page_number = request.GET.get("page") or 1
 
     try:
@@ -135,7 +136,7 @@ def profile_threads(request, username):
     user = get_object_or_404(User, username=username)
     threads = Thread.objects.filter(user=user)
 
-    paginator = Paginator(threads, 3)
+    paginator = Paginator(threads, 7)
     page_number = request.GET.get("page") or 1
 
     try:
@@ -163,7 +164,7 @@ def profile_replies(request, username):
         | Q(parent_comment__isnull=True, thread__user=user)
     )
 
-    paginator = Paginator(replies, 3)
+    paginator = Paginator(replies, 7)
     page_number = request.GET.get("page") or 1
 
     try:
@@ -186,12 +187,33 @@ def profile_replies(request, username):
 @login_required
 def profile_reposts(request, username):
     user = get_object_or_404(User, username=username)
-    reposts = Repost.objects.filter(user=user)
+    reposted_threads = user.reposted_threads.all()
+    reposted_comments = user.reposted_comments.all()
+
+    # Combine the two querysets into a single queryset
+    merged_queryset = list(chain(reposted_threads, reposted_comments))
+
+    # Sort the merged queryset based on created_at
+    sorted_queryset = sorted(
+        merged_queryset, key=lambda item: item.created_at, reverse=True
+    )
+
+    paginator = Paginator(sorted_queryset, 7)
+    page_number = request.GET.get("page") or 1
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_number = 1
+    except EmptyPage:
+        page_number = 1
+
+    page_obj = paginator.page(page_number)
 
     if request.META.get("HTTP_HX_REQUEST"):
         return render(
             request,
             "accounts/htmx/profile_reposts.html",
-            {"u": user, "replies": reposts},
+            {"u": user, "reposts": page_obj},
         )
     return redirect("accounts:profile", user)

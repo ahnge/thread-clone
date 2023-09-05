@@ -22,7 +22,7 @@ def home(request):
 @login_required
 def feed(request):
     threads = Thread.objects.all()
-    paginator = Paginator(threads, 10)
+    paginator = Paginator(threads, 7)
     page_number = request.GET.get("page") or 1
 
     try:
@@ -200,7 +200,7 @@ def get_thread(request, username, id):
     thread = get_object_or_404(Thread, pk=id)
     direct_comments = Comment.objects.filter(thread=thread, parent_comment=None)
 
-    paginator = Paginator(direct_comments, 3)
+    paginator = Paginator(direct_comments, 7)
     page_number = request.GET.get("page") or 1
 
     try:
@@ -228,7 +228,7 @@ def get_reply(request, username, id):
     comment = get_object_or_404(Comment, pk=id)
     sub_comments = Comment.objects.filter(parent_comment=comment, thread=comment.thread)
 
-    paginator = Paginator(sub_comments, 3)
+    paginator = Paginator(sub_comments, 7)
     page_number = request.GET.get("page") or 1
 
     try:

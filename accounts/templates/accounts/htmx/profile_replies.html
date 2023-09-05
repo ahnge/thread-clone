@@ -1,6 +1,7 @@
 {% for cmt in replies %}
     {% if forloop.last and replies.next_page_number %}
-        <div hx-get="{% url 'accounts:profile_replies' u.username %}?page={{ replies.next_page_number }}"
+        <div class="profile-infinite"
+             hx-get="{% url 'accounts:profile_replies' u.username %}?page={{ replies.next_page_number }}"
              hx-trigger="revealed"
              hx-indicator="#profile-container-indicator"
              hx-swap="afterend">
