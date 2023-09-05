@@ -47,7 +47,7 @@
         </div>
         <!-- Messages -->
         {% if messages %}
-            <ul class="fixed z-50 top-4 flex flex-col space-y-2 w-full max-w-3xl items-center px-2 left-1/2 -translate-x-1/2">
+            <ul class="fixed z-50 top-4 flex flex-col space-y-2 w-full max-w-3xl items-center px-2 left-1/2 -translate-x-1/2" id="messages">
                 {% for message in messages %}
                     <li class="alert alert-{{ message.tags }} cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg"

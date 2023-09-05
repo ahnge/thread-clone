@@ -11,6 +11,9 @@ class Thread(models.Model):
     liked_users = models.ManyToManyField(
         User, through="Like", related_name="liked_threads", blank=True
     )
+    reposted_users = models.ManyToManyField(
+        User, through="Repost", related_name="reposted_threads", blank=True
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
