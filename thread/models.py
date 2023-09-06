@@ -66,6 +66,12 @@ class Repost(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+        # Ensures that a user can only repost thread once.
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "thread"], name="unique_repost_thread"
+            )
+        ]
 
     def __str__(self):
         return f"{self.user.username} reposted {self.thread.content[:20]}"
@@ -138,6 +144,12 @@ class RepostComment(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+        # Ensures that a user can only repost comment once.
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "comment"], name="unique_repost_comment"
+            )
+        ]
 
     def __str__(self):
         return f"{self.user.username} reposted {self.comment.content[:20]}"
@@ -151,7 +163,7 @@ class LikeComment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        # Ensures a user can only like a thread once
+        # Ensures a user can only like a comment once
         constraints = [
             models.UniqueConstraint(
                 fields=["user", "comment"], name="unique_like_comment"
