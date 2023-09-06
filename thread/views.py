@@ -341,7 +341,7 @@ def repost_thread_toggle(request, id):
         except Repost.DoesNotExist:
             Repost.objects.create(thread=thread, user=request.user)
             messages.success(request, "Thread reposted.")
-        return render(request, "thread/htmx/partials/_repost_messages.html")
+        return render(request, "htmx/partials/_notification_messages.html")
     return redirect("thread:feed")
 
 
@@ -358,5 +358,5 @@ def repost_comment_toggle(request, id):
         except RepostComment.DoesNotExist:
             RepostComment.objects.create(comment=comment, user=request.user)
             messages.success(request, "Comment reposted.")
-        return render(request, "thread/htmx/partials/_repost_messages.html")
+        return render(request, "htmx/partials/_notification_messages.html")
     return redirect("thread:feed")
