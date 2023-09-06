@@ -7,10 +7,12 @@ from django.core.exceptions import ValidationError
 from django.db.models import Q
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.http.response import HttpResponse
 from itertools import chain
 
 
-from thread.models import Comment, Repost, Thread, RepostComment
+from thread.models import Comment, Thread, RepostComment, Follow
+from .utils import check_following
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -118,17 +120,16 @@ def profile_view(request, username):
         page_number = 1
 
     page_obj = paginator.page(page_number)
+
+    # check followed or not
+    already_followed = check_following(request.user, user)
+
+    context = {"threads": page_obj, "u": user, "already_followed": already_followed}
     if request.META.get("HTTP_HX_REQUEST") and int(page_number) > 1:
-        return render(
-            request,
-            "accounts/htmx/profile_threads.html",
-            {"threads": page_obj, "u": user},
-        )
+        return render(request, "accounts/htmx/profile_threads.html", context)
     if request.META.get("HTTP_HX_REQUEST"):
-        return render(
-            request, "accounts/htmx/profile.html", {"threads": page_obj, "u": user}
-        )
-    return render(request, "accounts/f_profile.html", {"threads": page_obj, "u": user})
+        return render(request, "accounts/htmx/profile.html", context)
+    return render(request, "accounts/f_profile.html", context)
 
 
 @login_required
@@ -216,4 +217,17 @@ def profile_reposts(request, username):
             "accounts/htmx/profile_reposts.html",
             {"u": user, "reposts": page_obj},
         )
+    return redirect("accounts:profile", user)
+
+
+@login_required
+def follow_toggle(request, id):
+    user = get_object_or_404(User, pk=id)
+    if request.method == "POST" and request.META.get("HTTP_HX_REQUEST"):
+        try:
+            follow_obj = Follow.objects.get(follower=request.user, followed=user)
+            follow_obj.delete()
+        except Follow.DoesNotExist:
+            Follow.objects.create(follower=request.user, followed=user)
+        return HttpResponse("Success")
     return redirect("accounts:profile", user)

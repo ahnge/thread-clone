@@ -30,13 +30,19 @@
             <a href="https://{{ u.myuser.link }}" target="_blank" class="pl-1">. {{ u.myuser.link }}</a>
         {% endif %}
     </div>
-    <!-- Btns -->
-    <div class="flex space-x-3 mt-3">
-        <button class="px-6 py-1 cursor-pointer font-semibold text-base border-neutral-content border rounded-md">
+    <!-- Btn -->
+    {% if user == u %}
+        <button class="px-6 py-1 mt-3 cursor-pointer font-semibold text-base border-neutral-content border rounded-md">
             Edit profile
         </button>
-        <button class="px-6 py-1 cursor-pointer font-semibold text-base border-neutral-content border rounded-md">
-            Share profile
+    {% else %}
+        <button {% if already_followed %} x-data="{text: 'Following'}" {% else %} x-data="{text: 'Follow'}" {% endif %}
+                x-text="text"
+                @click="text == 'Following' ? text = 'Follow' : text = 'Following'"
+                :class="text == 'Following' ? '' : 'bg-black text-white'"
+                hx-post="{% url 'accounts:follow_toggle' u.id %}"
+                hx-swap="none"
+                class="px-6 py-1 mt-3 cursor-pointer font-semibold text-base border-neutral-content border rounded-md">
         </button>
-    </div>
+    {% endif %}
 </div>
