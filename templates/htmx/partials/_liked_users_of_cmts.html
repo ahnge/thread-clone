@@ -1,0 +1,11 @@
+{% for u in liked_users %}
+    {% if forloop.last and liked_users.next_page_number %}
+        <div class="flex pt-4 space-x-3 cursor-pointer"
+             hx-get="{% url 'thread:get_reply_likes' comment.user.username comment.id %}?page={{ liked_users.next_page_number }}"
+             hx-trigger="intersect once"
+             hx-indicator="#likes-indicator"
+             hx-swap="afterend">{% include "thread/htmx/partials/_avatar.html" with u=u %}</div>
+    {% else %}
+        <div class="flex pt-4 space-x-3 cursor-pointer">{% include "thread/htmx/partials/_avatar.html" with u=u %}</div>
+    {% endif %}
+{% endfor %}

@@ -62,7 +62,11 @@
                 </span>
                 <span>.</span>
             {% endif %}
-            <span x-data="{ lc: {{ cmt.thread.likes_count }}, lcc: ' like{{ cmt.thread.likes_count|pluralize }}' }" x-text="lc + lcc" @toggle-like-thread-{{ cmt.thread.id }}.window="$event.detail.red ? lc -= 1 : lc += 1"></span>
+            {% if cmt.thread.likes_count > 0 %}
+                <span hx-get="{% url 'thread:get_thread_likes' cmt.thread.user.username cmt.thread.id %}"  hx-indicator="#likes-indicator" hx-target="#likes-users-container" onclick="likes_modal.showModal()" class="cursor-pointer hover:underline" x-data="{ lc: {{ cmt.thread.likes_count }}, lcc: ' like{{ cmt.thread.likes_count|pluralize }}' }" x-text="lc + lcc" @toggle-like-thread-{{ cmt.thread.id }}.window="$event.detail.red ? lc -= 1 : lc += 1"></span>
+            {% else %}
+                <span x-data="{ lc: {{ cmt.thread.likes_count }}, lcc: ' like{{ cmt.thread.likes_count|pluralize }}' }" x-text="lc + lcc" @toggle-like-thread-{{ cmt.thread.id }}.window="$event.detail.red ? lc -= 1 : lc += 1"></span>
+            {% endif %}
         </div>
     </div>
 </div>

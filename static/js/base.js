@@ -26,3 +26,8 @@ htmx.find("#container").addEventListener("htmx:afterSwap", (evt) => {
     });
   });
 });
+
+// clear likes-users-container before another request
+htmx.find("#likes_modal").addEventListener("close", (e) => {
+  htmx.find("#likes-users-container").innerHTML = "";
+});

@@ -392,3 +392,51 @@ def repost_comment_toggle(request, id):
             messages.success(request, "Comment reposted.")
         return render(request, "htmx/partials/_notification_messages.html")
     return redirect("thread:feed")
+
+
+@login_required
+def get_thread_likes(request, username, id):
+    thread = get_object_or_404(Thread, pk=id)
+    likes = Like.objects.filter(thread=thread)
+    liked_users = [l.user for l in likes]
+
+    paginator = Paginator(liked_users, 15)
+    page_number = request.GET.get("page") or 1
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_number = 1
+    except EmptyPage:
+        page_number = 1
+
+    page_obj = paginator.page(page_number)
+    context = {"liked_users": page_obj, "thread": thread}
+
+    if request.META.get("HTTP_HX_REQUEST"):
+        return render(request, "htmx/partials/_liked_users_of_threads.html", context)
+    return redirect("thread:feed")
+
+
+@login_required
+def get_reply_likes(request, username, id):
+    comment = get_object_or_404(Comment, pk=id)
+    likes_cmts = LikeComment.objects.filter(comment=comment)
+    liked_users = [l.user for l in likes_cmts]
+
+    paginator = Paginator(liked_users, 15)
+    page_number = request.GET.get("page") or 1
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_number = 1
+    except EmptyPage:
+        page_number = 1
+
+    page_obj = paginator.page(page_number)
+    context = {"liked_users": page_obj, "comment": comment}
+
+    if request.META.get("HTTP_HX_REQUEST"):
+        return render(request, "htmx/partials/_liked_users_of_cmts.html", context)
+    return redirect("thread:feed")

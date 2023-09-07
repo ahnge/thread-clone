@@ -50,4 +50,15 @@ urlpatterns = [
         views.repost_comment_toggle,
         name="repost_comment_toggle",
     ),
+    # htmx get likes
+    path(
+        "<str:username>/threads-likes/<int:id>/",
+        views.get_thread_likes,
+        name="get_thread_likes",
+    ),
+    path(
+        "<str:username>/replies-likes/<int:id>/",
+        views.get_reply_likes,
+        name="get_reply_likes",
+    ),
 ]

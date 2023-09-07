@@ -46,6 +46,7 @@ class Like(models.Model):
         constraints = [
             models.UniqueConstraint(fields=["user", "thread"], name="unique_like")
         ]
+        ordering = ["-created_at"]
 
     def save(self, *args, **kwargs):
         super(Like, self).save(*args, **kwargs)
@@ -169,6 +170,7 @@ class LikeComment(models.Model):
                 fields=["user", "comment"], name="unique_like_comment"
             )
         ]
+        ordering = ["-created_at"]
 
     def save(self, *args, **kwargs):
         super(LikeComment, self).save(*args, **kwargs)
