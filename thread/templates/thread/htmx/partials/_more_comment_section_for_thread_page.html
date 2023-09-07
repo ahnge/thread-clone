@@ -2,7 +2,7 @@
     <div class="divider my-0"></div>
     {% if forloop.last and direct_comments.next_page_number %}
         <div hx-get="{% url 'thread:get_thread' cmt.thread.user.username cmt.thread.id %}?page={{ direct_comments.next_page_number }}"
-             hx-trigger="revealed"
+             hx-trigger="intersect once"
              hx-indicator="#more-comment-section-indicator"
              hx-swap="afterend">
             {% include "thread/htmx/partials/_comment_of_comment_section.html" with cmt=cmt %}

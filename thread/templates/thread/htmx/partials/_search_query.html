@@ -2,7 +2,7 @@
     {% if forloop.last and page_obj.next_page_number %}
         <div class="flex pt-4 space-x-3 cursor-pointer"
              hx-post="{% url 'thread:search_query' %}?page={{ page_obj.next_page_number }}"
-             hx-trigger="revealed"
+             hx-trigger="intersect once"
              hx-indicator="#more-search-indicator"
              hx-include="#search"
              hx-sync="#search:abort"

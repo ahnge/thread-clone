@@ -1,13 +1,15 @@
 {% for repost in reposts %}
     {% if forloop.last and reposts.next_page_number %}
         {% if repost.thread %}
-            <div class="profile-infinite" hx-get="{% url 'accounts:profile_reposts' u.username %}?page={{ reposts.next_page_number }}"
-                 hx-trigger="revealed"
+            <div class="profile-infinite"
+                 hx-get="{% url 'accounts:profile_reposts' u.username %}?page={{ reposts.next_page_number }}"
+                 hx-trigger="intersect once"
                  hx-indicator="#profile-container-indicator"
                  hx-swap="afterend">{% include "accounts/partials/_profile_reply.html" with cmt=repost %}</div>
         {% else %}
-            <div class="profile-infinite" hx-get="{% url 'accounts:profile_reposts' u.username %}?page={{ reposts.next_page_number }}"
-                 hx-trigger="revealed"
+            <div class="profile-infinite"
+                 hx-get="{% url 'accounts:profile_reposts' u.username %}?page={{ reposts.next_page_number }}"
+                 hx-trigger="intersect once"
                  hx-indicator="#profile-container-indicator"
                  hx-swap="afterend">{% include "thread/partials/_thread.html" with thread=repost %}</div>
         {% endif %}

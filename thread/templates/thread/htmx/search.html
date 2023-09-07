@@ -43,7 +43,7 @@
                         {% if forloop.last and page_obj.next_page_number %}
                             <div class="flex pt-4 space-x-3 cursor-pointer"
                                  hx-get="{% url 'thread:search' %}?page={{ page_obj.next_page_number }}"
-                                 hx-trigger="revealed"
+                                 hx-trigger="intersect once"
                                  hx-indicator="#search-query-indicator"
                                  hx-sync="#search:abort"
                                  hx-swap="afterend">{% include "thread/htmx/partials/_avatar.html" with u=u %}</div>
