@@ -25,7 +25,7 @@
     <!-- Followers -->
     <div class="text-sm text-neutral-content">
         <!-- TODO Mutual profile avatars-->
-        <span>{{ u.followers.count }} follower{{ u.followers.count|pluralize }}</span>
+        <span id="follower-count">{{ u.followers.count }} follower{{ u.followers.count|pluralize }}</span>
         {% if u.myuser.link %}
             <a href="https://{{ u.myuser.link }}" target="_blank" class="pl-1">. {{ u.myuser.link }}</a>
         {% endif %}
@@ -41,7 +41,7 @@
                 @click="text == 'Following' ? text = 'Follow' : text = 'Following'"
                 :class="text == 'Following' ? '' : 'bg-black text-white'"
                 hx-post="{% url 'accounts:follow_toggle' u.id %}"
-                hx-swap="none"
+                hx-target="#follower-count"
                 class="px-6 py-1 mt-3 cursor-pointer font-semibold text-base border-neutral-content border rounded-md">
         </button>
     {% endif %}

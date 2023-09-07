@@ -25,5 +25,7 @@
         <div>{{ u.firstname }} {{ u.lastname }}</div>
         <div>{{ u.followers.all.count }} follower{{ u.followers.all.count|pluralize }}</div>
     </a>
-    <div class="py-1 px-4 bg-white border border-gray-200 h-fit rounded-md font-bold">Follow</div>
+    {% if not u == user %}
+        <div class="py-1 px-4 bg-white border border-gray-200 h-fit rounded-md font-bold">Follow</div>
+    {% endif %}
 </div>

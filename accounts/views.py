@@ -229,5 +229,9 @@ def follow_toggle(request, id):
             follow_obj.delete()
         except Follow.DoesNotExist:
             Follow.objects.create(follower=request.user, followed=user)
-        return HttpResponse("Success")
+        follower_count = Follow.objects.filter(followed=user).count()
+        if follower_count == 1:
+            return HttpResponse(f"{follower_count} follower")
+        else:
+            return HttpResponse(f"{follower_count} followers")
     return redirect("accounts:profile", user)
