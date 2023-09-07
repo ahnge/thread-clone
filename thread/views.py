@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db.models import Q
+
 
 from .models import Thread, Comment, Like, LikeComment, Repost, RepostComment
 from .utils import (
@@ -33,7 +35,37 @@ def feed(request):
         page_number = 1
 
     page_obj = paginator.page(page_number)
-    context = {"threads": page_obj}
+    context = {"threads": page_obj, "following": False}
+    if request.META.get("HTTP_HX_REQUEST") and int(page_number) > 1:
+        return render(request, "thread/partials/_more_feed.html", context)
+    if request.META.get("HTTP_HX_REQUEST"):
+        return render(request, "thread/partials/_feed.html", context)
+    return render(request, "thread/f_feed.html", context)
+
+
+@login_required
+def following_feed(request):
+    following = request.user.following.all()
+    # Create a list of user IDs of the users that the authenticated user is following
+    following_user_ids = [follow.followed.id for follow in following]
+
+    # Use Q objects to construct an OR query to filter threads
+    threads_of_following_users = Thread.objects.filter(
+        Q(user__id__in=following_user_ids)
+    ).distinct()
+
+    paginator = Paginator(threads_of_following_users, 7)
+    page_number = request.GET.get("page") or 1
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_number = 1
+    except EmptyPage:
+        page_number = 1
+
+    page_obj = paginator.page(page_number)
+    context = {"threads": page_obj, "following": True}
     if request.META.get("HTTP_HX_REQUEST") and int(page_number) > 1:
         return render(request, "thread/partials/_more_feed.html", context)
     if request.META.get("HTTP_HX_REQUEST"):

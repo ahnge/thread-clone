@@ -2,7 +2,7 @@
 {% for thread in threads %}
     {% if forloop.last and threads.next_page_number %}
         <div class="last-feed-item"
-             hx-get="{% url 'thread:feed' %}?page={{ threads.next_page_number }}"
+             {% if following %} hx-get="{% url 'thread:following_feed' %}?page={{ threads.next_page_number }}" {% else %} hx-get="{% url 'thread:feed' %}?page={{ threads.next_page_number }}" {% endif %}
              hx-trigger="revealed"
              hx-indicator="#feed-indicator"
              hx-swap="afterend">{% include "thread/partials/_thread.html" with thread=thread %}</div>

@@ -7,6 +7,7 @@ app_name = "thread"
 urlpatterns = [
     path("", views.home, name="home"),
     path("feed/", views.feed, name="feed"),
+    path("following-feed/", views.following_feed, name="following_feed"),
     path("search/", views.search, name="search"),
     path("search-query/", views.search_query, name="search_query"),
     path("create-thread/", views.create_thread, name="create_thread"),

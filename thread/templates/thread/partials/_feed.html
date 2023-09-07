@@ -15,7 +15,7 @@
         {% for thread in threads %}
             {% if forloop.last and threads.next_page_number %}
                 <div class="last-feed-item"
-                     hx-get="{% url 'thread:feed' %}?page={{ threads.next_page_number }}"
+                     {% if following %} hx-get="{% url 'thread:following_feed' %}?page={{ threads.next_page_number }}" {% else %} hx-get="{% url 'thread:feed' %}?page={{ threads.next_page_number }}" {% endif %}
                      hx-trigger="revealed"
                      hx-indicator="#feed-indicator"
                      hx-swap="afterend">{% include "thread/partials/_thread.html" with thread=thread %}</div>
@@ -28,7 +28,7 @@
             <div class="h-96 flex justify-center items-center">There is no feed yet.</div>
         {% endfor %}
     </div>
-    <!-- HTMX search query indicator -->
+    <!-- HTMX feed indicator -->
     <div id="feed-indicator"
          class="htmx-indicator w-full flex justify-center items-center bg-white py-3 pb-14">
         <svg width="24"
@@ -39,5 +39,42 @@
             <path d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25" />
             <circle class="spinner_7WDj" cx="12" cy="2.5" r="1.5" />
         </svg>
+    </div>
+    <!-- Following and Foryou switcher-->
+    <div {% if following %} x-data="{page: 'following'}"  {% else %} x-data="{page: 'for-you'}" {% endif %}>
+        <div hx-get="{% url 'thread:feed' %}"
+             hx-target="#container"
+             hx-push-url="true"
+             hx-indicator="#indicator"
+             x-show="page == 'following'"
+             @click="page = 'for-you'"
+             class="feed-page-swap fixed bottom-20 sm:bottom-28 left-1/2 -translate-x-1/2 xl:-translate-x-[37rem] z-50 flex space-x-2 px-6 py-3 bg-white rounded-full drop-shadow-2xl font-bold cursor-pointer hover:scale-110 transition">
+            <span>Following</span>
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke-width="1.5"
+                 stroke="currentColor"
+                 class="w-6 h-6 text-gray-400">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+            </svg>
+        </div>
+        <div hx-get="{% url 'thread:following_feed' %}"
+             hx-target="#container"
+             hx-push-url="true"
+             hx-indicator="#indicator"
+             x-show="page == 'for-you'"
+             @click="page = 'following'"
+             class="feed-page-swap fixed bottom-20 sm:bottom-28 left-1/2 -translate-x-1/2 xl:-translate-x-[37rem] z-50 flex space-x-2 px-6 py-3 bg-white rounded-full drop-shadow-2xl font-bold cursor-pointer hover:scale-110 transition">
+            <span>For you</span>
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 fill="none"
+                 viewBox="0 0 24 24"
+                 stroke-width="1.5"
+                 stroke="currentColor"
+                 class="w-6 h-6 text-gray-400">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+            </svg>
+        </div>
     </div>
 </div>
