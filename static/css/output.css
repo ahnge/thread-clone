@@ -7922,6 +7922,10 @@ details.collapse summary::-webkit-details-marker {
   top: 100%;
 }
 
+.-top-full {
+  top: -100%;
+}
+
 .isolate {
   isolation: isolate;
 }
@@ -9087,6 +9091,14 @@ details.collapse summary::-webkit-details-marker {
   border-radius: 0.375rem;
 }
 
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-xl {
+  border-radius: 0.75rem;
+}
+
 .rounded-b {
   border-bottom-right-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
@@ -9289,6 +9301,11 @@ details.collapse summary::-webkit-details-marker {
 
 .bg-white\/50 {
   background-color: rgb(255 255 255 / 0.5);
+}
+
+.bg-success {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--su) / var(--tw-bg-opacity));
 }
 
 .decoration-slice {
