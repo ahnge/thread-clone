@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 
 
-from .models import Thread, Comment, Like, LikeComment, Repost, RepostComment
+from .models import Thread, Comment, Like, LikeComment, Repost, RepostComment, Follow
 from .utils import (
     create_thread_post,
     create_thread_images,
@@ -312,6 +312,13 @@ def like_comment_toggle(request, id):
 @login_required
 def search(request):
     users = User.objects.all().order_by("-date_joined")
+
+    # Annotate each user with a flag indicating whether the authenticated user is following them
+    for user in users:
+        user.is_followed_by_authenticated_user = Follow.objects.filter(
+            follower=request.user, followed=user
+        ).exists()
+
     paginator = Paginator(users, 10)
     page_number = request.GET.get("page") or 1
 
@@ -341,6 +348,13 @@ def search_query(request):
     if request.method == "POST" and request.META.get("HTTP_HX_REQUEST"):
         q = request.POST.get("search")
         users = User.objects.filter(username__icontains=q).order_by("-date_joined")
+
+        # Annotate each user with a flag indicating whether the authenticated user is following them
+        for user in users:
+            user.is_followed_by_authenticated_user = Follow.objects.filter(
+                follower=request.user, followed=user
+            ).exists()
+
         paginator = Paginator(users, 10)
         page_number = request.GET.get("page") or 1
 
@@ -400,6 +414,12 @@ def get_thread_likes(request, username, id):
     likes = Like.objects.filter(thread=thread)
     liked_users = [l.user for l in likes]
 
+    # Annotate each user with a flag indicating whether the authenticated user is following them
+    for user in liked_users:
+        user.is_followed_by_authenticated_user = Follow.objects.filter(
+            follower=request.user, followed=user
+        ).exists()
+
     paginator = Paginator(liked_users, 15)
     page_number = request.GET.get("page") or 1
 
@@ -423,6 +443,12 @@ def get_reply_likes(request, username, id):
     comment = get_object_or_404(Comment, pk=id)
     likes_cmts = LikeComment.objects.filter(comment=comment)
     liked_users = [l.user for l in likes_cmts]
+
+    # Annotate each user with a flag indicating whether the authenticated user is following them
+    for user in liked_users:
+        user.is_followed_by_authenticated_user = Follow.objects.filter(
+            follower=request.user, followed=user
+        ).exists()
 
     paginator = Paginator(liked_users, 15)
     page_number = request.GET.get("page") or 1

@@ -26,6 +26,12 @@
         <div>{{ u.followers.all.count }} follower{{ u.followers.all.count|pluralize }}</div>
     </a>
     {% if not u == user %}
-        <div class="py-1 px-4 bg-white border border-gray-200 h-fit rounded-md font-bold">Follow</div>
+        <div {% if u.is_followed_by_authenticated_user %} x-data="{text: 'Following'}" {% else %} x-data="{text: 'Follow'}" {% endif %}
+             x-text="text"
+             @click="text == 'Following' ? text = 'Follow' : text = 'Following'"
+             :class="text == 'Following' ? 'text-gray-400' : ''"
+             hx-post="{% url 'accounts:follow_toggle' u.id %}"
+             hx-swap="none"
+             class="py-1 px-4 bg-white border border-gray-200 h-fit rounded-md font-bold"></div>
     {% endif %}
 </div>
