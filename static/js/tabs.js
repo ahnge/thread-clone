@@ -4,21 +4,21 @@ htmx.config.refreshOnHistoryMiss = true;
 const allTabs = htmx.findAll(".mytab");
 allTabs.forEach((tab) => {
   tab.addEventListener("htmx:beforeRequest", (evt) => {
-    // gray all tabs
-    for (let t of allTabs) {
-      t.classList.remove("text-black");
-      t.classList.add("text-gray-400");
-    }
-    // empty the container (optional for ux)
     const reddot = htmx.find("#reddot");
-    // empty only if the request is not made by reddot checker
+    // Change tabs only if the request is not made by reddot checker
     if (reddot !== evt.detail.elt) {
+      // gray all tabs
+      for (let t of allTabs) {
+        t.classList.remove("text-black");
+        t.classList.add("text-gray-400");
+      }
+      // empty the container (optional for ux)
       htmx.find("#container").innerHTML = "";
-    }
 
-    // Highlight the request dispatcher tab
-    evt.detail.requestConfig.elt.classList.remove("text-gray-400");
-    evt.detail.requestConfig.elt.classList.add("text-black");
+      // Highlight the request dispatcher tab
+      evt.detail.requestConfig.elt.classList.remove("text-gray-400");
+      evt.detail.requestConfig.elt.classList.add("text-black");
+    }
   });
 });
 
