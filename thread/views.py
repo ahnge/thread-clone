@@ -480,15 +480,6 @@ def get_reply_likes(request, username, id):
 @login_required
 def notification(request):
     notifications = Notification.objects.filter(user=request.user)
-    # Annotate
-    for n in notifications:
-        if Follow.objects.filter(follower=n.user, followed=n.actioner).exists():
-            n.user.is_already_following = True
-        else:
-            n.user.is_already_following = False
-        # mark is_read
-        n.is_read = True
-        n.save()
 
     paginator = Paginator(notifications, 15)
     page_number = request.GET.get("page") or 1
@@ -501,6 +492,16 @@ def notification(request):
         page_number = 1
 
     page_obj = paginator.page(page_number)
+    # Annotate
+    for n in page_obj:
+        if Follow.objects.filter(follower=n.user, followed=n.actioner).exists():
+            n.user.is_already_following = True
+        else:
+            n.user.is_already_following = False
+        # mark is_read
+        n.is_read = True
+        n.save()
+
     context = {"notifications": page_obj}
     if request.META.get("HTTP_HX_REQUEST") and int(page_number) > 1:
         return render(request, "thread/partials/_more_notification.html", context)
