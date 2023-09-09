@@ -9,6 +9,7 @@ from .models import (
     CommentImage,
     Follow,
     LikeComment,
+    Notification,
 )
 
 
@@ -65,3 +66,9 @@ class RepostAdmin(admin.ModelAdmin):
 class FollowAdmin(admin.ModelAdmin):
     list_display = ["follower", "followed", "created_at"]
     list_filter = ["follower"]
+
+
+@admin.register(Notification)
+class LikeAdmin(admin.ModelAdmin):
+    list_display = ["content"]
+    list_filter = ["user"]

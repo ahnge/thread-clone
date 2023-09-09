@@ -31,3 +31,8 @@ htmx.find("#container").addEventListener("htmx:afterSwap", (evt) => {
 htmx.find("#likes_modal").addEventListener("close", (e) => {
   htmx.find("#likes-users-container").innerHTML = "";
 });
+
+// Clear reddot if noti page is hit
+htmx.find("#notification-tab").addEventListener("click", () => {
+  htmx.find("#reddot").innerHTML = "";
+});

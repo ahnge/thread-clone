@@ -7867,6 +7867,10 @@ details.collapse summary::-webkit-details-marker {
   right: 0px;
 }
 
+.-bottom-2 {
+  bottom: -0.5rem;
+}
+
 .-top-\[2px\] {
   top: -2px;
 }
@@ -7901,6 +7905,10 @@ details.collapse summary::-webkit-details-marker {
 
 .left-4 {
   left: 1rem;
+}
+
+.left-7 {
+  left: 1.75rem;
 }
 
 .right-0 {
@@ -8133,6 +8141,10 @@ details.collapse summary::-webkit-details-marker {
 
 .h-1 {
   height: 0.25rem;
+}
+
+.h-4 {
+  height: 1rem;
 }
 
 .h-6 {
@@ -9269,6 +9281,11 @@ details.collapse summary::-webkit-details-marker {
   border-color: hsl(var(--nc) / var(--tw-border-opacity));
 }
 
+.border-white {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity));
+}
+
 .bg-\[rgb\(255\2c 0\2c 0\)\] {
   --tw-bg-opacity: 1;
   background-color: rgb(255 0 0 / var(--tw-bg-opacity));
@@ -9301,6 +9318,16 @@ details.collapse summary::-webkit-details-marker {
 .bg-neutral-focus {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--nf) / var(--tw-bg-opacity));
+}
+
+.bg-purple-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(147 51 234 / var(--tw-bg-opacity));
+}
+
+.bg-red-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
 }
 
 .bg-success {
@@ -9425,6 +9452,10 @@ details.collapse summary::-webkit-details-marker {
 .object-scale-down {
   -o-object-fit: scale-down;
      object-fit: scale-down;
+}
+
+.p-1 {
+  padding: 0.25rem;
 }
 
 .p-2 {
@@ -9632,6 +9663,10 @@ details.collapse summary::-webkit-details-marker {
   font-weight: 200;
 }
 
+.font-light {
+  font-weight: 300;
+}
+
 .font-medium {
   font-weight: 500;
 }
@@ -9760,11 +9795,6 @@ details.collapse summary::-webkit-details-marker {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.text-gray-300 {
-  --tw-text-opacity: 1;
-  color: rgb(209 213 219 / var(--tw-text-opacity));
 }
 
 .underline {
@@ -10320,6 +10350,17 @@ details.collapse summary::-webkit-details-marker {
   position: absolute;
   top: 0px;
   left: -10px;
+}
+
+.reddot {
+  position: absolute;
+  top: 1.5rem;
+  left: 3.5rem;
+  height: 0.75rem;
+  width: 0.75rem;
+  border-radius: 9999px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(220 38 38 / var(--tw-bg-opacity));
 }
 
 @media (hover:hover) {

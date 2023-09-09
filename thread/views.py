@@ -7,7 +7,16 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 
 
-from .models import Thread, Comment, Like, LikeComment, Repost, RepostComment, Follow
+from .models import (
+    Thread,
+    Comment,
+    Like,
+    LikeComment,
+    Repost,
+    RepostComment,
+    Follow,
+    Notification,
+)
 from .utils import (
     create_thread_post,
     create_thread_images,
@@ -466,3 +475,48 @@ def get_reply_likes(request, username, id):
     if request.META.get("HTTP_HX_REQUEST"):
         return render(request, "htmx/partials/_liked_users_of_cmts.html", context)
     return redirect("thread:feed")
+
+
+@login_required
+def notification(request):
+    notifications = Notification.objects.filter(user=request.user)
+    # Annotate
+    for n in notifications:
+        if Follow.objects.filter(follower=n.user, followed=n.actioner).exists():
+            n.user.is_already_following = True
+        else:
+            n.user.is_already_following = False
+        # mark is_read
+        n.is_read = True
+        n.save()
+
+    paginator = Paginator(notifications, 15)
+    page_number = request.GET.get("page") or 1
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_number = 1
+    except EmptyPage:
+        page_number = 1
+
+    page_obj = paginator.page(page_number)
+    context = {"notifications": page_obj}
+    if request.META.get("HTTP_HX_REQUEST") and int(page_number) > 1:
+        return render(request, "thread/partials/_more_notification.html", context)
+    if request.META.get("HTTP_HX_REQUEST"):
+        return render(request, "thread/partials/_notification.html", context)
+    return render(request, "thread/f_notification.html", context)
+
+
+@login_required
+def check_reddot(request):
+    reddot_exists = Notification.objects.filter(
+        user=request.user, is_read=False
+    ).exists()
+    if reddot_exists:
+        return HttpResponse(
+            "<span class='reddot'></span>"
+        )
+    else:
+        return HttpResponse("<span></span>")

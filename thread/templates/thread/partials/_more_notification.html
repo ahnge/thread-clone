@@ -1,0 +1,11 @@
+{% for n in notifications %}
+    {% if forloop.last and notifications.next_page_number %}
+        <div class="flex pt-4 space-x-3 cursor-pointer"
+             hx-get="{% url 'thread:notification' %}?page={{ notifications.next_page_number }}"
+             hx-trigger="intersect once"
+             hx-indicator="#more-notification-indicator"
+             hx-swap="afterend">{% include "thread/htmx/partials/_noti.html" with n=n %}</div>
+    {% else %}
+        <div class="flex pt-4 space-x-3 cursor-pointer">{% include "thread/htmx/partials/_noti.html" with n=n %}</div>
+    {% endif %}
+{% endfor %}

@@ -214,3 +214,25 @@ class Follow(models.Model):
                 fields=["follower", "followed"], name="unique_following"
             )
         ]
+
+
+class Notification(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="notification"
+    )
+    type = models.CharField(max_length=32)
+    content = models.CharField(max_length=64)
+    is_read = models.BooleanField(default=False)
+    actioner = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="noti",
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.content}"

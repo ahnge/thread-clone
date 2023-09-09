@@ -61,4 +61,7 @@ urlpatterns = [
         views.get_reply_likes,
         name="get_reply_likes",
     ),
+    # notification htmx
+    path("notification/", views.notification, name="notification"),
+    path("check-reddot/", views.check_reddot, name="check_reddot"),
 ]

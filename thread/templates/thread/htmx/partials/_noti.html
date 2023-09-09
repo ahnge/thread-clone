@@ -1,0 +1,60 @@
+{% load static %}
+{% load extra %}
+<!-- Avatar -->
+<a class="relative h-fit"
+   href="{% url 'accounts:profile' n.actioner.username %}">
+    {% if n.actioner.myuser.profile_picture %}
+        <div className="avatar">
+            <div>
+                <img src="{{ n.actioner.myuser.profile_picture.url }}"
+                     class="w-12 rounded-full"
+                     alt="Profile of {{ n.actioner.username }}" />
+            </div>
+        </div>
+    {% else %}
+        <div class="avatar placeholder">
+            <div class="bg-neutral-focus text-neutral-content rounded-full w-12">
+                <span>{{ n.actioner.username|ecut }}</span>
+            </div>
+        </div>
+    {% endif %}
+    {% if n.type == "follow" %}
+        <div class="bg-purple-600 p-1 text-white border-white border-2 rounded-full absolute left-7 -bottom-2">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 20 20"
+                 fill="currentColor"
+                 class="w-4 h-4">
+                <path d="M10 8a3 3 0 100-6 3 3 0 000 6zM3.465 14.493a1.23 1.23 0 00.41 1.412A9.957 9.957 0 0010 18c2.31 0 4.438-.784 6.131-2.1.43-.333.604-.903.408-1.41a7.002 7.002 0 00-13.074.003z" />
+            </svg>
+        </div>
+    {% elif n.type == "like_thread" or n.type == "like_comment" %}
+        <div class="bg-red-600 p-1 text-white border-white border-2 rounded-full absolute left-7 -bottom-2">
+            <svg xmlns="http://www.w3.org/2000/svg"
+                 viewBox="0 0 20 20"
+                 fill="currentColor"
+                 class="w-4 h-4">
+                <path d="M9.653 16.915l-.005-.003-.019-.01a20.759 20.759 0 01-1.162-.682 22.045 22.045 0 01-2.582-1.9C4.045 12.733 2 10.352 2 7.5a4.5 4.5 0 018-2.828A4.5 4.5 0 0118 7.5c0 2.852-2.044 5.233-3.885 6.82a22.049 22.049 0 01-3.744 2.582l-.019.01-.005.003h-.002a.739.739 0 01-.69.001l-.002-.001z" />
+            </svg>
+        </div>
+    {% endif %}
+</a>
+<!-- usernames -->
+<div class="flex-grow flex items-center border-b-[1px] border-gray-200 pb-4">
+    <a href="{% url 'accounts:profile' n.actioner.username %}"
+       class="flex-grow">
+        <div class="flex space-x-2">
+            <div class="font-semibold hover:underline">{{ n.actioner.username }}</div>
+            <span class="text-neutral-content font-light">{{ n.created_at|time_ago }}</span>
+        </div>
+        <div>{{ n.content }}</div>
+    </a>
+    {% if n.type == "follow" %}
+        <div {% if n.user.is_already_following %} x-data="{text: 'Following'}" {% else %} x-data="{text: 'Follow'}" {% endif %}
+             x-text="text"
+             @click="text == 'Following' ? text = 'Follow' : text = 'Following'"
+             :class="text == 'Following' ? 'text-gray-400' : ''"
+             hx-post="{% url 'accounts:follow_toggle' n.actioner.id %}"
+             hx-swap="none"
+             class="py-1 px-4 bg-white border border-gray-200 h-fit rounded-md font-bold"></div>
+    {% endif %}
+</div>

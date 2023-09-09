@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% include "thread/partials/_notification.html" with notifications=notifications %}
+{% endblock content %}
+{% block nav %}
+    <!-- Bottom Nav-->
+    {% include "partials/_nav.html" with heart_active=True %}
+{% endblock nav %}

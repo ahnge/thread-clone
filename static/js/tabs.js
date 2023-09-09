@@ -10,7 +10,11 @@ allTabs.forEach((tab) => {
       t.classList.add("text-gray-400");
     }
     // empty the container (optional for ux)
-    htmx.find("#container").innerHTML = "";
+    const reddot = htmx.find("#reddot");
+    // empty only if the request is not made by reddot checker
+    if (reddot !== evt.detail.elt) {
+      htmx.find("#container").innerHTML = "";
+    }
 
     // Highlight the request dispatcher tab
     evt.detail.requestConfig.elt.classList.remove("text-gray-400");

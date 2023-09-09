@@ -53,3 +53,7 @@
 .smp-3 {
   @apply absolute top-0 -left-[10px];
 }
+
+.reddot {
+  @apply rounded-full w-3 h-3 bg-red-600 absolute top-6 left-14;
+}
