@@ -7939,6 +7939,14 @@ details.collapse summary::-webkit-details-marker {
   top: 100%;
 }
 
+.top-10 {
+  top: 2.5rem;
+}
+
+.top-12 {
+  top: 3rem;
+}
+
 .isolate {
   isolation: isolate;
 }
@@ -7967,6 +7975,10 @@ details.collapse summary::-webkit-details-marker {
   z-index: 50;
 }
 
+.z-\[1\] {
+  z-index: 1;
+}
+
 .float-right {
   float: right;
 }
@@ -7993,6 +8005,10 @@ details.collapse summary::-webkit-details-marker {
 
 .clear-none {
   clear: none;
+}
+
+.m-1 {
+  margin: 0.25rem;
 }
 
 .mx-2 {
@@ -8243,6 +8259,10 @@ details.collapse summary::-webkit-details-marker {
 
 .w-full {
   width: 100%;
+}
+
+.w-52 {
+  width: 13rem;
 }
 
 .min-w-full {
@@ -9862,6 +9882,10 @@ details.collapse summary::-webkit-details-marker {
   opacity: 0.3;
 }
 
+.opacity-100 {
+  opacity: 1;
+}
+
 .bg-blend-normal {
   background-blend-mode: normal;
 }
@@ -10055,6 +10079,11 @@ details.collapse summary::-webkit-details-marker {
 
 .drop-shadow-2xl {
   --tw-drop-shadow: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.drop-shadow-lg {
+  --tw-drop-shadow: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 

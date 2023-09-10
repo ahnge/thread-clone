@@ -1,6 +1,7 @@
 <!-- Icon bar-->
-<div class="flex justify-end px-4 items-center relative z-30">
-    <div class="cursor-pointer">
+<div class="flex justify-end px-4 items-center relative"
+     x-data="{ open: false }">
+    <div class="py-3 cursor-pointer" @click="open = !open">
         <svg xmlns="http://www.w3.org/2000/svg"
              fill="none"
              viewBox="0 0 24 24"
@@ -10,4 +11,8 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
         </svg>
     </div>
+    <a href="{% url 'accounts:logout' %}"
+       class="absolute top-12 font-semibold bg-white border border-gray-200 drop-shadow-lg z-40 px-6 py-2 rounded-lg cursor-pointer"
+       x-show="open"
+       @click.outside="open = false">Logout</a>
 </div>

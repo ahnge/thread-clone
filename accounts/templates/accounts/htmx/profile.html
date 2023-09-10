@@ -1,5 +1,5 @@
 {% load static %}
-<div class="w-full pt-8">
+<div class="w-full">
     {% include "accounts/partials/_profile_icon_bar.html" %}
     {% include "accounts/partials/_profile_name.html" %}
     {% include "accounts/partials/_profile_threads.html" %}
@@ -8,5 +8,4 @@
 {% include "partials/_follow_modal.html" with u=u %}
 <!-- edit profile modal -->
 {% include "accounts/partials/_profile_edit_modal.html" with u=u %}
-
 <script defer src="{% static 'js/editProfile.js' %}"></script>
