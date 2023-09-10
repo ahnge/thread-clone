@@ -37,7 +37,8 @@
     </div>
     <!-- Btn -->
     {% if user == u %}
-        <button class="px-6 py-1 mt-3 cursor-pointer font-semibold text-base border-neutral-content border rounded-md">
+        <button onclick="profile_edit_modal.showModal()"
+                class="px-6 py-1 mt-3 cursor-pointer font-semibold text-base border-neutral-content border rounded-md">
             Edit profile
         </button>
     {% else %}

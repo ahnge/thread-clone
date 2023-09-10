@@ -303,3 +303,32 @@ def profile_following(request, username):
             {"following": page_obj},
         )
     return redirect("accounts:profile", user)
+
+
+@login_required
+def profile_edit(request, id):
+    user = get_object_or_404(User, pk=id)
+    if request.method == "POST":
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        bio = request.POST.get("bio")
+        link = request.POST.get("link")
+        profile_image = request.FILES.get("profile_image")
+        print(request.FILES)
+        print(profile_image)
+
+        # Update the User modal
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
+
+        # Update the Myuser modal
+        if bio:
+            user.myuser.bio = bio
+        if link:
+            user.myuser.link = link
+        if profile_image:
+            user.myuser.profile_picture = profile_image
+        user.myuser.save()
+
+    return redirect("accounts:profile", user)

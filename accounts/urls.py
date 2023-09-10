@@ -10,6 +10,7 @@ from .views import (
     follow_toggle,
     profile_followers,
     profile_following,
+    profile_edit,
 )
 
 app_name = "accounts"
@@ -35,4 +36,6 @@ urlpatterns = [
     path(
         "profile/<str:username>/following/", profile_following, name="profile_following"
     ),
+    # edit profile
+    path("profile/<int:id>/edit/", profile_edit, name="profile_edit"),
 ]

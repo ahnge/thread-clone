@@ -8792,6 +8792,12 @@ details.collapse summary::-webkit-details-marker {
   margin-left: calc(-0.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
+.space-x-16 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(4rem * var(--tw-space-x-reverse));
+  margin-left: calc(4rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.5rem * var(--tw-space-x-reverse));
@@ -9110,6 +9116,10 @@ details.collapse summary::-webkit-details-marker {
 
 .rounded-full {
   border-radius: 9999px;
+}
+
+.rounded-lg {
+  border-radius: 0.5rem;
 }
 
 .rounded-md {
@@ -9517,10 +9527,6 @@ details.collapse summary::-webkit-details-marker {
 
 .pb-11 {
   padding-bottom: 2.75rem;
-}
-
-.pb-12 {
-  padding-bottom: 3rem;
 }
 
 .pb-14 {
@@ -10579,16 +10585,16 @@ details.collapse summary::-webkit-details-marker {
     padding-right: 2rem;
   }
 
-  .sm\:pr-2 {
-    padding-right: 0.5rem;
-  }
-
   .sm\:pb-20 {
     padding-bottom: 5rem;
   }
 
   .sm\:pb-24 {
     padding-bottom: 6rem;
+  }
+
+  .sm\:pr-2 {
+    padding-right: 0.5rem;
   }
 
   .sm\:text-base {
@@ -10612,12 +10618,8 @@ details.collapse summary::-webkit-details-marker {
 }
 
 @media (min-width: 768px) {
-  .md\:pb-16 {
-    padding-bottom: 4rem;
-  }
-
-  .md\:pb-20 {
-    padding-bottom: 5rem;
+  .md\:w-14 {
+    width: 3.5rem;
   }
 }
 

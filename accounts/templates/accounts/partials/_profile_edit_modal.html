@@ -1,0 +1,84 @@
+{% load extra %}
+<!-- profile edit modal -->
+<dialog id="profile_edit_modal" class="modal">
+    <div class="modal-box w-11/12 max-w-lg max-h-5/6 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-thumb-rounded">
+        <h3 class="text-center font-semibold mb-2">Edit profile</h3>
+        <form id="profile-edit-form"
+              action="{% url 'accounts:profile_edit' u.id %}"
+              enctype="multipart/form-data"
+              method="POST">
+            {% csrf_token %}
+            <div class="flex space-x-16">
+                <div class="form-control w-full flex-grow">
+                    <label class="label">
+                        <span class="label-text">First Name</span>
+                    </label>
+                    <input type="text"
+                           required
+                           name="first_name"
+                           class="input input-bordered w-full"
+                           {% if u.first_name %}value="{{ u.first_name }}"{% endif %} />
+                </div>
+                <!-- Avatar -->
+                <label class="cursor-pointer flex items-center">
+                    <div>
+                        {% if u.myuser.profile_picture %}
+                            <div className="avatar edit-profile-avatar">
+                                <div class="w-12 md:w-14">
+                                    <img src="{{ u.myuser.profile_picture.url }}"
+                                         class="w-full rounded-full"
+                                         alt="Profile of {{ user.username }}" />
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="avatar placeholder edit-profile-avatar">
+                                <div class="bg-neutral-focus text-neutral-content rounded-full w-12 md:w-14">
+                                    <span>{{ u.username|ecut }}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <input type="file"
+                           name="profile_image"
+                           accept="image/*"
+                           class="hidden profile-image">
+                </label>
+            </div>
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text">Last Name</span>
+                </label>
+                <input type="text"
+                       required
+                       name="last_name"
+                       class="input input-bordered w-full"
+                       {% if u.last_name %}value="{{ u.last_name }}"{% endif %} />
+            </div>
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text">Bio</span>
+                </label>
+                <input type="text"
+                       name="bio"
+                       class="input input-bordered w-full "
+                       {% if u.myuser.bio %}value="{{ u.myuser.bio }}"{% endif %} />
+            </div>
+            <div class="form-control w-full">
+                <label class="label">
+                    <span class="label-text">Link</span>
+                </label>
+                <input type="link"
+                       name="link"
+                       class="input input-bordered w-fulls"
+                       {% if u.myuser.link %}value="{{ u.myuser.link }}"{% endif %} />
+            </div>
+            <div class="flex justify-end">
+                <button type="submit"
+                        class="px-4 py-2 bg-black text-white block rounded-lg mt-2">Save</button>
+            </div>
+        </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
