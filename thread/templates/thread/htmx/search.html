@@ -1,5 +1,5 @@
 {% load static %}
-<div class="flex flex-col justify-start pb-11 items-center w-full">
+<div class="flex flex-col justify-start pb-14 sm:pb-20 items-center w-full">
     <!-- Thread logo-->
     <div class="text-black py-4">
         <svg xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +36,7 @@
                    hx-indicator="#search-query-indicator">
         </label>
         <!-- Profiles -->
-        <div class="pb-12 relative">
+        <div class="relative">
             <div id="search-results">
                 {% for u in page_obj %}
                     {% if not u == user %}
@@ -68,7 +68,7 @@
             </div>
             <!-- HTMX more search indicator -->
             <div id="more-search-indicator"
-                 class="htmx-indicator w-full py-4 flex justify-center">
+                 class="htmx-indicator w-full py-4 pb-11 flex justify-center">
                 <svg width="24"
                      height="24"
                      viewBox="0 0 24 24"
