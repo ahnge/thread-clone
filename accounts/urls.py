@@ -8,6 +8,8 @@ from .views import (
     profile_replies,
     profile_reposts,
     follow_toggle,
+    profile_followers,
+    profile_following,
 )
 
 app_name = "accounts"
@@ -25,5 +27,12 @@ urlpatterns = [
         "follow-toggle/profile/<int:id>/",
         follow_toggle,
         name="follow_toggle",
+    ),
+    # htmx followers and followings get
+    path(
+        "profile/<str:username>/followers/", profile_followers, name="profile_followers"
+    ),
+    path(
+        "profile/<str:username>/following/", profile_following, name="profile_following"
     ),
 ]

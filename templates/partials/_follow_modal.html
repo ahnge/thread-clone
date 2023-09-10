@@ -1,0 +1,38 @@
+<!-- Follow modal -->
+<dialog id="follow_modal" class="modal">
+    <div class="modal-box pt-0 w-11/12 max-w-lg max-h-5/6 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-thumb-rounded px-0">
+        <div class="w-full sticky z-10 top-0 flex justify-between px-6">
+            <div class="flex-1 py-3 border-b-2 border-black cursor-pointer profile-follow-tab"
+                 hx-get="{% url 'accounts:profile_followers' u.username %}"
+                 hx-target="#follow-popup-container"
+                 hx-indicator="#follow-popup-indicator">
+                <h3 class="font-bold text-lg text-center bg-white">Followers</h3>
+                <div class="text-center text-sm">{{ u.followers.count }}</div>
+            </div>
+            <div class="flex-1 py-3 cursor-pointer profile-follow-tab"
+                 hx-get="{% url 'accounts:profile_following' u.username %}"
+                 hx-target="#follow-popup-container"
+                 hx-indicator="#follow-popup-indicator">
+                <h3 class="font-bold text-lg text-center bg-white">Following</h3>
+                <div class="text-center text-sm">{{ u.following.count }}</div>
+            </div>
+        </div>
+        <div class="w-full h-[2px] bg-neutral-content relative -top-[2px]"></div>
+        <div id="follow-popup-container" class="px-6"></div>
+        <!-- HTMX follow users indicator -->
+        <div id="follow-popup-indicator"
+             class="htmx-indicator bg-white flex flex-col justify-center items-center w-full py-3">
+            <svg width="24"
+                 height="24"
+                 viewBox="0 0 24 24"
+                 xmlns="http://www.w3.org/2000/svg">
+                <style>.spinner_7WDj{transform-origin:center;animation:spinner_PBVY .75s linear infinite}@keyframes spinner_PBVY{100%{transform:rotate(360deg)}}</style>
+                <path d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25" />
+                <circle class="spinner_7WDj" cx="12" cy="2.5" r="1.5" />
+            </svg>
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>

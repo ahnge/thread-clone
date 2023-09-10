@@ -1,0 +1,11 @@
+{% for f in followers %}
+    {% if forloop.last and followers.next_page_number %}
+        <div class="flex pt-4 space-x-3 cursor-pointer profile-f-infinite"
+             hx-get="{% url 'accounts:profile_followers' f.username %}?page={{ followers.next_page_number }}"
+             hx-trigger="intersect once"
+             hx-indicator="#follow-popup-indicator"
+             hx-swap="afterend">{% include "thread/htmx/partials/_avatar.html" with u=f %}</div>
+    {% else %}
+        <div class="flex pt-4 space-x-3 cursor-pointer">{% include "thread/htmx/partials/_avatar.html" with u=f %}</div>
+    {% endif %}
+{% endfor %}

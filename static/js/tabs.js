@@ -23,7 +23,7 @@ allTabs.forEach((tab) => {
 });
 
 // If the route go form "anywhere" to "accounts:profile", we have to listen only after the ptabs have been swapped into the template.
-const profileTab = htmx.find("#profile-tab");
+var profileTab = htmx.find("#profile-tab");
 htmx.find("#container").addEventListener("htmx:afterSwap", (evt) => {
   if (evt.detail.requestConfig.elt === profileTab) {
     var pTabs = htmx.findAll(".ptab");

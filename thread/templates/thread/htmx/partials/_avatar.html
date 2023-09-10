@@ -22,7 +22,7 @@
 <div class="flex-grow flex items-center border-b-[1px] border-gray-200 pb-4">
     <a href="{% url 'accounts:profile' u.username %}" class="flex-grow">
         <div class="font-semibold hover:underline">{{ u.username }}</div>
-        <div>{{ u.firstname }} {{ u.lastname }}</div>
+        <div class="text-neutral-content">{{ u.first_name }} {{ u.last_name }}</div>
         <div>{{ u.followers.all.count }} follower{{ u.followers.all.count|pluralize }}</div>
     </a>
     {% if not u == user %}

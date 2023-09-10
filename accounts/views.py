@@ -235,3 +235,71 @@ def follow_toggle(request, id):
         else:
             return HttpResponse(f"{follower_count} followers")
     return redirect("accounts:profile", user)
+
+
+@login_required
+def profile_followers(request, username):
+    user = get_object_or_404(User, username=username)
+    # get the followers of this user
+    follow_objs = user.followers.all()
+    followers = [f.follower for f in follow_objs]
+
+    # Annotate each user with a flag indicating whether the authenticated user is following them
+    for f in followers:
+        f.is_followed_by_authenticated_user = Follow.objects.filter(
+            follower=request.user, followed=f
+        ).exists()
+
+    paginator = Paginator(followers, 15)
+    page_number = request.GET.get("page") or 1
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_number = 1
+    except EmptyPage:
+        page_number = 1
+
+    page_obj = paginator.page(page_number)
+
+    if request.META.get("HTTP_HX_REQUEST"):
+        return render(
+            request,
+            "accounts/htmx/partials/_profile_followers.html",
+            {"followers": page_obj},
+        )
+    return redirect("accounts:profile", user)
+
+
+@login_required
+def profile_following(request, username):
+    user = get_object_or_404(User, username=username)
+    # get the followers of this user
+    follow_objs = user.following.all()
+    following = [f.followed for f in follow_objs]
+
+    # Annotate each user with a flag indicating whether the authenticated user is following them
+    for f in following:
+        f.is_followed_by_authenticated_user = Follow.objects.filter(
+            follower=request.user, followed=f
+        ).exists()
+
+    paginator = Paginator(following, 15)
+    page_number = request.GET.get("page") or 1
+
+    try:
+        page_obj = paginator.page(page_number)
+    except PageNotAnInteger:
+        page_number = 1
+    except EmptyPage:
+        page_number = 1
+
+    page_obj = paginator.page(page_number)
+
+    if request.META.get("HTTP_HX_REQUEST"):
+        return render(
+            request,
+            "accounts/htmx/partials/_profile_following.html",
+            {"following": page_obj},
+        )
+    return redirect("accounts:profile", user)

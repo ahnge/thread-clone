@@ -25,7 +25,12 @@
     <!-- Followers -->
     <div class="text-sm text-neutral-content">
         <!-- TODO Mutual profile avatars-->
-        <span id="follower-count">{{ u.followers.count }} follower{{ u.followers.count|pluralize }}</span>
+        <span class="hover:cursor-pointer hover:underline"
+              onclick="follow_modal.showModal()"
+              id="follower-count"
+              hx-indicator="#follow-popup-indicator"
+              hx-target="#follow-popup-container"
+              hx-get="{% url 'accounts:profile_followers' u.username %}">{{ u.followers.count }} follower{{ u.followers.count|pluralize }}</span>
         {% if u.myuser.link %}
             <a href="https://{{ u.myuser.link }}" target="_blank" class="pl-1">. {{ u.myuser.link }}</a>
         {% endif %}
