@@ -23,7 +23,9 @@
     <a href="{% url 'accounts:profile' u.username %}" class="flex-grow">
         <div class="font-semibold hover:underline">{{ u.username }}</div>
         <div class="text-neutral-content">{{ u.first_name }} {{ u.last_name }}</div>
-        <div>{{ u.followers.all.count }} follower{{ u.followers.all.count|pluralize }}</div>
+        {% if show_follower %}
+            <div class="mt-2">{{ u.followers.all.count|format_kay }} follower{{ u.followers.all.count|pluralize }}</div>
+        {% endif %}
     </a>
     {% if not u == user %}
         <div {% if u.is_followed_by_authenticated_user %} x-data="{text: 'Following'}" {% else %} x-data="{text: 'Follow'}" {% endif %}

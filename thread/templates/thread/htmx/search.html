@@ -46,12 +46,18 @@
                                  hx-trigger="intersect once"
                                  hx-indicator="#search-query-indicator"
                                  hx-sync="#search:abort"
-                                 hx-swap="afterend">{% include "thread/htmx/partials/_avatar.html" with u=u %}</div>
+                                 hx-swap="afterend">
+                                {% include "thread/htmx/partials/_avatar.html" with u=u show_follower=True %}
+                            </div>
                         {% elif forloop.last %}
-                            <div class="flex pt-4 space-x-3 cursor-pointer">{% include "thread/htmx/partials/_avatar.html" with u=u %}</div>
+                            <div class="flex pt-4 space-x-3 cursor-pointer">
+                                {% include "thread/htmx/partials/_avatar.html" with u=u show_follower=True %}
+                            </div>
                             <div class="text-center">That's all.</div>
                         {% else %}
-                            <div class="flex pt-4 space-x-3 cursor-pointer">{% include "thread/htmx/partials/_avatar.html" with u=u %}</div>
+                            <div class="flex pt-4 space-x-3 cursor-pointer">
+                                {% include "thread/htmx/partials/_avatar.html" with u=u show_follower=True %}
+                            </div>
                         {% endif %}
                     {% elif u == user and forloop.last %}
                         <div class="text-center">That's all.</div>

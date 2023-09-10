@@ -30,3 +30,13 @@ def time_ago_filter(value):
         return f"{delta.days // 7}w"
     else:
         return f"{delta.days // 365}y"
+
+
+@register.filter
+def format_kay(value):
+    if value >= 1000000:
+        return f"{value / 1000000:.1f}m"
+    elif value >= 1000:
+        return f"{value / 1000:.1f}k"
+    else:
+        return str(value)
