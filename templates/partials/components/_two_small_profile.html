@@ -5,7 +5,12 @@
             {% if cmt.user.myuser.profile_picture %}
                 <div class="avatar">
                     <div class="w-4 sm:w-6 rounded-full">
-                        <img src="{{ cmt.user.myuser.profile_picture.url }}" alt="Profile" />
+                        <img src="{% thumbnail cmt.user.myuser.profile_picture '640' as im %}{{ im.url }}{% endthumbnail %}"
+                             srcset="{% thumbnail cmt.user.myuser.profile_picture '640' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
+                             alt="Profile picture of {{ cmt.user.username }}"
+                             sizes="100vw"
+                             width="{{ im.width }}"
+                             height="{{ im.height }}" />
                     </div>
                 </div>
             {% else %}

@@ -19,7 +19,13 @@
                 {% if user.myuser.profile_picture %}
                     <div class="avatar opacity-30 reply-smallter">
                         <div class="w-5 sm:w-7 rounded-full">
-                            <img src="{{ user.myuser.profile_picture.url }}" alt="Profile" />
+                            <img src="{% thumbnail user.myuser.profile_picture '1920' as im %}{{ im.url }}{% endthumbnail %}"
+                                 srcset="{% thumbnail user.myuser.profile_picture '640' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail user.myuser.profile_picture '768' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail user.myuser.profile_picture '1024' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail user.myuser.profile_picture '1280' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail user.myuser.profile_picture '1536' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
+                                 alt="Profile picture of {{ user.username }}"
+                                 sizes="100vw"
+                                 width="{{ im.width }}"
+                                 height="{{ im.height }}"
+                                 class="w-full" />
                         </div>
                     </div>
                 {% else %}
