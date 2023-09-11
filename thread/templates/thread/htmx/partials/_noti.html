@@ -1,18 +1,21 @@
 {% load static %}
 {% load extra %}
+{% load thumbnail %}
 <!-- Avatar -->
 <a class="relative h-fit"
    href="{% url 'accounts:profile' n.actioner.username %}">
     {% if n.actioner.myuser.profile_picture %}
         <div className="avatar">
             <div>
-                <img src="{% thumbnail n.actioner.myuser.profile_picture '1920' as im %}{{ im.url }}{% endthumbnail %}"
-                     srcset="{% thumbnail n.actioner.myuser.profile_picture '640' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail n.actioner.myuser.profile_picture '768' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail n.actioner.myuser.profile_picture '1024' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail n.actioner.myuser.profile_picture '1280' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail n.actioner.myuser.profile_picture '1536' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
-                     alt="Profile picture of {{ n.actioner.username }}"
-                     sizes="100vw"
-                     width="{{ im.width }}"
-                     height="{{ im.height }}"
-                     class="w-12 rounded-full" />
+                {% thumbnail n.actioner.myuser.profile_picture '1920' as im %}
+                    <img src="{{ im.url }}"
+                         srcset="{% thumbnail n.actioner.myuser.profile_picture '375' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail n.actioner.myuser.profile_picture '640' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail n.actioner.myuser.profile_picture '768' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail n.actioner.myuser.profile_picture '1024' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail n.actioner.myuser.profile_picture '1280' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail n.actioner.myuser.profile_picture '1536' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
+                         alt="Profile picture of {{ n.actioner.username }}"
+                         sizes="100vw"
+                         width="{{ im.width }}"
+                         height="{{ im.height }}"
+                         class="w-12 rounded-full" />
+                {% endthumbnail %}
             </div>
         </div>
     {% else %}

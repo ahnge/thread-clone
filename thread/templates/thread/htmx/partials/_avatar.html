@@ -1,17 +1,20 @@
 {% load static %}
 {% load extra %}
+{% load thumbnail %}
 <!-- Avatar -->
 <a href="{% url 'accounts:profile' u.username %}" class="relative h-fit">
     {% if u.myuser.profile_picture %}
         <div className="avatar">
             <div>
-                <img src="{% thumbnail u.myuser.profile_picture '1920' as im %}{{ im.url }}{% endthumbnail %}"
-                     srcset="{% thumbnail u.myuser.profile_picture '640' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail u.myuser.profile_picture '768' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail u.myuser.profile_picture '1024' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail u.myuser.profile_picture '1280' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail u.myuser.profile_picture '1536' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
-                     alt="Profile picture of {{ u.username }}"
-                     sizes="100vw"
-                     width="{{ im.width }}"
-                     height="{{ im.height }}"
-                     class="w-12 rounded-full" />
+                {% thumbnail u.myuser.profile_picture '1920' as im %}
+                    <img src="{{ im.url }}"
+                         srcset="{% thumbnail u.myuser.profile_picture '375' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail u.myuser.profile_picture '640' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail u.myuser.profile_picture '768' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail u.myuser.profile_picture '1024' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail u.myuser.profile_picture '1280' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail u.myuser.profile_picture '1536' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
+                         alt="Profile picture of {{ u.username }}"
+                         sizes="100vw"
+                         width="{{ im.width }}"
+                         height="{{ im.height }}"
+                         class="w-12 rounded-full" />
+                {% endthumbnail %}
             </div>
         </div>
     {% else %}

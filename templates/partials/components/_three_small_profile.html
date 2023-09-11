@@ -1,16 +1,19 @@
 {% load extra %}
+{% load thumbnail %}
 <div class="relative mt-5">
     {% for cmt  in cmts %}
         {% if forloop.counter <= 3 %}
             {% if cmt.user.myuser.profile_picture %}
                 <div class="avatar smp-{{ forloop.counter }}">
                     <div class="smps-{{ forloop.counter }} rounded-full">
-                        <img src="{% thumbnail cmt.user.myuser.profile_picture '640' as im %}{{ im.url }}{% endthumbnail %}"
-                             srcset="{% thumbnail cmt.user.myuser.profile_picture '640' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
-                             alt="Profile picture of {{ cmt.user.username }}"
-                             sizes="100vw"
-                             width="{{ im.width }}"
-                             height="{{ im.height }}" />
+                        {% thumbnail cmt.user.myuser.profile_picture '640' as im %}
+                            <img src="{{ im.url }}"
+                                 srcset="{% thumbnail cmt.user.myuser.profile_picture '375' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
+                                 alt="Profile picture of {{ cmt.user.username }}"
+                                 sizes="100vw"
+                                 width="{{ im.width }}"
+                                 height="{{ im.height }}" />
+                        {% endthumbnail %}
                     </div>
                 </div>
             {% else %}

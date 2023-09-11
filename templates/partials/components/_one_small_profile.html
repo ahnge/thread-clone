@@ -1,14 +1,17 @@
 {% load extra %}
+{% load thumbnail %}
 {% if user.myuser.profile_picture %}
     <div class="avatar">
         <div class="w-4 sm:w-8 rounded-full">
-            <img src="{% thumbnail user.myuser.profile_picture '640' as im %}{{ im.url }}{% endthumbnail %}"
-                 srcset="{% thumbnail user.myuser.profile_picture '640' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
-                 alt="Profile picture of {{ user.username }}"
-                 sizes="100vw"
-                 width="{{ im.width }}"
-                 height="{{ im.height }}"
-                 class="w-full" />
+            {% thumbnail user.myuser.profile_picture '640' as im %}
+                <img src="{{ im.url }}"
+                     srcset="{% thumbnail user.myuser.profile_picture '375' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail user.myuser.profile_picture '640' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
+                     alt="Profile picture of {{ user.username }}"
+                     sizes="100vw"
+                     width="{{ im.width }}"
+                     height="{{ im.height }}"
+                     class="w-full" />
+            {% endthumbnail %}
         </div>
     </div>
 {% else %}
