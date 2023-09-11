@@ -1,5 +1,5 @@
 // Take the profile image input tag
-const profileImage = htmx.find(".profile-image");
+var profileImage = htmx.find(".profile-image");
 
 // When an image is selected
 profileImage.addEventListener("change", (e) => {
@@ -22,7 +22,7 @@ profileImage.addEventListener("change", (e) => {
   }
 });
 
-const editForm = htmx.find("#profile-edit-form");
+var editForm = htmx.find("#profile-edit-form");
 editForm.addEventListener("submit", () => {
   const btn = editForm.querySelector("button");
   btn.disabled = true;
