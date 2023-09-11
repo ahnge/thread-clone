@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from sorl.thumbnail import ImageField
 
 
 class Thread(models.Model):
@@ -28,7 +29,7 @@ class ThreadImage(models.Model):
     thread = models.ForeignKey(
         Thread, on_delete=models.CASCADE, related_name="image_thread"
     )
-    image = models.ImageField(upload_to="thread_images/")
+    image = ImageField(upload_to="thread_images/")
 
     def __str__(self):
         return f"Thread image of {self.thread.content[:20]}"
@@ -188,7 +189,7 @@ class CommentImage(models.Model):
     comment = models.ForeignKey(
         Comment, on_delete=models.CASCADE, related_name="comment_image"
     )
-    image = models.ImageField(upload_to="comment_images/")
+    image = ImageField(upload_to="comment_images/")
 
     def __str__(self):
         return f"Comment image of {self.comment.content}"
