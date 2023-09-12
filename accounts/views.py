@@ -67,7 +67,7 @@ def register_view(request):
             user = form.save()
             login(request, user)
             messages.success(request, "Registration success.")
-            return redirect("thread")
+            return redirect("thread:feed")
         return render(request, "registration/register.html", {"form": form})
     elif request.method == "GET":
         form = CustomUserCreationForm()
@@ -83,7 +83,7 @@ def login_view(request):
         if user is not None:
             login(request, user)
             messages.success(request, "Successfully logined.")
-            return redirect("thread:home")
+            return redirect("thread:feed")
         else:
             form = AuthenticationForm(request.POST)
             return render(
