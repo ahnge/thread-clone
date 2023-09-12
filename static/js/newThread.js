@@ -225,3 +225,11 @@ unitContainer.addEventListener("htmx:afterSwap", (evt) => {
     uu.querySelector(".delete-unit").classList.remove("hidden");
   });
 });
+
+// Disable the form submit btn after posting
+const newThreadForm = htmx.find("#new-thread-form");
+newThreadForm.addEventListener("submit", () => {
+  const btn = newThreadForm.querySelector("button");
+  btn.disabled = true;
+  btn.style.opacity = "0.7";
+});
