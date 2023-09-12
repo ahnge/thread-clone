@@ -229,7 +229,7 @@ unitContainer.addEventListener("htmx:afterSwap", (evt) => {
 // Disable the form submit btn after posting
 const newThreadForm = htmx.find("#new-thread-form");
 newThreadForm.addEventListener("submit", () => {
-  const btn = newThreadForm.querySelector("button");
+  const btn = newThreadForm.querySelector("button[type='submit']");
   btn.disabled = true;
   btn.style.opacity = "0.7";
 });
