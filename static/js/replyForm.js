@@ -223,3 +223,22 @@ replyUnitContainer.addEventListener("htmx:afterSwap", (evt) => {
     uu.querySelector(".reply-delete-unit").classList.remove("hidden");
   });
 });
+
+// Disable the form submit btn after posting
+var threadReplyForm = htmx.find("#thread-reply-form");
+if (threadReplyForm) {
+  threadReplyForm.addEventListener("submit", () => {
+    const btn = threadReplyForm.querySelector("button[type='submit']");
+    btn.disabled = true;
+    btn.style.opacity = "0.7";
+  });
+}
+
+var commentReplyForm = htmx.find("#comment-reply-form");
+if (commentReplyForm) {
+  commentReplyForm.addEventListener("submit", () => {
+    const btn = commentReplyForm.querySelector("button[type='submit']");
+    btn.disabled = true;
+    btn.style.opacity = "0.7";
+  });
+}

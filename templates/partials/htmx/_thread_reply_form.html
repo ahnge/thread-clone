@@ -7,7 +7,8 @@
 <form enctype="multipart/form-data"
       action="{% url 'thread:create_reply' %}"
       method="post"
-      class="w-full ">
+      id="thread-reply-form"
+      class="w-full">
     {% csrf_token %}
     <!-- Unit container -->
     <div id="reply-unit-container">
@@ -107,12 +108,10 @@
             </div>
         </div>
     </div>
-    <div class="flex justify-between w-full">
+    <div class="flex justify-between w-full pr-4">
         <div class="opacity-0"></div>
-        <input type="submit"
-               name="submit"
-               value="Post"
-               class="font-medium block cursor-pointer py-4 pr-4 text-blue-600">
+        <button type="submit"
+                class="font-medium block cursor-pointer py-2 px-4 text-white bg-black rounded-xl">Post</button>
     </div>
 </form>
 <script defer src="{% static 'js/replyForm.js' %}"></script>
