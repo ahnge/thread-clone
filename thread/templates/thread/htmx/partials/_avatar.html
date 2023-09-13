@@ -6,14 +6,14 @@
     {% if u.myuser.profile_picture %}
         <div className="avatar">
             <div>
-                {% thumbnail u.myuser.profile_picture '1920' as im %}
+                {% thumbnail u.myuser.profile_picture '70' as im %}
                     <img src="{{ im.url }}"
-                         srcset="{% thumbnail u.myuser.profile_picture '375' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail u.myuser.profile_picture '640' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail u.myuser.profile_picture '768' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail u.myuser.profile_picture '1024' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail u.myuser.profile_picture '1280' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail u.myuser.profile_picture '1536' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
+                         srcset="{% thumbnail u.myuser.profile_picture '50' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
                          alt="Profile picture of {{ u.username }}"
                          sizes="100vw"
                          width="{{ im.width }}"
                          height="{{ im.height }}"
-                         class="w-12 rounded-full" />
+                         class="w-12 h-12 rounded-full" />
                 {% endthumbnail %}
             </div>
         </div>

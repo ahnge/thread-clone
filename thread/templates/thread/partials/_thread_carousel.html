@@ -2,9 +2,9 @@
 <div class="carousel carousel-center min-w-full p-4 pl-12 -ml-12 space-x-2 sm:space-x-4 bg-white rounded-box">
     {% for image_thread in thread.image_thread.all %}
         <div class="carousel-item z-10">
-            {% thumbnail image_thread.image '1920' as im %}
+            {% thumbnail image_thread.image '500' as im %}
                 <img src="{{ im.url }}"
-                     srcset="{% thumbnail image_thread.image '375' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail image_thread.image '640' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail image_thread.image '768' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail image_thread.image '1024' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail image_thread.image '1280' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}, {% thumbnail image_thread.image '1536' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
+                     srcset="{% thumbnail image_thread.image '300' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
                      alt="thread image by {{ thread.user.username }}"
                      sizes="100vw"
                      width="{{ im.width }}"

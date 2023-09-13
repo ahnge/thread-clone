@@ -6,9 +6,9 @@
             {% if cmt.user.myuser.profile_picture %}
                 <div class="avatar smp-{{ forloop.counter }}">
                     <div class="smps-{{ forloop.counter }} rounded-full">
-                        {% thumbnail cmt.user.myuser.profile_picture '640' as im %}
+                        {% thumbnail cmt.user.myuser.profile_picture '40' as im %}
                             <img src="{{ im.url }}"
-                                 srcset="{% thumbnail cmt.user.myuser.profile_picture '375' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
+                                 srcset="{% thumbnail cmt.user.myuser.profile_picture '30' as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %}"
                                  alt="Profile picture of {{ cmt.user.username }}"
                                  sizes="100vw"
                                  width="{{ im.width }}"
